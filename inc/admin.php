@@ -31,8 +31,7 @@ add_filter( "plugin_action_links_" . IMOK_PLUGIN_NAME , 'admin::settings_link' )
 function wp_usermeta_form_fields_imok( $user )
 {
     ?>
-	<a href='#imok'></a>
-	 <h2>IMOK Data</h2>
+	<h2 id="settings_top">IMOK Data</h2>
     <h3>What email(s) would you like to be notified if you are not responsive?</h3>
     <table class="form-table">
         <tr>
@@ -142,3 +141,60 @@ function check_ipp(){
 			}
 
 			add_action( 'posts_selection', 'check_ipp' );
+
+//redirect WP default to our redirect page after login. This will overide 'redirect' => $site_url, in my custom form
+function login_redirect( $redirect_to, $request, $user ){
+    return home_url(  );
+}
+add_filter( 'login_redirect', 'login_redirect', 10, 3 );
+
+//disable admin bar
+add_action('after_setup_theme', 'remove_admin_bar');
+function remove_admin_bar() {
+if (!current_user_can('administrator') && !is_admin()) {
+  show_admin_bar(false);
+}
+}
+
+/* SHORTCODES */
+
+//for our 100% login form
+function wp_login_form_funct(){
+
+				$site_url =	get_site_url();
+
+				return wp_login_form(
+								['echo' => false,
+								//'redirect' => $site_url,
+        'form_id' => 'loginform-custom',
+        'label_username' => __( 'Username custom text' ),
+        'label_password' => __( 'Password custom text' ),
+        'label_remember' => __( 'Remember Me custom text' ),
+        'label_log_in' => __( 'Log In custom text' ),
+        'remember' => true]
+																									);
+	};
+	add_shortcode( 'wp_login_form', 'wp_login_form_funct' );
+
+//wp logout url : wp_logout_url( string $redirect = '' )
+function wp_logout_url_funct(){
+		return wp_logout_url( get_home_url() );
+	}
+add_shortcode( 'wp_logout_url', 'wp_logout_url_funct' );
+
+//root page redirector
+function redirector(){
+		if( is_user_logged_in() ){
+			$user = wp_get_current_user();
+			if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ){ //we have set up our settings already
+				return( "<script>window.location.replace('./logged_in');</script>" );
+			}
+			else{ //we need to set up our settings. 1st login?
+				return( "<script>window.location.replace('./wp-admin/profile.php/#settings_top');</script>" );
+			}
+		}
+		else{
+			return( "<script>window.location.replace('./log_in');</script>" );
+		}
+	}
+add_shortcode( 'redirector', 'redirector' );
