@@ -156,6 +156,47 @@ if (!current_user_can('administrator') && !is_admin()) {
 }
 }
 
+//respond to form submissions and redirect giving feedback to user
+add_action('admin_post_custom_action_hook', 'process_form');
+function process_form() {
+//if (!current_user_can('administrator') && !is_admin()) {
+  //show_admin_bar(false);
+	//}
+	$admin_notice = "success";
+	wp_redirect( home_url() . "/hjkgjhgjhg"  );
+	//wp_redirect( home_url() , 302 , 'ass' );
+	exit;
+}
+
+//form response to user
+add_action( 'admin_post_nds_form_response', 'the_form_response');
+function the_form_response() {
+	if( isset( $_POST['nds_add_user_meta_nonce'] ) && wp_verify_nonce( $_POST['nds_add_user_meta_nonce'], 'nds_add_user_meta_form_nonce') ) {
+
+		// sanitize the input
+		$nds_user_meta_key = sanitize_key( $_POST['nds']['user_meta_key'] );
+		$nds_user_meta_value = sanitize_text_field( $_POST['nds']['user_meta_value'] );
+		$nds_user =  get_user_by( 'login',  $_POST['nds']['user_select'] );
+		$nds_user_id = absint( $nds_user->ID ) ;
+
+		// do the processing
+
+		// add the admin notice
+		$admin_notice = "success";
+
+		// redirect the user to the appropriate page
+		//$this->custom_redirect( $admin_notice, $_POST );
+		//exit;
+	}
+	else {
+		wp_die( __( 'Invalid nonce specified', $this->plugin_name ), __( 'Error', $this->plugin_name ), array(
+					'response' 	=> 403,
+					'back_link' => 'admin.php?page=' . $this->plugin_name,
+
+			) );
+	}
+}
+
 /* SHORTCODES */
 
 //for our 100% login form
