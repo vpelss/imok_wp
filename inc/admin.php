@@ -6,7 +6,7 @@ class admin{
 
 //set an admin page and put it in wp admin left menu
 	static function add_admin_pages(){
-		//add_menu_page( 'imok Plugin' , 'imok' , 'manage_options' , 'imok_plugin' , 'inc\admin\admin::admin_index' , 'dashicons-store' , 110 );
+		//add_menu_page( 'browser tab text' , 'link text' , 'manage_options' , 'url ? page name' , 'path to html inc\admin\admin::admin_index' , 'dashicons-store' , 110 );
 		add_menu_page( 'imok Plugin' , 'imok admin side' , 'manage_options' , 'imok_plugin' , 'admin::admin_index' , 'dashicons-store' , 110 );
 	}
 
@@ -157,50 +157,31 @@ if (!current_user_can('administrator') && !is_admin()) {
 }
 
 //respond to form submissions and redirect giving feedback to user
-add_action('admin_post_custom_action_hook', 'process_form');
+add_action('admin_post_settings_action_hook', 'process_form');
 function process_form() {
 //if (!current_user_can('administrator') && !is_admin()) {
   //show_admin_bar(false);
 	//}
+	$user = wp_get_current_user();
+	//add_user_meta( $user->ID , imok_contact_email_1 , mixed $meta_value, bool $unique = false );
+	$A_POST = get_post();
+	$rr = $_POST;
+	$tt = $_POST['imok_contact_email_1'];
+  $pp = update_user_meta( $user->ID , 'imok_contact_email_1' , is_email( $_POST['imok_contact_email_1'] ) ); //$_POST['imok_contact_email_X']
+  update_user_meta( $user->ID , 'imok_contact_email_2' , is_email( $_POST['imok_contact_email_2'] ) ); //$_POST['imok_contact_email_X']
+  update_user_meta( $user->ID , 'imok_contact_email_3' , is_email( $_POST['imok_contact_email_3'] ) ); //$_POST['imok_contact_email_X']
+
 	$admin_notice = "success";
-	wp_redirect( home_url() . "/hjkgjhgjhg"  );
+	wp_redirect( home_url() . "/settings"  );
 	//wp_redirect( home_url() , 302 , 'ass' );
 	exit;
 }
 
-//form response to user
-add_action( 'admin_post_nds_form_response', 'the_form_response');
-function the_form_response() {
-	if( isset( $_POST['nds_add_user_meta_nonce'] ) && wp_verify_nonce( $_POST['nds_add_user_meta_nonce'], 'nds_add_user_meta_form_nonce') ) {
-
-		// sanitize the input
-		$nds_user_meta_key = sanitize_key( $_POST['nds']['user_meta_key'] );
-		$nds_user_meta_value = sanitize_text_field( $_POST['nds']['user_meta_value'] );
-		$nds_user =  get_user_by( 'login',  $_POST['nds']['user_select'] );
-		$nds_user_id = absint( $nds_user->ID ) ;
-
-		// do the processing
-
-		// add the admin notice
-		$admin_notice = "success";
-
-		// redirect the user to the appropriate page
-		//$this->custom_redirect( $admin_notice, $_POST );
-		//exit;
-	}
-	else {
-		wp_die( __( 'Invalid nonce specified', $this->plugin_name ), __( 'Error', $this->plugin_name ), array(
-					'response' 	=> 403,
-					'back_link' => 'admin.php?page=' . $this->plugin_name,
-
-			) );
-	}
-}
 
 /* SHORTCODES */
 
 //for our 100% login form
-function wp_login_form_funct(){
+function wp_login_form_func(){
 
 				$site_url =	get_site_url();
 
@@ -215,16 +196,40 @@ function wp_login_form_funct(){
         'remember' => true]
 																									);
 	};
-	add_shortcode( 'wp_login_form', 'wp_login_form_funct' );
+	add_shortcode( 'wp_login_form', 'wp_login_form_func' );
 
 //wp logout url : wp_logout_url( string $redirect = '' )
-function wp_logout_url_funct(){
+function wp_logout_url_func(){
 		return wp_logout_url( get_home_url() );
 	}
-add_shortcode( 'wp_logout_url', 'wp_logout_url_funct' );
+add_shortcode( 'wp_logout_url', 'wp_logout_url_func' );
+
+//imok_contact_email_1
+function imok_contact_email_1_func(){
+		$user = wp_get_current_user();
+		//if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ){return "";}
+		return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
+	}
+add_shortcode( 'imok_contact_email_1', 'imok_contact_email_1_func' );
+
+//imok_contact_email_2
+function imok_contact_email_2_func(){
+		$user = wp_get_current_user();
+		//if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ){return "";}
+		return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
+	}
+add_shortcode( 'imok_contact_email_2', 'imok_contact_email_2_func' );
+
+//imok_contact_email_3
+function imok_contact_email_3_func(){
+		$user = wp_get_current_user();
+		//if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ){return "";}
+		return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
+	}
+add_shortcode( 'imok_contact_email_3', 'imok_contact_email_3_func' );
 
 //root page redirector
-function redirector(){
+function redirector_func(){
 		if( is_user_logged_in() ){
 			$user = wp_get_current_user();
 			if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ){ //we have set up our settings already
@@ -238,4 +243,6 @@ function redirector(){
 			return( "<script>window.location.replace('./log_in');</script>" );
 		}
 	}
-add_shortcode( 'redirector', 'redirector' );
+add_shortcode( 'redirector', 'redirector_func' );
+
+/* END SHORTCODES */
