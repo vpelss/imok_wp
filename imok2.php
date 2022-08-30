@@ -35,6 +35,9 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/activate.php' ; //flush , custom post (temp)
 		require_once plugin_dir_path(__file__) . 'inc/deactivate.php' ; //flush , custom post (temp)
 		require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
+		require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //logging in logging out page functions
+		require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
+		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
 		require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
 
 		//require_once plugin_dir_path(__file__) . 'templates/form.php' ;//add js and styles : none
@@ -46,3 +49,5 @@ class imok {
 if( class_exists('imok') ){
 	$imok = new imok();
 	}
+
+?>
