@@ -27,6 +27,11 @@ class admin{
 add_action( 'admin_menu' , array('admin' ,'add_admin_pages') ); //set an admin page and put it in wp admin left menu
 add_filter( "plugin_action_links_" . IMOK_PLUGIN_NAME , 'admin::settings_link' ); 	//set up link under plugin on plugin page
 
+
+// Add the imok fields to user's own profile editing screen
+add_action( 'show_user_profile', 'wp_usermeta_form_fields_imok' );
+// Add the imok fields to user profile editing screen for admins
+add_action( 'edit_user_profile', 'wp_usermeta_form_fields_imok' );
 //the imok fields to be added to user profile page
 function wp_usermeta_form_fields_imok( $user )
 {
@@ -95,12 +100,13 @@ function wp_usermeta_form_fields_imok( $user )
     <?php
 }
 
-// Add the imok fields to user's own profile editing screen
-add_action( 'show_user_profile', 'wp_usermeta_form_fields_imok' );
 
-// Add the imok fields to user profile editing screen for admins
-add_action( 'edit_user_profile', 'wp_usermeta_form_fields_imok' );
 
+
+// allows user to update IMOK settings
+add_action( 'personal_options_update', 'wp_usermeta_form_fields_imok_update' );
+// allows admin to update IMOK settings
+add_action( 'edit_user_profile_update', 'wp_usermeta_form_fields_imok_update' );
 //processing and saving of imok fields data submitted from user profile form
 function wp_usermeta_form_fields_imok_update( $user_id )
 {
@@ -113,12 +119,6 @@ function wp_usermeta_form_fields_imok_update( $user_id )
     update_user_meta( $user_id, 'imok_contact_email_3', is_email( $_POST['imok_contact_email_3'] ) ); //$_POST['imok_contact_email_X']
 
 }
-
-// allows user to update IMOK settings
-add_action( 'personal_options_update', 'wp_usermeta_form_fields_imok_update' );
-
-// allows admin to update IMOK settings
-add_action( 'edit_user_profile_update', 'wp_usermeta_form_fields_imok_update' );
 
 function my_error_notice() {
 					?>
@@ -142,107 +142,12 @@ function check_ipp(){
 
 			add_action( 'posts_selection', 'check_ipp' );
 
-//redirect WP default to our redirect page after login. This will overide 'redirect' => $site_url, in my custom form
-function login_redirect( $redirect_to, $request, $user ){
-    return home_url(  );
-}
-add_filter( 'login_redirect', 'login_redirect', 10, 3 );
-
-//disable admin bar
+//disable admin bar for users
 add_action('after_setup_theme', 'remove_admin_bar');
 function remove_admin_bar() {
 if (!current_user_can('administrator') && !is_admin()) {
   show_admin_bar(false);
-}
-}
-
-//respond to form submissions and redirect giving feedback to user
-add_action('admin_post_settings_action_hook', 'process_form');
-function process_form() {
-//if (!current_user_can('administrator') && !is_admin()) {
-  //show_admin_bar(false);
-	//}
-	$user = wp_get_current_user();
-	//add_user_meta( $user->ID , imok_contact_email_1 , mixed $meta_value, bool $unique = false );
-	$A_POST = get_post();
-	$rr = $_POST;
-	$tt = $_POST['imok_contact_email_1'];
-  $pp = update_user_meta( $user->ID , 'imok_contact_email_1' , is_email( $_POST['imok_contact_email_1'] ) ); //$_POST['imok_contact_email_X']
-  update_user_meta( $user->ID , 'imok_contact_email_2' , is_email( $_POST['imok_contact_email_2'] ) ); //$_POST['imok_contact_email_X']
-  update_user_meta( $user->ID , 'imok_contact_email_3' , is_email( $_POST['imok_contact_email_3'] ) ); //$_POST['imok_contact_email_X']
-
-	$admin_notice = "success";
-	wp_redirect( home_url() . "/settings"  );
-	//wp_redirect( home_url() , 302 , 'ass' );
-	exit;
+	}
 }
 
-
-/* SHORTCODES */
-
-//for our 100% login form
-function wp_login_form_func(){
-
-				$site_url =	get_site_url();
-
-				return wp_login_form(
-								['echo' => false,
-								//'redirect' => $site_url,
-        'form_id' => 'loginform-custom',
-        'label_username' => __( 'Username custom text' ),
-        'label_password' => __( 'Password custom text' ),
-        'label_remember' => __( 'Remember Me custom text' ),
-        'label_log_in' => __( 'Log In custom text' ),
-        'remember' => true]
-																									);
-	};
-	add_shortcode( 'wp_login_form', 'wp_login_form_func' );
-
-//wp logout url : wp_logout_url( string $redirect = '' )
-function wp_logout_url_func(){
-		return wp_logout_url( get_home_url() );
-	}
-add_shortcode( 'wp_logout_url', 'wp_logout_url_func' );
-
-//imok_contact_email_1
-function imok_contact_email_1_func(){
-		$user = wp_get_current_user();
-		//if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ){return "";}
-		return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
-	}
-add_shortcode( 'imok_contact_email_1', 'imok_contact_email_1_func' );
-
-//imok_contact_email_2
-function imok_contact_email_2_func(){
-		$user = wp_get_current_user();
-		//if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ){return "";}
-		return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
-	}
-add_shortcode( 'imok_contact_email_2', 'imok_contact_email_2_func' );
-
-//imok_contact_email_3
-function imok_contact_email_3_func(){
-		$user = wp_get_current_user();
-		//if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ){return "";}
-		return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
-	}
-add_shortcode( 'imok_contact_email_3', 'imok_contact_email_3_func' );
-
-//root page redirector
-function redirector_func(){
-		if( is_user_logged_in() ){
-			$user = wp_get_current_user();
-			if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ){ //we have set up our settings already
-				return( "<script>window.location.replace('./logged_in');</script>" );
-			}
-			else{ //we need to set up our settings. 1st login?
-				return( "<script>window.location.replace('./wp-admin/profile.php/#settings_top');</script>" );
-			}
-		}
-		else{
-			return( "<script>window.location.replace('./log_in');</script>" );
-		}
-	}
-add_shortcode( 'redirector', 'redirector_func' );
-
-/* END SHORTCODES */
+?>
