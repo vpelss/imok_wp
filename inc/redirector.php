@@ -2,21 +2,40 @@
 
 //root page redirector shortcode
 
+//compare current URL with redirected one so we don't loop
+//-logged in
+//	-main -> no settings -> settings
+//	-main -> settings -> /logged_in
+//	-settings -> settings
+//-not logged in
+//	-main -> login
+//	-settings -> login
+//	-logged_in -> login
+
 add_shortcode( 'redirector', 'redirector_func' );
 function redirector_func(){
-		if( is_user_logged_in() ){
+	$currentURL = get_permalink();
+	$newURL  = get_permalink(); //in cases where we need no action
+	$homeURL = home_url() . "/";
+	if( is_user_logged_in() ){
 			$user = wp_get_current_user();
-			if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ){ //we have set up our settings already
-				return( "<script>window.location.replace('./logged_in');</script>" );
-			}
-			else{ //we need to set up our settings. 1st login?
-				//return( "<script>window.location.replace('./wp-admin/profile.php/#settings_top');</script>" );
-				return( "<script>window.location.replace('./settings');</script>" );
+			if( $currentURL == $homeURL ){ //we are on main page
+				if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ) { //we have set up our settings already
+					$newURL = $homeURL . 'logged_in/';
+				}
+				else{ //we need to set up our settings. 1st login?
+					$newURL = $homeURL . 'settings/';
+				}
 			}
 		}
 		else{
-			return( "<script>window.location.replace('./log_in');</script>" );
+			//return( "<script>window.location.replace('./log_in');</script>" );
+			$newURL = $homeURL . 'log_in/';
 		}
+	if($currentURL != $newURL){
+		return( "<script>window.location.replace('" . $newURL . "');</script>" );
+	}
+
 	}
 
 ?>

@@ -39,7 +39,7 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
 		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
 		require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
-		require_once plugin_dir_path(__file__) . 'inc/imok_pushed.php' ; //imok pushed functions
+		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //imok pushed functions
 		require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
 
 		//require_once plugin_dir_path(__file__) . 'templates/form.php' ;//add js and styles : none

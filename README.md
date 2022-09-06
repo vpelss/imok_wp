@@ -1,3 +1,3 @@
-# imok2
+# imok for wp
 
-WP version in progeress
+WP version in progress

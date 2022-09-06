@@ -12,14 +12,14 @@ function process_form($user_id) {
 
 	update_user_meta( $user->ID , 'imok_email_form' , $_POST['imok_email_form'] ) ;
 
-  update_user_meta( $user->ID , 'imok_start_date' , $_POST['imok_start_date'] ) ;
-  update_user_meta( $user->ID , 'imok_start_time' , $_POST['imok_start_time'] );
+  update_user_meta( $user->ID , 'imok_alert_date' , $_POST['imok_alert_date'] ) ;
+  update_user_meta( $user->ID , 'imok_alert_time' , $_POST['imok_alert_time'] );
 
 	update_user_meta( $user->ID , 'imok_timeout' , $_POST['imok_timeout'] );
 	update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
 
 	$admin_notice = "success";
-	wp_redirect( home_url() . "/settings"  );
+	wp_redirect( home_url() . "/"  );
 
 	exit;
 }
@@ -44,24 +44,23 @@ function imok_contact_email_3_func(){
 		return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
 	}
 
-	add_shortcode( 'imok_start_date', 'imok_start_date_func' );
-function imok_start_date_func(){
-		$user = wp_get_current_user();
-		return esc_attr( get_user_meta( $user->ID, 'imok_start_date', true ) );
-	}
-
 add_shortcode( 'imok_email_form', 'imok_email_form_func' );
 function imok_email_form_func(){
 		$user = wp_get_current_user();
 		return esc_attr( get_user_meta( $user->ID, 'imok_email_form', true ) );
 	}
 
-add_shortcode( 'imok_start_time', 'imok_start_time_func' );
-function imok_start_time_func(){
+add_shortcode( 'imok_alert_date', 'imok_alert_date_func' );
+function imok_alert_date_func(){
 		$user = wp_get_current_user();
-		return esc_attr( get_user_meta( $user->ID, 'imok_start_time', true ) );
+		return esc_attr( get_user_meta( $user->ID, 'imok_alert_date', true ) );
 	}
 
+add_shortcode( 'imok_alert_time', 'imok_alert_time_func' );
+function imok_alert_time_func(){
+		$user = wp_get_current_user();
+		return esc_attr( get_user_meta( $user->ID, 'imok_alert_time', true ) );
+	}
 add_shortcode( 'imok_timeout', 'imok_timeout_func' );
 function imok_timeout_func(){
 		$user = wp_get_current_user();

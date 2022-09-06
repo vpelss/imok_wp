@@ -7,10 +7,10 @@ function wp_login_form_func(){
 	return wp_login_form(
 		['echo' => false,	//'redirect' => $site_url,
         'form_id' => 'loginform-custom',
-        'label_username' => __( 'Username custom text' ),
-        'label_password' => __( 'Password custom text' ),
-        'label_remember' => __( 'Remember Me custom text' ),
-        'label_log_in' => __( 'Log In custom text' ),
+        'label_username' => __( 'Login Email' ),
+        'label_password' => __( 'Password' ),
+        'label_remember' => __( 'Remember Me' ),
+        'label_log_in' => __( 'Log In' ),
         'remember' => true]																							);
 	};
 
