@@ -19,7 +19,7 @@ function process_form($user_id) {
 	update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
 
 	$admin_notice = "success";
-	wp_redirect( home_url() . "/"  );
+	wp_redirect( home_url() . "/settings/"  );
 
 	exit;
 }
