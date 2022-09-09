@@ -23,19 +23,39 @@ function imok_commands_func(){
 
 function imok_pushed(){
 	//get date / time
-	$current_unix_time = current_time("timestamp" , 0); //in unix time no gmt
+	$now = current_time("timestamp" , 0); //in unix time no gmt
 
 	//get users date time
 	$user = wp_get_current_user();
-	$imok_start_date =  get_user_meta( $user->ID, 'imok_start_date', true );
-	$imok_start_time = get_user_meta( $user->ID, 'imok_start_time', true );
-	$start_date_time_string = $imok_start_date . ' ' . $imok_start_time;
-	$start_unix_time = strtotime( $start_date_time_string ); //convert to unix time
+	$imok_alert_interval_unix_time = get_user_meta( $user->ID, 'imok_alert_interval', true );
 
-	return $start_unix_time;
+	$imok_alert_date =  get_user_meta( $user->ID, 'imok_alert_date', true );
+	$imok_alert_time = get_user_meta( $user->ID, 'imok_alert_time', true );
+	$imok_alert_date_time_string = $imok_alert_date . ' ' . $imok_alert_time;
+	$imok_alert_unix_time = strtotime( $imok_alert_date_time_string ); //convert to unix time
 
+	$unix_day = 60 * 60 * 24;
 	//compare
+	if($imok_alert_unix_time <= $now){#alarm was/is triggered
+		while( $imok_alert_unix_time <= $now ){//add half days until are > now
+			$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time;
+		};
+		//$imok_alert_unix_time = $imok_alert_unix_time + ($imok_alert_interval_unix_time * $unix_day); // add the interval
+	}
+	elseif( ($imok_alert_unix_time - $imok_alert_interval_unix_time) <= $now ){
+		//until( $new_time_stamp  > ($now + $user->{'timeout_sec'})
+			//$imok_alert_unix_time = $imok_alert_unix_time + ($imok_alert_interval_unix_time * $unix_day); // add the interval
+		//}
+	}
+	//elsif( ($current_time_stamp - $user->{'timeout_sec'}) > $now  ){# we are a full timeout before the time stamp. do nothing
+		//return 1;
+		//}#do nothing
 
+	//convert to string to save again
+	$now_str = date( "Y-m-d H:i", $now);
+	$new_alert_date_time = date( "Y-m-d H:i", $imok_alert_unix_time);
+
+	return 'Now: ' . $now_str . '<br>New alert time: ' . $new_alert_date_time . '<br>Start alert time: ' . $imok_alert_date_time_string;
 
 /*
  if( $current_time_stamp <= $now ){#alarm was/is triggered

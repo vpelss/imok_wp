@@ -15,7 +15,7 @@ function process_form($user_id) {
   update_user_meta( $user->ID , 'imok_alert_date' , $_POST['imok_alert_date'] ) ;
   update_user_meta( $user->ID , 'imok_alert_time' , $_POST['imok_alert_time'] );
 
-	update_user_meta( $user->ID , 'imok_timeout' , $_POST['imok_timeout'] );
+	update_user_meta( $user->ID , 'imok_alert_interval' , $_POST['imok_alert_interval'] );
 	update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
 
 	$admin_notice = "success";
@@ -61,10 +61,10 @@ function imok_alert_time_func(){
 		$user = wp_get_current_user();
 		return esc_attr( get_user_meta( $user->ID, 'imok_alert_time', true ) );
 	}
-add_shortcode( 'imok_timeout', 'imok_timeout_func' );
-function imok_timeout_func(){
+add_shortcode( 'imok_alert_interval', 'imok_alert_interval_func' );
+function imok_alert_interval_func(){
 		$user = wp_get_current_user();
-		return esc_attr( get_user_meta( $user->ID, 'imok_timeout', true ) );
+		return esc_attr( get_user_meta( $user->ID, 'imok_alert_interval', true ) );
 	}
 
 add_shortcode( 'imok_pre_warn_time', 'imok_pre_warn_time_func' );
