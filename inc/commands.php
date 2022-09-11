@@ -13,8 +13,8 @@ function imok_commands_func(){
 
 	if($response == 'imok'){
 		return imok_pushed();
-		//return 'IMOK your OK';
 	}
+
 	if($response == 'imnotok'){
 		return 'I am not OK';
 	}
@@ -22,95 +22,45 @@ function imok_commands_func(){
 	}
 
 function imok_pushed(){
-	//get date / time
+	$user = wp_get_current_user();
+	$unix_day = 60 * 60 * 24; //seconds in a day
+
+	//get current unix time
 	$now = current_time("timestamp" , 0); //in unix time no gmt
 
-	//get users date time
-	$user = wp_get_current_user();
-
-	$unix_day = 60 * 60 * 24;
-
+	//get users data
 	$imok_alert_interval_unix_time = $unix_day * get_user_meta( $user->ID, 'imok_alert_interval', true );
-
 	$imok_alert_date =  get_user_meta( $user->ID, 'imok_alert_date', true );
 	$imok_alert_time = get_user_meta( $user->ID, 'imok_alert_time', true );
+	//convert user settings to unix time
 	$imok_alert_date_time_string = $imok_alert_date . ' ' . $imok_alert_time;
 	$imok_alert_unix_time = strtotime( $imok_alert_date_time_string ); //convert to unix time
 
-	//compare
+	//compare and reset alert time
 	if( ($imok_alert_unix_time - $imok_alert_interval_unix_time) > $now  ){# we are a full alert interval before the alert date time. do nothing
 		//return 1;
 		}#do nothing
 	if($imok_alert_unix_time <= $now){#alarm was/is triggered
-		while( $imok_alert_unix_time <= $now ){//
+		while( $imok_alert_unix_time <= $now ){
 			$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time;
 		};
 		$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
-		//$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time;
 	}
 	elseif( ($imok_alert_unix_time - $imok_alert_interval_unix_time) <= $now ){# we are clicking just before alarm will trigger in the window of the alert interval
-		//while( $imok_alert_unix_time <= $now ){//add half days until are > now
-			//$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time;
-		//};
-		$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time;
+		$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time; //one ping please
 	}
 
-	//convert to string to save again
-	$now_str = date( "Y-m-d H:i", $now);
-	$new_alert_date_time = date( "Y-m-d H:i", $imok_alert_unix_time);
+	//set in db
+	$imok_alert_date = date("Y-m-d"  , $imok_alert_unix_time); //convert to string
+	update_user_meta( $user->ID , 'imok_alert_date' , $imok_alert_date ) ;
+	$imok_alert_time = date("H:i" , $imok_alert_unix_time); //convert to string
+	update_user_meta( $user->ID , 'imok_alert_time' , $imok_alert_time ) ;
 
+	//return and display message
+	$now_str = date( "Y-m-d H:i", $now);
+	$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
 	return $msg . '<br>Start alert time: ' . $imok_alert_date_time_string . '<br>Now: ' . $now_str . '<br>New alert time: ' . $new_alert_date_time ;
 
 }
-
-/*
-sub imok(){
-my $logged_in = $AuthorizeMeObj->AmILoggedIn();
-my $user = $AuthorizeMeObj->{'user'};
-if( ! $logged_in ){return 0;}
-my $filename = "$AuthorizeMeObj->{'settings'}->{'path_to_users'}$user->{'user_id'}";
-my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$current_time_stamp,$ctime,$blksize,$blocks) = stat($filename);
-#my $new_time_stamp = $current_time_stamp; #will ALWAYS jump to next start_time (after now) + timeout
-
-#my $new_time_stamp = $user->{'start_unix_time'}; #will ALWAYS jump to next start_time (after now) + timeout
-my $new_time_stamp = $current_time_stamp; #will ALWAYS jump to next start_time (after now) + timeout
-
-my $now = time();
-
-if( $current_time_stamp <= $now ){#alarm was/is triggered
-  until( $new_time_stamp  > $now ){#we do this loop as we are basing our repeating Alert date/times based on our initial setting, not based on when we click the imok button
-   $new_time_stamp = $new_time_stamp + $user->{'timeout_sec'};
-  }
- $message = "$message Alarm was likely triggered. Please email your contacts and tell them you are OK.";
- #send out IMOK email. Member has checked in...
-}
-elsif( ($current_time_stamp - $user->{'timeout_sec'}) <= $now ){ #we are clicking just before alarm is triggered
- until( $new_time_stamp  > ($now + $user->{'timeout_sec'}) ){
-   $new_time_stamp = $new_time_stamp + $user->{'timeout_sec'};
-  }
-}
-elsif( ($current_time_stamp - $user->{'timeout_sec'}) > $now  ){# we are a full timeout before the time stamp. do nothing
-  return 1;
-}#do nothing
-
-#trigger time on users computer
-my $new_time_stamp_user_tz = $new_time_stamp + ($user->{'tz_offset_hours' } * 60 * 60);
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = gmtime($new_time_stamp_user_tz);
-$mon = $mon + 1;
-$year = 1900 + $year;
-my $trigger_time_string = sprintf("%d-%.2d-%.2d  %d:%.2d", $year , $mon , $mday , $hour , $min);
-
-my $result = &set_time_stamp($new_time_stamp , $filename);
-if($result == 1){
- $message = "$message Trigger time updated.";
-}
-else{
- $message = "$message IMOK trigger time failed. Please try again.";
-}
- &write_to_log("$user->{'email'} checked in.");
-return $result;
-}
-*/
-
 
 ?>
