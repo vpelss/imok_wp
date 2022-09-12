@@ -56,6 +56,11 @@ function imok_pushed(){
 	$imok_alert_time = date("H:i" , $imok_alert_unix_time); //convert to string
 	update_user_meta( $user->ID , 'imok_alert_time' , $imok_alert_time ) ;
 
+	//Send email to ? user
+	//$to = "";
+	//wp_mail( string|string[] $to, string $subject, string $message, string|string[] $headers = '', string|string[] $attachments = array() ): bool
+
+
 	//return and display message
 	$now_str = date( "Y-m-d H:i", $now);
 	$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
