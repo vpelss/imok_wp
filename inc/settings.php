@@ -18,6 +18,16 @@ function process_form($user_id) {
 	update_user_meta( $user->ID , 'imok_alert_interval' , $_POST['imok_alert_interval'] );
 	update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
 
+	//Send email to ? user
+	//$to = "";
+	$email_from = $user->user_email;
+	$email_to = $user->user_email;
+	$subject = "Your IMOK settings were changed";
+	$message = "Your IMOK settings were changed";
+	$headers =
+	//wp_mail( string|string[] $to, string $subject, string $message, string|string[] $headers = '', string|string[] $attachments = array() ): bool
+	$result = wp_mail( $email_to , $subject , $message , $headers  );
+	
 	$admin_notice = "success";
 	wp_redirect( home_url() . "/settings/"  );
 
