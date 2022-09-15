@@ -16,7 +16,7 @@ add_shortcode( 'redirector', 'redirector_func' );
 function redirector_func(){
 	$currentURL = get_permalink();
 	$newURL  = get_permalink(); //in cases where we need no action
-	$homeURL = home_url() . "/";
+	$homeURL = IMOK_ROOT_URL . "/";
 	if( is_user_logged_in() ){
 			$user = wp_get_current_user();
 			if( $currentURL == $homeURL ){ //we are on main page

@@ -20,16 +20,17 @@ function process_form($user_id) {
 
 	//Send email to ? user
 	//$to = "";
-	$email_from = $user->user_email;
+	$email_from = 'From: imok <imok@emogic.com>';
 	$email_to = $user->user_email;
 	$subject = "Your IMOK settings were changed";
 	$message = "Your IMOK settings were changed";
-	$headers =
+	$headers = $email_from;
 	//wp_mail( string|string[] $to, string $subject, string $message, string|string[] $headers = '', string|string[] $attachments = array() ): bool
 	$result = wp_mail( $email_to , $subject , $message , $headers  );
-	
+
 	$admin_notice = "success";
-	wp_redirect( home_url() . "/settings/"  );
+	$tmp = IMOK_ROOT_URL . "/settings/";
+	wp_redirect( IMOK_ROOT_URL . "/settings/"  );
 
 	exit;
 }
