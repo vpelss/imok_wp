@@ -16,9 +16,26 @@ function imok_commands_func(){
 	}
 
 	if($response == 'imnotok'){
-		return 'I am not OK';
+		return imnotok();
 	}
 
+	}
+
+function imnotok(){
+	$user = wp_get_current_user();
+
+	$email_from = 'From: imok <imok@emogic.com>';
+	$email_to = array();
+	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
+	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
+	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
+	$email_to_str = implode( " : ", $email_to );
+
+	$subject = "IM Not OK";
+	$message = $user->display_name . ' ' . $user->user_email . " pushed the IM Not OK button. Please check on them.";
+	$headers = $email_from;
+	$result = wp_mail( $email_to , $subject , $message , $headers  );
+	return "IM Not OK Alert sent to your contact list:<br> {$email_to_str} <br><br>The following was sent to your contact list:<br>{$message}";
 	}
 
 function imok_pushed(){
@@ -57,14 +74,11 @@ function imok_pushed(){
 	update_user_meta( $user->ID , 'imok_alert_time' , $imok_alert_time ) ;
 
 	//Send email to ? user
-	//$to = "";
-	//wp_mail( string|string[] $to, string $subject, string $message, string|string[] $headers = '', string|string[] $attachments = array() ): bool
-
 
 	//return and display message
 	$now_str = date( "Y-m-d H:i", $now);
 	$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
-	return $msg . '<br>Start alert time: ' . $imok_alert_date_time_string . '<br>Now: ' . $now_str . '<br>New alert time: ' . $new_alert_date_time ;
+	return "{$msg}<br>Start alert time: {$imok_alert_date_time_string}<br>Now: {$now_str}<br>New alert time: {$new_alert_date_time}";
 
 }
 

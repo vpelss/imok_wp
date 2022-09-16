@@ -29,7 +29,6 @@ function redirector_func(){
 			}
 		}
 		else{
-			//return( "<script>window.location.replace('./log_in');</script>" );
 			$newURL = $homeURL . 'log_in/';
 		}
 	if($currentURL != $newURL){

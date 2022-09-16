@@ -4,7 +4,6 @@
 add_action('admin_post_settings_action_hook', 'process_form');
 function process_form($user_id) {
 	$user = wp_get_current_user();
-	//$aa = $_POST;
 
   update_user_meta( $user->ID , 'imok_contact_email_1' , is_email( $_POST['imok_contact_email_1'] ) ); //$_POST['imok_contact_email_X']
   update_user_meta( $user->ID , 'imok_contact_email_2' , is_email( $_POST['imok_contact_email_2'] ) ); //$_POST['imok_contact_email_X']
@@ -18,14 +17,11 @@ function process_form($user_id) {
 	update_user_meta( $user->ID , 'imok_alert_interval' , $_POST['imok_alert_interval'] );
 	update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
 
-	//Send email to ? user
-	//$to = "";
 	$email_from = 'From: imok <imok@emogic.com>';
 	$email_to = $user->user_email;
 	$subject = "Your IMOK settings were changed";
 	$message = "Your IMOK settings were changed";
 	$headers = $email_from;
-	//wp_mail( string|string[] $to, string $subject, string $message, string|string[] $headers = '', string|string[] $attachments = array() ): bool
 	$result = wp_mail( $email_to , $subject , $message , $headers  );
 
 	$admin_notice = "success";
@@ -83,6 +79,5 @@ function imok_pre_warn_time_func(){
 		$user = wp_get_current_user();
 		return esc_attr( get_user_meta( $user->ID, 'imok_pre_warn_time', true ) );
 	}
-
 
 ?>
