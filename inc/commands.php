@@ -1,5 +1,10 @@
 <?php
 
+add_shortcode( 'imok_countdown', 'imok_countdown_func' );
+function imok_countdown_func(){
+	return countdown();
+	}
+
 add_shortcode( 'imok_commands', 'imok_commands_func' );
 function imok_commands_func(){
 	$user = wp_get_current_user();
@@ -17,8 +22,7 @@ function imok_commands_func(){
 	elseif($response == 'imnotok'){
 		return imnotok();
 	}
-	elseif(1){//no command calculate and show countdown
-		return countdown();
+	elseif(1){//no command 
 	}
 
 	}
@@ -105,51 +109,31 @@ function countdown(){
 		$msg = "
 		Push 'IM OK' before:<br>
 		<font color='red'>{$imok_alert_date_time_string}</font><br>
-		<div id='countdown'>countdown</div>
+		<font id='countdown'>countdown</font>
 		<script>
 		var trigger_time = $imok_alert_unix_time;
-		
+		function countdown() {
+			var now = Date.now() / 1000; //in seconds
+			var difference_seconds = trigger_time - now;
+			if(difference_seconds <= 0){
+				document.getElementById('countdown').innerHTML = 'Timeout exceeded. Alerts are being sent.';
+				}
+			else{
+				var days = Math.floor( difference_seconds / (60 * 60 * 24) );
+				var hours = Math.floor( (difference_seconds / (60 * 60)) % 24);
+				var minutes = Math.floor( (difference_seconds / (60)) % 60 );
+				var seconds = Math.floor( difference_seconds % 60 );
+
+				var countdown_string = '' + days + ' days ' + hours + ' hours ' + minutes + ' minutes ' + seconds + ' seconds';
+				document.getElementById('countdown').innerHTML = countdown_string;
+				}
+		}
+		setInterval( countdown , 5000 * 1 ); //update every 15 seconds
+		countdown(); //run now
 		</script>
 		";
 		}
-
 	return $msg;
-
 }
-
-/*
-				<script type="text/javascript">
-
-						var trigger_time = parseInt( document.getElementById("trigger_time").value ) * 1000;
-
-						function countdown() {
-								var now = Date.now();
-								var difference = trigger_time - now;
-								var difference_seconds = difference / 1000;
-								if(difference <= 0) {
-												document.getElementById('countdown').innerHTML = "Timeout exceeded. Alerts are being sent.";
-												}
-								else{
-												var days = Math.floor( difference_seconds / (60 * 60 * 24) );
-												var day_seconds =  days * (60 * 60 * 24);
-												difference_seconds = difference_seconds - day_seconds;
-												var hours = Math.floor( difference_seconds / (60 * 60) );
-												var hour_seconds = hours * (60 * 60);
-												difference_seconds = difference_seconds - hour_seconds;
-												var minutes = Math.floor( difference_seconds / (60) );
-												var minute_seconds = minutes * (60);
-												difference_seconds = Math.floor( difference_seconds - minute_seconds );
-
-												var countdown_string = '' + days + ' days ' + hours + ' hours ' + minutes + ' minutes ' + difference_seconds + ' seconds';
-												document.getElementById('countdown').innerHTML = countdown_string;
-												}
-
-						}
-
-						setInterval( countdown , 5000 * 1 ); //update every 15 seconds
-						countdown();
-
-			</script>
-	*/
 
 ?>
