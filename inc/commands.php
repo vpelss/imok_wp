@@ -22,7 +22,8 @@ function imok_commands_func(){
 	elseif($response == 'imnotok'){
 		return imnotok();
 	}
-	elseif(1){//no command 
+	elseif(1){//no command
+		return countdown();
 	}
 
 	}
@@ -49,7 +50,7 @@ function imok(){
 	$unix_day = 60 * 60 * 24; //seconds in a day
 
 	//get current unix time
-	$now = current_time("timestamp" , 0); //in unix time no gmt
+	$now = current_time("timestamp" , 0); //in unix time no UTC
 
 	//get users data
 	$imok_alert_interval_unix_time = $unix_day * get_user_meta( $user->ID, 'imok_alert_interval', true );
@@ -67,7 +68,7 @@ function imok(){
 		while( $imok_alert_unix_time <= $now ){
 			$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time;
 		};
-		$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
+		//$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
 	}
 	elseif( ($imok_alert_unix_time - $imok_alert_interval_unix_time) <= $now ){# we are clicking just before alarm will trigger in the window of the alert interval
 		$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time; //one ping please
@@ -84,34 +85,37 @@ function imok(){
 	//return and display message
 	$now_str = date( "Y-m-d H:i", $now);
 	$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
-	return "{$msg}<br>Start alert time: {$imok_alert_date_time_string}<br>Now: {$now_str}<br>New alert time: {$new_alert_date_time}";
+	$msg = countdown();
+	$msg2 = "<br>Start alert time: {$imok_alert_date_time_string}<br>Now: {$now_str}<br>New alert time: {$new_alert_date_time}";
+	return "{$msg}{$msg2}";
 }
 
 function countdown(){
 	$user = wp_get_current_user();
 	$unix_day = 60 * 60 * 24; //seconds in a day
 
-	//get current unix time
-	$now = current_time("timestamp" , 0); //in unix time no gmt
+	//NOTE: Server and user PC are in different time zones so:
+	//when comparing on server convert all user pc times and server times to UTC
+	//JS routines see unix timestamp as UTC but shows as local
+	//so on user PC (JS) convert all times to UTC 
 
-	//get users data
-	//$imok_alert_interval_unix_time = $unix_day * get_user_meta( $user->ID, 'imok_alert_interval', true );
+	$now_UTC = current_time("timestamp" , 1); //now in UTC time
+	//alert time local to user PC
 	$imok_alert_date =  get_user_meta( $user->ID, 'imok_alert_date', true );
 	$imok_alert_time = get_user_meta( $user->ID, 'imok_alert_time', true );
-	//convert user settings to unix time
-	$imok_alert_date_time_string = $imok_alert_date . ' ' . $imok_alert_time;
-	$imok_alert_unix_time = strtotime( $imok_alert_date_time_string ); //convert to unix time
+	$imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
+	$imok_alert_date_time_string_UTC = get_gmt_from_date( $imok_alert_date_time_string_local , 'Y-m-d H:i:s' ); //change to UTC
+	$imok_alert_unix_time_UTC =  strtotime( $imok_alert_date_time_string_UTC );
 
-	if($imok_alert_unix_time <= $now){#alarm was/is triggered
+	if($imok_alert_unix_time_UTC <= $now_UTC){#alarm was/is triggered
 		$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
 		}
 	else{
-		$msg = "
-		Push 'IM OK' before:<br>
-		<font color='red'>{$imok_alert_date_time_string}</font><br>
+		$msg = "Push 'IM OK' before:<br>
+		<font color='red'>{$imok_alert_date_time_string_local}</font><br>
 		<font id='countdown'>countdown</font>
 		<script>
-		var trigger_time = $imok_alert_unix_time;
+		var trigger_time = $imok_alert_unix_time_UTC;
 		function countdown() {
 			var now = Date.now() / 1000; //in seconds
 			var difference_seconds = trigger_time - now;

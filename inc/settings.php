@@ -26,7 +26,7 @@ function process_form($user_id) {
 
 	$admin_notice = "success";
 	$tmp = IMOK_ROOT_URL . "/settings/";
-	wp_redirect( IMOK_ROOT_URL . "/settings/"  );
+	wp_redirect( IMOK_ROOT_URL . "/"  );
 
 	exit;
 }
