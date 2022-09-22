@@ -19,9 +19,14 @@ if ( ! wp_next_scheduled( 'imok_cron_hook' ) ) {
 
 function imok_cron_exec(){
 //get an array of our users
+$users = get_users();
+$rr = 7;
 
+foreach ( $users as $user ) {
+    echo '<span>' . esc_html( $user->display_name ) . '</span>';
+}
 
-//check dates
+//check dates conver to gmt
 
 }
 

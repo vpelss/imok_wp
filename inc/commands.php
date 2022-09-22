@@ -22,6 +22,9 @@ function imok_commands_func(){
 	elseif($response == 'imnotok'){
 		return imnotok();
 	}
+	elseif($response == 'imokcron'){
+			imok_cron_exec();
+	}
 	elseif(1){//no command
 		return countdown();
 	}
@@ -97,7 +100,7 @@ function countdown(){
 	//NOTE: Server and user PC are in different time zones so:
 	//when comparing on server convert all user pc times and server times to UTC
 	//JS routines see unix timestamp as UTC but shows as local
-	//so on user PC (JS) convert all times to UTC 
+	//so on user PC (JS) convert all times to UTC
 
 	$now_UTC = current_time("timestamp" , 1); //now in UTC time
 	//alert time local to user PC
