@@ -23,8 +23,25 @@ $users = get_users();
 $rr = 7;
 
 foreach ( $users as $user ) {
-    echo '<span>' . esc_html( $user->display_name ) . '</span>';
-}
+    $userID = $user->ID;
+    $imok_contact_email_1 = get_user_meta( $userID , 'imok_contact_email_1', true ); // imok_contact_email_1
+    if( is_email($imok_contact_email_1) ){ //did we save settings
+        //echo '<span>' . esc_html( $user->display_name ) . '</span>';
+        //echo '<span>' . $imok_contact_email_1 . '</span>';
+       	$now_UTC = current_time("timestamp" , 1); //now in UTC time
+
+        $imok_alert_date = get_user_meta( $userID, 'imok_alert_date', true );
+        $imok_alert_time = get_user_meta( $userID, 'imok_alert_time', true );
+        $imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
+        $imok_alert_date_time_string_UTC = get_gmt_from_date( $imok_alert_date_time_string_local , 'Y-m-d H:i:s' ); //change to UTC
+        $imok_alert_unix_time_UTC =  strtotime( $imok_alert_date_time_string_UTC );
+
+        $imok_timezone = 60 * get_user_meta( $userID , 'imok_timezone', true ); //in minutes * 60 
+
+    }
+
+
+    }
 
 //check dates conver to gmt
 
