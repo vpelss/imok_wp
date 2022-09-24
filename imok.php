@@ -44,6 +44,7 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
 
 		//set up a load pages from file routine on activation!
+		//when client changes timezone, what should we do? Can we autoset?
 
 		//require_once plugin_dir_path(__file__) . 'templates/form.php' ;//add js and styles : none
 

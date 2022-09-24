@@ -20,30 +20,71 @@ if ( ! wp_next_scheduled( 'imok_cron_hook' ) ) {
 function imok_cron_exec(){
 //get an array of our users
 $users = get_users();
-$rr = 7;
+$msg = '';
+$msg1 = '';
 
 foreach ( $users as $user ) {
     $userID = $user->ID;
     $imok_contact_email_1 = get_user_meta( $userID , 'imok_contact_email_1', true ); // imok_contact_email_1
-    if( is_email($imok_contact_email_1) ){ //did we save settings
+    if( ! get_user_meta( $user->ID , 'imok_timezone', true ) ){ continue; }
+    $imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true ); //in minutes * 60
+
+    if( is_email($imok_contact_email_1) and $imok_timezone){ //did we save settings
         //echo '<span>' . esc_html( $user->display_name ) . '</span>';
         //echo '<span>' . $imok_contact_email_1 . '</span>';
        	$now_UTC = current_time("timestamp" , 1); //now in UTC time
 
         $imok_alert_date = get_user_meta( $userID, 'imok_alert_date', true );
         $imok_alert_time = get_user_meta( $userID, 'imok_alert_time', true );
+
         $imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
-        $imok_alert_date_time_string_UTC = get_gmt_from_date( $imok_alert_date_time_string_local , 'Y-m-d H:i:s' ); //change to UTC
-        $imok_alert_unix_time_UTC =  strtotime( $imok_alert_date_time_string_UTC );
+        //$imok_alert_date_time_string_UTC = get_gmt_from_date( $imok_alert_date_time_string_local , 'Y-m-d H:i:s' ); //change to UTC
+        $imok_alert_unix_time =  strtotime( $imok_alert_date_time_string_local ) + $imok_timezone; //converts time (ignoring timezone) , need to add users timezone so we can convert to GMT to compare
 
-        $imok_timezone = 60 * get_user_meta( $userID , 'imok_timezone', true ); //in minutes * 60 
+        if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered
+            //email to list
+            $email_from = 'From: imok <imok@emogic.com>';
+            $email_to = array();
+            array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_1', true ) );
+            array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_2', true ) );
+            array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_3', true ) );
+            $subject = "IMOK alert";
+            $message = get_user_meta( $userID , 'imok_form', true );
+            $headers = $email_from;
+            $result = wp_mail( $email_to , $subject , $message , $headers  );
+            $msg = $msg . "mail result: {$result}";
+            }
+        elseif( $now_UTC > ($imok_alert_unix_time - (3600 * get_user_meta( $userID , 'imok_pre_warn_time', true )) ) ){ //pre-alert time
+            //email to client
+            $email_from = 'From: imok <imok@emogic.com>';
+             $email_to = $user->user_email;
+            //$email_to = array();
+            $subject = "IMOK pre-alert";
+            $message = "Your IMOK Alert will be triggered at $imok_alert_date_time_string_local. Stop it at " . IMOK_ROOT_URL . "</br>";
+            $headers = $email_from;
+            $result = wp_mail( $email_to , $subject , $message , $headers  );
+            $msg = $msg . $message;
+            }
 
+// fix if( ( $now_UTC > ($imok_alert_unix_time - get_user_meta( $userID , 'imok_pre_warn_time', true ) )) && ( $imok_alert_unix_time > $now_UTC ) ){#send prewarn email to self
+ // remove ( $imok_alert_unix_time > $now_UTC ) continue
+ //( $imok_alert_unix_time <= $now_UTC ) email
+
+
+        $imok_alert_unix_time_string = date("Y-m-d H:i"  , $imok_alert_unix_time); //convert to string
+        $now_UTC_string = date("Y-m-d H:i"  , $now_UTC); //convert to string
+
+        $msg1 = "{$user->ID} <br>
+        imok_alert_unix_time_string : {$imok_alert_unix_time_string}<br>
+		now_UTC_string : $now_UTC_string <br>";
+
+        $msg = $msg . $msg1;
+        }
     }
 
+    return $msg;
 
-    }
-
-//check dates conver to gmt
+    //has this account triggered?
 
 }
 

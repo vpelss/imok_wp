@@ -23,7 +23,7 @@ function imok_commands_func(){
 		return imnotok();
 	}
 	elseif($response == 'imokcron'){
-			imok_cron_exec();
+			return imok_cron_exec();
 	}
 	elseif(1){//no command
 		return countdown();
@@ -95,7 +95,7 @@ function imok(){
 
 function countdown(){
 	$user = wp_get_current_user();
-	$unix_day = 60 * 60 * 24; //seconds in a day
+	//$unix_day = 60 * 60 * 24; //seconds in a day
 
 	//NOTE: Server and user PC are in different time zones so:
 	//when comparing on server convert all user pc times and server times to UTC
@@ -112,7 +112,7 @@ function countdown(){
 	$imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true ); //in minutes * 60
 
 	$imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
-	$imok_alert_unix_time =  strtotime( $imok_alert_date_time_string_local ) + $imok_timezone; //converts time (ignoring timezone) , need to add users timezone
+	$imok_alert_unix_time =  strtotime( $imok_alert_date_time_string_local ) + $imok_timezone; //converts time (ignoring timezone) , need to add users timezone so we can convert to GMT to compare
 
 	$imok_alert_unix_time_string = date("Y-m-d H:i"  , $imok_alert_unix_time); //convert to string
 	$now_UTC_string = date("Y-m-d H:i"  , $now_UTC); //convert to string
