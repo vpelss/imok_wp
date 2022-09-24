@@ -102,23 +102,34 @@ function countdown(){
 	//JS routines see unix timestamp as UTC but shows as local
 	//so on user PC (JS) convert all times to UTC
 
+	//$server_timezone_diff = current_time("timestamp" , 0) - current_time("timestamp" , 1);
+
 	$now_UTC = current_time("timestamp" , 1); //now in UTC time
+
 	//alert time local to user PC
 	$imok_alert_date =  get_user_meta( $user->ID, 'imok_alert_date', true );
 	$imok_alert_time = get_user_meta( $user->ID, 'imok_alert_time', true );
-	$imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
-	$imok_alert_date_time_string_UTC = get_gmt_from_date( $imok_alert_date_time_string_local , 'Y-m-d H:i:s' ); //change to UTC
-	$imok_alert_unix_time_UTC =  strtotime( $imok_alert_date_time_string_UTC );
+	$imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true ); //in minutes * 60
 
-	if($imok_alert_unix_time_UTC <= $now_UTC){#alarm was/is triggered
-		$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
+	$imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
+	$imok_alert_unix_time =  strtotime( $imok_alert_date_time_string_local ) + $imok_timezone; //converts time (ignoring timezone) , need to add users timezone
+
+	$imok_alert_unix_time_string = date("Y-m-d H:i"  , $imok_alert_unix_time); //convert to string
+	$now_UTC_string = date("Y-m-d H:i"  , $now_UTC); //convert to string
+
+	if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered
+		$msg = "imok_alert_unix_time_string : {$imok_alert_unix_time_string}<br>
+		now_UTC_string : $now_UTC_string <br>
+		You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
 		}
 	else{
-		$msg = "Push 'IM OK' before:<br>
+		$msg = "imok_alert_unix_time_string : {$imok_alert_unix_time_string}<br>
+		now_UTC_string : $now_UTC_string <br>
+		Push 'IM OK' before:<br>
 		<font color='red'>{$imok_alert_date_time_string_local}</font><br>
 		<font id='countdown'>countdown</font>
 		<script>
-		var trigger_time = $imok_alert_unix_time_UTC;
+		var trigger_time = $imok_alert_unix_time;
 		function countdown() {
 			var now = Date.now() / 1000; //in seconds
 			var difference_seconds = trigger_time - now;

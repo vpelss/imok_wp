@@ -43,6 +43,8 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //imok pushed functions
 		require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
 
+		//set up a load pages from file routine on activation!
+
 		//require_once plugin_dir_path(__file__) . 'templates/form.php' ;//add js and styles : none
 
 	}
