@@ -35,18 +35,17 @@ class imok {
 
 		require_once plugin_dir_path(__file__) . 'inc/activate.php' ; //flush , custom post (temp)
 		require_once plugin_dir_path(__file__) . 'inc/deactivate.php' ; //flush , custom post (temp)
+		require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
 		require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
+
 		require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //logging in logging out page functions
 		require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
 		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
 		require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //imok pushed functions
-		require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
 
-		//set up a load pages from file routine on activation!
+		//set up a default load pages routine from file routine on activation so users do not have to create themselves
 		//when client changes timezone, what should we do? Can we autoset?
-
-		//require_once plugin_dir_path(__file__) . 'templates/form.php' ;//add js and styles : none
 
 	}
 
