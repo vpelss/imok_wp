@@ -21,15 +21,15 @@ function redirector_func(){
 			$user = wp_get_current_user();
 			if( $currentURL == $homeURL ){ //we are on main page
 				if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ) { //we have set up our settings already
-					$newURL = $homeURL . 'logged_in/';
+					$newURL = $homeURL . 'imok-logged-in/';
 				}
 				else{ //we need to set up our settings. 1st login?
-					$newURL = $homeURL . 'settings/';
+					$newURL = $homeURL . 'imok-settings/';
 				}
 			}
 		}
 		else{
-			$newURL = $homeURL . 'log_in/';
+			$newURL = $homeURL . 'imok-log-in/';
 		}
 	if($currentURL != $newURL){
 		return( "<script>window.location.replace('" . $newURL . "');</script>" );

@@ -43,6 +43,7 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
 		require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //imok pushed functions
+		require_once plugin_dir_path(__file__) . 'inc/get_set_pages.php' ; //imok auto setup pages
 
 		//set up a default load pages routine from file routine on activation so users do not have to create themselves
 		//when client changes timezone, what should we do? Can we autoset?
