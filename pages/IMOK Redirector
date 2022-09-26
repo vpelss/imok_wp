@@ -1,0 +1,7 @@
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">Checking your account. Please Wait...</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[redirector]
+<!-- /wp:shortcode -->

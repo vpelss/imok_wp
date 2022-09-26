@@ -1,0 +1,41 @@
+<!-- wp:shortcode -->
+[redirector]
+<!-- /wp:shortcode -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="?command=imok">IMOK</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center">[imok_commands]</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="../imok-settings/">Settings</a></div>
+<!-- /wp:button -->
+
+<!-- wp:button {"align":"center"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="?command=imnotok">IM NOT OK</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link">About / Help</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="[wp_logout_url]">Logout</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="?command=imokcron">Cron Test</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->

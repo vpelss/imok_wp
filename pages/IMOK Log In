@@ -1,0 +1,13 @@
+<!-- wp:shortcode -->
+<center>
+<div id="login">
+[wp_login_form]
+</div>
+</center>
+<!-- /wp:shortcode -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link">About / Help</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
