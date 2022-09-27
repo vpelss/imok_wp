@@ -2,7 +2,7 @@
 
 The idea for this program came to me after a relative had passed away and was not found for 7 days.
 
-Click here to learn [About this program](https://github.com/vpelss/imok/blob/main/IMOK.md#about)
+Click here to learn [About this program](https://github.com/vpelss/imok_wp/blob/main/imok.md#about)
 
 You can try it at: https://www.emogic.com/imok/
 
@@ -35,7 +35,3 @@ This is a proof of concept script. Don't risk your life on it.
 - set up a cron job to run at least every hour. eg: wget -qO- https://emogic.com/imok/wp-cron.php &> /dev/null
 - create an account and test
 -
-
-
-
-
