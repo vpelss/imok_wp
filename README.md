@@ -9,7 +9,7 @@ You can try it at: https://www.emogic.com/imok/
 -------------------------------------
 
 ## Benefits
-
+ 
 IMOK is web based app. Any device can be used. Smart phone, PC, etc.
 
 It was designed to be a fail safe alert system. You or your phone can be out of commision and the alert will still be sent.
