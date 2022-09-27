@@ -2,7 +2,7 @@
 
 The idea for this program came to me after a relative had passed away and was not found for 7 days.
 
-Click here to learn [About this program](https://github.com/vpelss/imok_wp/blob/main/imok.md#about)
+Click here to learn [About this program](https://github.com/vpelss/imok_wp/blob/master/imok.md#about)
 
 You can try it at: https://www.emogic.com/imok/
 
