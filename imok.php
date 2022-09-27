@@ -45,7 +45,6 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //imok pushed functions
 		require_once plugin_dir_path(__file__) . 'inc/get_set_pages.php' ; //imok auto setup pages
 
-		//when client changes timezone, what should we do? Can we autoset?
 		//uninstall erase db, remove pages,
 		//redirect to pages programmatically (by page name)? is it possible? so people can change url slugs if they want without changing code....
 

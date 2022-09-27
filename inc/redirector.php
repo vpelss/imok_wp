@@ -15,21 +15,29 @@
 add_shortcode( 'redirector', 'redirector_func' );
 function redirector_func(){
 	$currentURL = get_permalink();
-	$newURL  = get_permalink(); //in cases where we need no action
-	$homeURL = IMOK_ROOT_URL . "/";
+	$newURL  = $currentURL; //in cases where we need no action
+	$page = get_page_by_title("IMOK Redirector");
+	$homeURL = get_permalink($page->ID);
+	//$homeURL = IMOK_ROOT_URL . "/";
 	if( is_user_logged_in() ){
 			$user = wp_get_current_user();
 			if( $currentURL == $homeURL ){ //we are on main page
 				if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ) { //we have set up our settings already
-					$newURL = $homeURL . 'imok-logged-in/';
+					$page = get_page_by_title("IMOK Logged In");
+					$newURL = get_permalink($page->ID);
+					//$newURL = $homeURL . 'imok-logged-in/';
 				}
 				else{ //we need to set up our settings. 1st login?
-					$newURL = $homeURL . 'imok-settings/';
+					$page = get_page_by_title("IMOK Settings");
+					$newURL = get_permalink($page->ID);
+					//$newURL = $homeURL . 'imok-settings/';
 				}
 			}
 		}
 		else{
-			$newURL = $homeURL . 'imok-log-in/';
+			$page = get_page_by_title("IMOK Log In");
+			$newURL = get_permalink($page->ID);
+			//$newURL = $homeURL . 'imok-log-in/';
 		}
 	if($currentURL != $newURL){
 		return( "<script>

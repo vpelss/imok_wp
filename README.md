@@ -1,4 +1,4 @@
-# imok for Wordpress : work in progress
+# IMOK for Wordpress : work in progress
 
 The idea for this program came to me after a relative had passed away and was not found for 7 days.
 
@@ -9,21 +9,11 @@ You can try it at: https://www.emogic.com/imok/
 -------------------------------------
 
 ## Benefits
- 
+
 IMOK is web based app. Any device can be used. Smart phone, PC, etc.
 
 It was designed to be a fail safe alert system. You or your phone can be out of commision and the alert will still be sent.
 By having the customer report to a server that he is ok, the server can send out the alert if you do not report in.
-
-## Liabilty
-
-This program is subject to change and no assumption of reliability can be assumed.
-This is a proof of concept script. Don't risk your life on it.
-
-## To Do
-
-- alert to text
-- alert to social media
 
 ## Install
 
@@ -34,4 +24,13 @@ This is a proof of concept script. Don't risk your life on it.
 - Create a header and footer as required an set on the 4 pages
 - set up a cron job to run at least every hour. eg: wget -qO- https://emogic.com/imok/wp-cron.php &> /dev/null
 - create an account and test
--
+
+## Liabilty
+
+This program is subject to change and no assumption of reliability can be assumed.
+This is a proof of concept script. Don't risk your life on it.
+
+## To Do
+
+- alert to text
+- alert to social media

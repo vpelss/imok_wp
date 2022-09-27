@@ -6,10 +6,12 @@
 add_shortcode( 'wp_login_form', 'wp_login_form_func' );
 function wp_login_form_func(){
 	//$site_url =	get_site_url();
-	$home_url = home_url();
+	$page = get_page_by_title("IMOK Redirector");
+	$homeURL = get_permalink($page->ID);
+	//$homeURL = home_url();
 	return wp_login_form(
 		['echo' => false,	//'redirect' => $site_url,
-		'redirect' => $home_url,
+		'redirect' => $homeURL,
         'form_id' => 'imok-loginform',
         'label_username' => __( 'Login Email' ),
         'label_password' => __( 'Password' ),
@@ -30,7 +32,10 @@ function wp_login_form_func(){
 //create a wp logout url and send to shortcode : wp_logout_url( string $redirect = '' ) : redirect to main page on log out
 add_shortcode( 'wp_logout_url', 'wp_logout_url_func' );
 function wp_logout_url_func(){
-		return wp_logout_url( get_home_url() );
+		$page = get_page_by_title("IMOK Redirector");
+		$homeURL = get_permalink($page->ID);
+		return wp_logout_url( $homeURL );
+		//return wp_logout_url( get_home_url() );
 	}
 
 ?>

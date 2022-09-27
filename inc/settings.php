@@ -28,7 +28,10 @@ function process_form($user_id) {
 
 	$admin_notice = "success";
 	$tmp = IMOK_ROOT_URL . "/settings/";
-	wp_redirect( IMOK_ROOT_URL . "/"  );
+	$page = get_page_by_title("IMOK Redirector");
+	$homeURL = get_permalink($page->ID);
+	wp_redirect( $homeURL );
+	//wp_redirect( IMOK_ROOT_URL . "/"  );
 
 	exit;
 }
