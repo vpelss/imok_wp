@@ -118,16 +118,14 @@ function countdown(){
 	$now_UTC_string = date("Y-m-d H:i"  , $now_UTC); //convert to string
 
 	if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered
-		$msg = "imok_alert_unix_time_string : {$imok_alert_unix_time_string}<br>
-		now_UTC_string : $now_UTC_string <br>
-		You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
+		$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
 		}
 	else{
-		$msg = "imok_alert_unix_time_string : {$imok_alert_unix_time_string}<br>
-		now_UTC_string : $now_UTC_string <br>
-		Push 'IM OK' before:<br>
+		$msg = "Push 'IM OK' before:<br>
 		<font color='red'>{$imok_alert_date_time_string_local}</font><br>
-		<font id='countdown'>countdown</font>
+		<font id='countdown'>countdown</font><br>
+		<font id='timezone_error' color='orange'></font>
+
 		<script>
 		var trigger_time = $imok_alert_unix_time;
 		function countdown() {
@@ -148,6 +146,16 @@ function countdown(){
 		}
 		setInterval( countdown , 5000 * 1 ); //update every 15 seconds
 		countdown(); //run now
+
+		//test for wrong timezone by using js and comparing with stored timezone
+		const d = new Date();
+		let timezone= d.getTimezoneOffset();
+		if((timezone * 60) != $imok_timezone){
+			document.getElementById('timezone_error').innerHTML	= `Your device timezone differs from your timezone on the server.
+			To update, go to settings and click save.`;
+		}
+
+
 		</script>
 		";
 		}

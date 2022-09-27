@@ -32,9 +32,14 @@ function redirector_func(){
 			$newURL = $homeURL . 'imok-log-in/';
 		}
 	if($currentURL != $newURL){
-		return( "<script>window.location.replace('" . $newURL . "');</script>" );
+		return( "<script>
+			   const d = new Date();
+				let timezone= d.getTimezoneOffset();
+				//document.getElementById('imok_timezone').value = timezone;
+				window.location.replace('$newURL');</script>" );
 	}
+				//window.location.replace('$newURL' + '?timezone=' + timezone);</script>" ); //add timezome info to update or compare with stored timezone
 
-	}
+}
 
 ?>
