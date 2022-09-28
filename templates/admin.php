@@ -1,7 +1,9 @@
-<h1>imok Plugin Admin</h1>
+<h1>IMOK Plugin Admin</h1>
 
-boo boo bee doop
+boo boo bee boop
+<br>
+No admin functions at this time
 
-test login form
-
-<?php wp_login_form(); ?>
+<?php
+//wp_login_form();
+?>

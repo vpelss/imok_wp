@@ -20,10 +20,12 @@ By having the customer report to a server that he is ok, the server can send out
 - This was designed to work alone on a Wordpress install and may conflict with existing pages. You can easily create another Wordpress installation on your web host under a sub directory as I have done. https://www.emogic.com/imok/
 - Download and place all files under your Wordpress installation at \wp-content\plugins\imok
 - Acivate the imok plugin. It will create 4 pages unless they exist; 'IMOK Log In', 'IMOK Logged In', 'IMOK Redirector', 'IMOK Settings'
-- Set the page 'IMOK Redirector' as your main page
+- If suitable, it is recommended to set the page 'IMOK Redirector' as your main page
 - Create a header and footer as required an set on the 4 pages
-- set up a cron job to run at least every hour. eg: wget -qO- https://emogic.com/imok/wp-cron.php &> /dev/null
-- create an account and test
+- Set up a cron job to run at least every hour. eg: wget -qO- https://emogic.com/imok/wp-cron.php &> /dev/null
+- Create an account and test
+- You may change the page(s) URL slugs, but you cannot change the page(s) name. If you do the script will generate a new page with the same page name
+- You may edit the pages, but if you remove the [shortcode](s) you will break the page functions
 
 ## Liabilty
 

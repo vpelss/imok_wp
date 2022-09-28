@@ -10,7 +10,7 @@ $files = scandir($dir);
 foreach ($files as $file) {
 	if($file == "."){continue;}
 	if($file == ".."){continue;}
-	if( get_page_by_path($file) ){continue;} //skip if this file page already exists
+	if( get_page_by_title($file) ){continue;} //skip if this file page already exists
 	$file_string = file_get_contents($dir . $file , true);
 
 	$wordpress_page = array(

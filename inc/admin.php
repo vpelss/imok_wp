@@ -7,7 +7,7 @@ class admin{
 //set an admin page and put it in wp admin left menu
 	static function add_admin_pages(){
 		//add_menu_page( 'browser tab text' , 'link text' , 'manage_options' , 'url ? page name' , 'path to html inc\admin\admin::admin_index' , 'dashicons-store' , 110 );
-		add_menu_page( 'imok Plugin' , 'imok admin side' , 'manage_options' , 'imok_plugin' , 'admin::admin_index' , 'dashicons-store' , 110 );
+		add_menu_page( 'imok Plugin' , 'IMOK Admin' , 'manage_options' , 'imok_plugin' , 'admin::admin_index' , 'dashicons-store' , 110 );
 	}
 
 	static function admin_index(){//generates html output
@@ -27,6 +27,8 @@ class admin{
 add_action( 'admin_menu' , array('admin' ,'add_admin_pages') ); //set an admin page and put it in wp admin left menu
 add_filter( "plugin_action_links_" . IMOK_PLUGIN_NAME , 'admin::settings_link' ); 	//set up link under plugin on plugin page
 
+//remove. Not worth the hastle?
+//but then admin can't see user settings to assist...
 
 // Add the imok fields to user's own profile editing screen
 add_action( 'show_user_profile', 'wp_usermeta_form_fields_imok' );
@@ -101,9 +103,7 @@ function wp_usermeta_form_fields_imok( $user )
 }
 
 
-
-
-// allows user to update IMOK settings
+// allows user to update IMOK settings in their account page
 add_action( 'personal_options_update', 'wp_usermeta_form_fields_imok_update' );
 // allows admin to update IMOK settings
 add_action( 'edit_user_profile_update', 'wp_usermeta_form_fields_imok_update' );
