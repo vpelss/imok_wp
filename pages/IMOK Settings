@@ -59,10 +59,15 @@ Their email address is xxxxxx@gmail.com</textarea>
   <option value="7">7</option>
 </select>
 
-</p><p>
+</p>
 
+<p>
 <input type="submit" name="submit" id="submit" value="Save Settings">
-</p></form>
+</p>
+<p>
+<a href="https://github.com/vpelss/imok_wp/blob/master/imok.md#about" target="_blank" rel="noopener"><input type="button" value="Help / About"></a>
+</p>
+</form>
 
 <script>
 const d = new Date();

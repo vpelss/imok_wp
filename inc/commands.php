@@ -1,4 +1,5 @@
 <?php
+//commands for the IMOK Logged In page and countdown function and message text for that page
 
 add_shortcode( 'imok_countdown', 'imok_countdown_func' );
 function imok_countdown_func(){
@@ -24,6 +25,11 @@ function imok_commands_func(){
 	}
 	elseif($response == 'imokcron'){
 			return imok_cron_exec();
+	}
+	elseif($response == 'settings'){//may not use. allows us to rename stiing page slug and not need to update href as we use ?command=settings
+			$page = get_page_by_title("IMOK Settings");
+			$newURL = get_permalink($page->ID);
+			return( "<script>window.location.replace('$newURL');</script>" );
 	}
 	elseif(1){//no command
 		return countdown();
@@ -154,8 +160,6 @@ function countdown(){
 			document.getElementById('timezone_error').innerHTML	= `Your device timezone differs from your timezone on the server.
 			To update, go to settings and click save.`;
 		}
-
-
 		</script>
 		";
 		}

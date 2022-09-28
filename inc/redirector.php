@@ -1,53 +1,52 @@
 <?php
+//root page redirect. JS redirect code is returned from our shortcode
+//most pages redirect back here. we verify user is logged in and chose which page to redirect to based on that
 
-//root page redirector shortcode
+// [redirector] is only on IMOK Redirector, IMOK Logged In, IMOK Settings
 
-//compare current URL with redirected one so we don't loop
-//-logged in
-//	-main -> no settings -> settings
-//	-main -> settings -> /logged_in
-//	-settings -> settings
-//-not logged in
-//	-main -> login
-//	-settings -> login
-//	-logged_in -> login
+//-If we are logged in
+//	IMOK Setting page
+//		stay
+//	IMOK Redirector page
+//		if no settings -> IMOK Settings page
+//		if settings -> IMOK Logged In page
+//	IMOK Logged In page
+//		if no settings -> IMOK Settings page
+//		if settings -> IMOK Logged In page
+//-If we are not logged in
+//	IMOK Redirector page
+//		-> IMOK Logged In page
+//	IMOK Setting page
+//		-> IMOK Logged In page
+//	IMOK Logged In page
+//		-> IMOK Logged In page
 
 add_shortcode( 'redirector', 'redirector_func' );
 function redirector_func(){
 	$currentURL = get_permalink();
-	$newURL  = $currentURL; //in cases where we need no action
-	$page = get_page_by_title("IMOK Redirector");
-	$homeURL = get_permalink($page->ID);
-	//$homeURL = IMOK_ROOT_URL . "/";
+	$newURL = $currentURL; //assume we are already on the correct page. test this assumption below
+	$page = get_page_by_title("IMOK Settings");
+	$imokSettingsURL = get_permalink($page->ID);
 	if( is_user_logged_in() ){
 			$user = wp_get_current_user();
-			if( $currentURL == $homeURL ){ //we are on main page
+			if( $currentURL != $imokSettingsURL ){ //then we are on IMOK Redirector page or IMOK Logged In page. IMOK Log In should NOT have shortcode!
 				if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ) { //we have set up our settings already
 					$page = get_page_by_title("IMOK Logged In");
 					$newURL = get_permalink($page->ID);
-					//$newURL = $homeURL . 'imok-logged-in/';
 				}
 				else{ //we need to set up our settings. 1st login?
 					$page = get_page_by_title("IMOK Settings");
 					$newURL = get_permalink($page->ID);
-					//$newURL = $homeURL . 'imok-settings/';
 				}
 			}
 		}
 		else{
 			$page = get_page_by_title("IMOK Log In");
 			$newURL = get_permalink($page->ID);
-			//$newURL = $homeURL . 'imok-log-in/';
 		}
-	if($currentURL != $newURL){
-		return( "<script>
-			   const d = new Date();
-				let timezone= d.getTimezoneOffset();
-				//document.getElementById('imok_timezone').value = timezone;
-				window.location.replace('$newURL');</script>" );
+	if($currentURL != $newURL){//only redirect if we are changing pages. compare current URL with redirected one so we don't loop
+		return( "<script>window.location.replace('$newURL');</script>" );
 	}
-				//window.location.replace('$newURL' + '?timezone=' + timezone);</script>" ); //add timezome info to update or compare with stored timezone
-
 }
 
 ?>
