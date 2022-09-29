@@ -1,7 +1,7 @@
 <?php
 /**
 * Plugin Name: imok
-* Plugin URI: http://home/wordpress
+* Plugin URI: https://github.com/vpelss/imok_wp
 * Description: IMOK for WP.
 * Version: 1.0
 * Author: The Vinman
@@ -46,6 +46,8 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/get_set_pages.php' ; //imok auto setup pages
 
 		//uninstall erase db, remove pages,
+		//will not rebuild page if in trash...
+		//no back button. not likely
 
 	}
 
