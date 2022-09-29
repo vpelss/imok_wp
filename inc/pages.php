@@ -1,8 +1,8 @@
 <?php
-//load default pages and create them if they do not already exist. Runs on every page refresh, not just plugin activation
 
-add_action('init', 'imok_create_wordpress_page_programmatically');
+//add_action('init', 'imok_create_wordpress_page_programmatically'); //if we want to continuall check for and add missing pages....
 
+//load default pages and create them if they do not already exist.
 function imok_create_wordpress_page_programmatically(){
 
 $dir = IMOK_PLUGIN_PATH . "/pages/";
