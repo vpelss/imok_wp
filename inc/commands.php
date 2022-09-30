@@ -24,12 +24,12 @@ function imok_commands_func(){
 		return imnotok();
 	}
 	elseif($response == 'imokcron'){
-			return imok_cron_exec();
+		//return imok_cron_exec();
 	}
 	elseif($response == 'settings'){//may not use. allows us to rename stiing page slug and not need to update href as we use ?command=settings
-			$page = get_page_by_title("IMOK Settings");
-			$newURL = get_permalink($page->ID);
-			return( "<script>window.location.replace('$newURL');</script>" );
+		$page = get_page_by_title("IMOK Settings");
+		$newURL = get_permalink($page->ID);
+		return( "<script>window.location.replace('$newURL');</script>" );
 	}
 	elseif(1){//no command
 		return countdown();

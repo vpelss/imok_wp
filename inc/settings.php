@@ -36,6 +36,11 @@ function process_form($user_id) {
 }
 
 //[shortcodes]
+add_shortcode( 'imok_settings', 'imok_usermeta_form_fields_imok' );
+function imok_usermeta_form_fields_imok(){
+	$html = imok_create_settings_form();
+	return $html;
+	}
 
 add_shortcode( 'imok_contact_email_1', 'imok_contact_email_1_func' );
 function imok_contact_email_1_func(){

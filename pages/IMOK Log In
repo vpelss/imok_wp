@@ -1,8 +1,18 @@
 <!-- wp:shortcode -->
-<link rel="stylesheet" href="../wp-admin/css/forms.css">
-<center>
+<link rel="stylesheet" href="../wp-admin/css/forms.css?ver=6.0.2.2">
+<link rel="stylesheet" href="../wp-admin/css/forms.min.css?ver=6.0.2.2">
+<link rel="stylesheet" href="../wp-admin/css/login.css?ver=6.0.2.2">
+<link rel="stylesheet" href="../wp-admin/css/login.min.css?ver=6.0.2.2">
+
+<div id="login">
 [wp_login_form]
-</center>
+</div>
+
+<script>
+//var element = document.getElementById('loginform');
+//element.classList.add('mystyle');
+document.body.classList.add('login');
+</script>
 <!-- /wp:shortcode -->
 
 <!-- wp:buttons -->
