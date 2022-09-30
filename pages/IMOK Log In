@@ -1,8 +1,7 @@
 <!-- wp:shortcode -->
+<link rel="stylesheet" href="../wp-admin/css/forms.css">
 <center>
-<div id="login">
 [wp_login_form]
-</div>
 </center>
 <!-- /wp:shortcode -->
 

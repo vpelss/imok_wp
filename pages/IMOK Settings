@@ -3,6 +3,7 @@
 <!-- /wp:shortcode -->
 
 <!-- wp:html -->
+<link rel="stylesheet" href="../wp-admin/css/forms.css">
 <form method="post" action="../wp-admin/admin-post.php">
 
 <input type="hidden" name="action" value="settings_action_hook">

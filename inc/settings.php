@@ -31,7 +31,6 @@ function process_form($user_id) {
 	$page = get_page_by_title("IMOK Redirector");
 	$homeURL = get_permalink($page->ID);
 	wp_redirect( $homeURL );
-	//wp_redirect( IMOK_ROOT_URL . "/"  );
 
 	exit;
 }

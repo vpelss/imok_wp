@@ -45,9 +45,8 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
 		require_once plugin_dir_path(__file__) . 'inc/pages.php' ; //auto setup pages
 
-		//uninstall erase db, remove pages,
-		//will not rebuild page if in trash...
-		//no back button. not likely
+		//fix form css to match?
+		//admin page access?
 
 	}
 

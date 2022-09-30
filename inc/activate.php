@@ -3,7 +3,7 @@
 class activate{
 
 	public function activate_plugin(){
-		imok_create_wordpress_page_programmatically();
+		imok_read_and_create_pages(); //create default pages
 		flush_rewrite_rules();
 	}
 

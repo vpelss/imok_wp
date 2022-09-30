@@ -1,9 +1,9 @@
 <?php
 
-//add_action('init', 'imok_create_wordpress_page_programmatically'); //if we want to continuall check for and add missing pages....
+//add_action('init', 'imok_read_and_create_pages'); //if we want to continuall check for and add missing pages....
 
 //load default pages and create them if they do not already exist.
-function imok_create_wordpress_page_programmatically(){
+function imok_read_and_create_pages(){
 
 $dir = IMOK_PLUGIN_PATH . "/pages/";
 $files = scandir($dir);

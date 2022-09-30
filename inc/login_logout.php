@@ -9,7 +9,7 @@ function wp_login_form_func(){
 	return wp_login_form(
 		['echo' => false,	//'redirect' => $site_url,
 		'redirect' => $homeURL,
-        'form_id' => 'imok-loginform',
+        'form_id' => 'loginform',
         'label_username' => __( 'Login Email' ),
         'label_password' => __( 'Password' ),
         'label_remember' => __( 'Remember Me' ),
