@@ -21,6 +21,12 @@
 //	IMOK Logged In page
 //		-> IMOK Logged In page
 
+//wait image
+add_shortcode( 'imok_flash', 'imok_flash_func' );
+function imok_flash_func(){
+	return IMOK_PLUGIN_LOCATION_URL . '/images/flash.gif';
+}
+
 add_shortcode( 'imok_redirector', 'imok_redirector_func' );
 function imok_redirector_func(){
 	$currentURL = get_permalink();

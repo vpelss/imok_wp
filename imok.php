@@ -27,7 +27,7 @@ define( 'IMOK_PLUGIN_PATH_AND_FILENAME' , __file__ ); // c:\*********\imok2\imok
 define( 'IMOK_PLUGIN_PATH', dirname( __FILE__ ) ); // c:\************\imok2\
 define( 'IMOK_PLUGIN_LOCATION_URL', plugins_url( '', __FILE__ ) ); // http://home/wordpress/wp-content/plugins/imok2
 define( 'IMOK_PLUGIN_NAME' , plugin_basename( __FILE__ ) ); // imok2
-define( 'IMOK_ROOT_URL' , home_url() ); // https://emogic.com/imok
+define( 'IMOK_ROOT_URL' , home_url() ); // https://emogic.com/
 
 class imok {
 
@@ -48,6 +48,8 @@ class imok {
 		//form error checking
 		//db extraction error checking
 		//nonce?
+		//wait image
+		//what if imok folder name changes?
 
 	}
 

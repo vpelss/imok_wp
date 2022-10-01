@@ -1,6 +1,6 @@
-<!-- wp:paragraph {"align":"center"} -->
-<p class="has-text-align-center">Checking your account. Please Wait...</p>
-<!-- /wp:paragraph -->
+<!-- wp:image {"align":"center","sizeSlug":"large"} -->
+<figure class="wp-block-image aligncenter size-large"><img src="[imok_flash]" alt=""/><figcaption>Please Wait...</figcaption></figure>
+<!-- /wp:image -->
 
 <!-- wp:shortcode -->
 [imok_redirector]

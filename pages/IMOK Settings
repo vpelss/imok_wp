@@ -11,7 +11,7 @@
 [imok_settings]
 <p>
 <input type="submit" name="submit" id="submit" value="Save Settings">
-</form>
+</p></form>
 <script>
 //do not remove
 const d = new Date();
