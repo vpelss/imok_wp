@@ -1,0 +1,64 @@
+	<input type='hidden' name='imok_timezone' id='imok_timezone'>
+
+	  <label for='imok_contact_email_1'>What email(s) would you like to be notified if you are not responsive?</label>
+		<input type='email'
+			class='regular-text ltr form-required'
+			id='imok_contact_email_1'
+			name='imok_contact_email_1'
+			value='$imok_contact_email_1'
+			title='Please enter a valid email address.'
+			pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+			required>
+<p>
+	  <label for='imok_contact_email_2'>What email(s) would you like to be notified if you are not responsive?</label>
+		<input type='email'
+			class='regular-text ltr form-required'
+			id='imok_contact_email_2'
+			name='imok_contact_email_2'
+			value='$imok_contact_email_2'
+			title='Please enter a valid email address.'
+			pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+			required>
+<p>
+	  <label for='imok_contact_email_3'>What email(s) would you like to be notified if you are not responsive?</label>
+		<input type='email'
+			class='regular-text ltr form-required'
+			id='imok_contact_email_3'
+			name='imok_contact_email_3'
+			value='$imok_contact_email_3'
+			title='Please enter a valid email address.'
+			pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+			required>
+<p>
+		<label for='imok_email_form'>
+		What email message would you like to send if you are not responsive? (Edit the suggested one to suit)
+		</label><br>
+		<textarea id='imok_email_form' name='imok_email_form' rows='4' cols='40'>$imok_email_form</textarea>
+<p>
+		<div>On what date &amp; time should your first alert be sent if you are not responsive?</div>
+		<label for='imok_alert_date'>Date:</label> <input type='date' name='imok_alert_date' id='imok_alert_date' value='$imok_alert_date'>
+		<label for='imok_alert_time'>Time:</label> <input type='time' id='imok_alert_time' name='imok_alert_time' value='$imok_alert_time'>
+<p>
+<label for='imok_alert_interval'>How many days after you push the IMOK button would you like to set your next alert date?</label>
+<select name='imok_alert_interval' id='imok_alert_interval' value='$imok_alert_interval'>
+  <option value='.5'>.5</option>
+  <option value='1' selected=''>1</option>
+  <option value='2'>2</option>
+  <option value='3'>3</option>
+  <option value='4'>4</option>
+  <option value='5'>5</option>
+  <option value='6'>6</option>
+  <option value='7'>7</option>
+</select>
+<p>
+<label for='imok_pre_warn_time'>A reminder email will be sent to your email address before the alert is sent. How many hours before the alert should this email be sent?</label>
+<select name='imok_pre_warn_time' id='imok_pre_warn_time' value='$imok_pre_warn_time'>
+  <option value='.5'>.5</option>
+  <option value='1' selected=''>1</option>
+  <option value='2'>2</option>
+  <option value='3'>3</option>
+  <option value='4'>4</option>
+  <option value='5'>5</option>
+  <option value='6'>6</option>
+  <option value='7'>7</option>
+</select>

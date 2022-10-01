@@ -45,8 +45,9 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
 		require_once plugin_dir_path(__file__) . 'inc/pages.php' ; //auto setup pages
 
-		//fix form css to match?
-		//admin page access?
+		//form error checking
+		//db extraction error checking
+		//nonce?
 
 	}
 

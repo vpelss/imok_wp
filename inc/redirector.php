@@ -21,8 +21,8 @@
 //	IMOK Logged In page
 //		-> IMOK Logged In page
 
-add_shortcode( 'redirector', 'redirector_func' );
-function redirector_func(){
+add_shortcode( 'imok_redirector', 'imok_redirector_func' );
+function imok_redirector_func(){
 	$currentURL = get_permalink();
 	$newURL = $currentURL; //assume we are already on the correct page. test this assumption below
 	$page = get_page_by_title("IMOK Settings");

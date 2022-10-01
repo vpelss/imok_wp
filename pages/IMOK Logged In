@@ -1,5 +1,5 @@
 <!-- wp:shortcode -->
-[redirector]
+[imok_redirector]
 <!-- /wp:shortcode -->
 
 <!-- wp:buttons -->
@@ -35,7 +35,5 @@
 <!-- /wp:buttons -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="?command=imokcron">Cron Test</a></div>
-<!-- /wp:button --></div>
+<div class="wp-block-buttons"><!-- wp:button /--></div>
 <!-- /wp:buttons -->

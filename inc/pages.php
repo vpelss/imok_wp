@@ -1,6 +1,6 @@
 <?php
 
-//add_action('init', 'imok_read_and_create_pages'); //if we want to continuall check for and add missing pages....
+//add_action('init', 'imok_read_and_create_pages'); //if we want to continually check for and add missing pages....
 
 //load default pages and create them if they do not already exist.
 function imok_read_and_create_pages(){

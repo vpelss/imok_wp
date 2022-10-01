@@ -35,73 +35,54 @@ function remove_admin_bar() {
 add_action( 'admin_menu' , array('admin' ,'add_admin_pages') ); //set an admin page and put it in wp admin left menu
 add_filter( "plugin_action_links_" . IMOK_PLUGIN_NAME , 'admin::settings_link' ); 	//set up link under plugin on plugin page
 
-//remove. Not worth the hastle?
-//but then admin can't see user settings to assist...
-//these require echo and feed at correct time to display. return goes no where so does not work
-add_action( 'show_user_profile', 'wp_usermeta_form_fields_imok' ); // Add the imok fields to user's own profile editing screen
-add_action( 'edit_user_profile', 'wp_usermeta_form_fields_imok' ); // Add the imok fields to user profile editing screen for admins
 //the imok fields to be added to user profile page
-
-function imok_create_settings_form(){ //so we can use same code for edit_user_profile (requires echo o/p) and [shortcode] in settings.php (requires return o/p)
-	$user = wp_get_current_user();
-	$imok_contact_email_1 = get_user_meta( $user->ID, 'imok_contact_email_1', true );
-	$imok_contact_email_2 = get_user_meta( $user->ID, 'imok_contact_email_2', true );
-	$imok_contact_email_3 = get_user_meta( $user->ID, 'imok_contact_email_3', true );
-
-	$html = "
-	  <label for='imok_contact_email_1'>What email(s) would you like to be notified if you are not responsive?</label>
-		<input type='email'
-			class='regular-text ltr form-required'
-			id='imok_contact_email_1'
-			name='imok_contact_email_1'
-			value='$imok_contact_email_1'
-			title='Please enter a valid email address.'
-			pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-			required>
-<p>
-	  <label for='imok_contact_email_2'>What email(s) would you like to be notified if you are not responsive?</label>
-		<input type='email'
-			class='regular-text ltr form-required'
-			id='imok_contact_email_2'
-			name='imok_contact_email_2'
-			value='$imok_contact_email_2'
-			title='Please enter a valid email address.'
-			pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-			required>
-<p>
-	  <label for='imok_contact_email_3'>What email(s) would you like to be notified if you are not responsive?</label>
-		<input type='email'
-			class='regular-text ltr form-required'
-			id='imok_contact_email_3'
-			name='imok_contact_email_3'
-			value='$imok_contact_email_3'
-			title='Please enter a valid email address.'
-			pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-			required>
-
-";
-
-
-
-	return $html;
-	}
-
-function wp_usermeta_form_fields_imok( $user ){
-	$html = imok_create_settings_form();
+//these require echo to feed to user page at correct time. return goes to a bit bucket so it does not work here
+add_action( 'show_user_profile', 'imok_settings_form_echo' ); // Add the imok fields to user's own profile editing screen
+add_action( 'edit_user_profile', 'imok_settings_form_echo' ); // Add the imok fields to user profile editing screen for admins
+function imok_settings_form_echo( $user ){
+	$html = imok_settings_form();
 	$html = "<h2 id='settings_top'>IMOK Data Settings Below:</h2><hr>" . $html;
 	echo $html;
 	}
 
+add_action( 'personal_options_update', 'imok_process_form' ); // allows user to update IMOK settings in their account page
+add_action( 'edit_user_profile_update', 'imok_process_form' ); // allows admin to update IMOK settings
+/*
+function wp_usermeta_form_fields_imok_update( $user_id ){ //processing and saving of imok fields data submitted from user profile form
+    if ( ! current_user_can( 'edit_user', $user_id ) ) { return false; }// check that the current user have the capability to edit the $user_id
+		imok_process_form(); //from settings.php
+}
+*/
 
+function my_error_notice() {
+					?>
+					<div class="error notice">
+							<p><?php _e( 'There has been an error. Bummer!', 'my_plugin_textdomain' ); ?></p>
+					</div>
+					<?php
+			}
 
+//check form data submissions for errors
+add_action( 'posts_selection', 'check_ipp' );
+function check_ipp(){
+					if( isset($_POST['imok_contact_email_1']) && (! is_email( $_POST['imok_contact_email_1'] )) )
+						{
+						//WP_Error::add( 'bad' , 'email wrong' , $_POST['imok_contact_email_1'] );
+
+							add_action( 'admin_notices', 'my_error_notice' );
+
+						}
+			//add_action( 'admin_notices', 'my_error_notice' );
+			}
+
+//!!!!!!!!!!!!!!!!!!!remove later
+/*
 function _wp_usermeta_form_fields_imok( $user )
 {
     ?>
 
 	<h2 id="settings_top">IMOK Data</h2>
     <h3>What email(s) would you like to be notified if you are not responsive?</h3>
-
-[imok_email_form]
 
 		<input type="email"
                        class="regular-text ltr form-required"
@@ -183,46 +164,6 @@ function _wp_usermeta_form_fields_imok( $user )
 
     <?php
 }
-
-
-// allows user to update IMOK settings in their account page
-add_action( 'personal_options_update', 'wp_usermeta_form_fields_imok_update' );
-// allows admin to update IMOK settings
-add_action( 'edit_user_profile_update', 'wp_usermeta_form_fields_imok_update' );
-//processing and saving of imok fields data submitted from user profile form
-function wp_usermeta_form_fields_imok_update( $user_id )
-{
-    // check that the current user have the capability to edit the $user_id
-    if ( ! current_user_can( 'edit_user', $user_id ) ) { return false; }
-
-    // create/update user meta for the $user_id. do not use return as it will stop all further processing! save return as variable for error checking
-    update_user_meta( $user_id, 'imok_contact_email_1', is_email( $_POST['imok_contact_email_1'] ) ); //$_POST['imok_contact_email_X']
-    update_user_meta( $user_id, 'imok_contact_email_2', is_email( $_POST['imok_contact_email_2'] ) ); //$_POST['imok_contact_email_X']
-    update_user_meta( $user_id, 'imok_contact_email_3', is_email( $_POST['imok_contact_email_3'] ) ); //$_POST['imok_contact_email_X']
-
-}
-
-function my_error_notice() {
-					?>
-					<div class="error notice">
-							<p><?php _e( 'There has been an error. Bummer!', 'my_plugin_textdomain' ); ?></p>
-					</div>
-					<?php
-			}
-
-//check form data submissions for errors
-function check_ipp(){
-					if( isset($_POST['imok_contact_email_1']) && (! is_email( $_POST['imok_contact_email_1'] )) )
-						{
-						//WP_Error::add( 'bad' , 'email wrong' , $_POST['imok_contact_email_1'] );
-
-							add_action( 'admin_notices', 'my_error_notice' );
-
-						}
-			//add_action( 'admin_notices', 'my_error_notice' );
-			}
-
-			add_action( 'posts_selection', 'check_ipp' );
-
+*/
 
 ?>

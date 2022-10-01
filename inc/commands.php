@@ -1,11 +1,6 @@
 <?php
 //commands for the IMOK Logged In page and countdown function and message text for that page
 
-add_shortcode( 'imok_countdown', 'imok_countdown_func' );
-function imok_countdown_func(){
-	return countdown();
-	}
-
 add_shortcode( 'imok_commands', 'imok_commands_func' );
 function imok_commands_func(){
 	$user = wp_get_current_user();
@@ -32,7 +27,7 @@ function imok_commands_func(){
 		return( "<script>window.location.replace('$newURL');</script>" );
 	}
 	elseif(1){//no command
-		return countdown();
+		return imok_countdown();
 	}
 
 	}
@@ -94,12 +89,13 @@ function imok(){
 	//return and display message
 	$now_str = date( "Y-m-d H:i", $now);
 	$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
-	$msg = countdown();
+	$msg = imok_countdown();
 	$msg2 = "<br>Start alert time: {$imok_alert_date_time_string}<br>Now: {$now_str}<br>New alert time: {$new_alert_date_time}";
 	return "{$msg}{$msg2}";
 }
 
-function countdown(){
+add_shortcode( 'imok_countdown', 'imok_countdown' );
+function imok_countdown(){
 	$user = wp_get_current_user();
 	//$unix_day = 60 * 60 * 24; //seconds in a day
 
