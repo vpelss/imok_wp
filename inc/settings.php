@@ -123,10 +123,9 @@ function imok_process_form() {
 	//exit;
 }
 
-/*
 //[shortcodes]
 
-//these were used on the templates/Old_Setting_Form.html
+//these were used on the templates/Old_Setting_Form.html and can still be used if useful
 add_shortcode( 'imok_contact_email_1', 'imok_contact_email_1_func' );
 function imok_contact_email_1_func(){
 		$user = wp_get_current_user();
@@ -167,6 +166,5 @@ function imok_pre_warn_time_func(){
 		$user = wp_get_current_user();
 		return esc_attr( get_user_meta( $user->ID, 'imok_pre_warn_time', true ) );
 	}
-*/
 
 ?>

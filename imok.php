@@ -8,13 +8,11 @@
 * Author URI: https://www.emogic.com/
 **/
 
-//XDEBUG_SESSION_START=1
-
 // Enable WP_DEBUG mode
-//define( 'WP_DEBUG', true );
+define( 'WP_DEBUG', true );
 
 // Enable Debug logging to the /wp-content/debug.log file
-//define( 'WP_DEBUG_LOG', true );
+define( 'WP_DEBUG_LOG', true );
 
 /* exit if directly accessed */
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,11 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // define variable for path to this plugin file.
-define( 'IMOK_PLUGIN_PATH_AND_FILENAME' , __file__ ); // c:\*********\imok2\imok.php
-define( 'IMOK_PLUGIN_PATH', dirname( __FILE__ ) ); // c:\************\imok2\
-define( 'IMOK_PLUGIN_LOCATION_URL', plugins_url( '', __FILE__ ) ); // http://home/wordpress/wp-content/plugins/imok2
-define( 'IMOK_PLUGIN_NAME' , plugin_basename( __FILE__ ) ); // imok2
-define( 'IMOK_ROOT_URL' , home_url() ); // https://emogic.com/
+define( 'IMOK_PLUGIN_PATH_AND_FILENAME' , __file__ ); // c:\*********\imok_pulgin_folder\imok.php
+define( 'IMOK_PLUGIN_PATH', dirname( __FILE__ ) ); // c:\************\imok_pulgin_folder\
+define( 'IMOK_PLUGIN_LOCATION_URL', plugins_url( '', __FILE__ ) ); // http://wp_url/wp-content/plugins/imok_pulgin_folder
+define( 'IMOK_PLUGIN_NAME' , plugin_basename( __FILE__ ) ); // imok_wp (or other if renamed)
+define( 'IMOK_ROOT_URL' , home_url() ); // http://wp_url/
 
 class imok {
 
@@ -48,8 +46,6 @@ class imok {
 		//form error checking
 		//db extraction error checking
 		//nonce?
-		//wait image
-		//what if imok folder name changes?
 
 	}
 
