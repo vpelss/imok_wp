@@ -21,11 +21,11 @@ function imok_commands_func(){
 	elseif($response == 'imokcron'){
 		//return imok_cron_exec();
 	}
-	elseif($response == 'settings'){//may not use. allows us to rename stiing page slug and not need to update href as we use ?command=settings
-		$page = get_page_by_title("IMOK Settings");
-		$newURL = get_permalink($page->ID);
-		return( "<script>window.location.replace('$newURL');</script>" );
-	}
+	//elseif($response == 'settings'){//may not use. allows us to rename stiing page slug and not need to update href as we use ?command=settings
+		//$page = get_page_by_title("IMOK Settings");
+		//$newURL = get_permalink($page->ID);
+		//return( "<script>window.location.replace('$newURL');</script>" );
+	//}
 	elseif(1){//no command
 		return imok_countdown();
 	}
@@ -40,7 +40,7 @@ function imnotok(){
 	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
 	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
 	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
-	array_push( $email_to , $user->user_email ); 
+	array_push( $email_to , $user->user_email );
 	$email_to_str = implode( " : ", $email_to );
 
 	$subject = "IM Not OK";

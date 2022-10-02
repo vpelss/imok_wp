@@ -51,6 +51,10 @@ if( class_exists('imok') ){
 	$imok = new imok();
 	}
 
-	//admin sees timezone field
-	
+	// in header or footer document.addEventListener('contextmenu', event => event.preventDefault())
+	//test email list
+	//settings stay on page option?
+
+	//replace full url in settings button instead of a call? [shortcode] ?
+
 ?>
