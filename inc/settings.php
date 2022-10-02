@@ -1,7 +1,13 @@
 <?php
 
 //this is newer one shared on imok-settings page and (not the shorcode part) in user profile
-add_shortcode( 'imok_settings', 'imok_settings_form' );
+add_shortcode( 'imok_settings', 'imok_settings_form_nonce' );
+
+function imok_settings_form_nonce(){
+	$user = wp_get_current_user();
+	$tst = wp_nonce_field( 'imok_process_settings' . $user->ID ) . imok_settings_form();
+	return wp_nonce_field( 'imok_process_settings' . $user->ID ) . imok_settings_form();
+}
 
 function imok_settings_form(){ //so we can use same code for edit_user_profile (requires echo o/p) and [shortcode] in settings.php (requires return o/p)
 	$user = wp_get_current_user();
@@ -14,8 +20,7 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 	$imok_alert_interval = get_user_meta( $user->ID, 'imok_alert_interval', true );
 	$imok_pre_warn_time = get_user_meta( $user->ID, 'imok_pre_warn_time', true );
 
-	$html = "
-		<input type='hidden' name='imok_timezone' id='imok_timezone'>
+	$html = "<input type='hidden' name='imok_timezone' id='imok_timezone'>
 
 	  <label for='imok_contact_email_1'>What email(s) would you like to be notified if you are not responsive?</label>
 		<input type='email'
@@ -88,7 +93,16 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 	}
 
 //respond to form submissions and redirect giving feedback to user
-add_action('admin_post_settings_action_hook', 'imok_process_form');
+add_action('admin_post_imok_process_settings_action_hook', 'imok_process_form_nonce');
+function imok_process_form_nonce(){
+	$user = wp_get_current_user();
+
+	if ( ! check_admin_referer( 'imok_process_settings' . $user->ID ) ) {
+		return;
+	}
+	imok_process_form();
+}
+
 function imok_process_form() {
 	$user = wp_get_current_user();
 

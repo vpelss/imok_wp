@@ -4,15 +4,15 @@
 * Plugin URI: https://github.com/vpelss/imok_wp
 * Description: IMOK for WP.
 * Version: 1.0
-* Author: The Vinman
+* Author: Vince Pelss
 * Author URI: https://www.emogic.com/
 **/
 
 // Enable WP_DEBUG mode
-define( 'WP_DEBUG', true );
+//define( 'WP_DEBUG', true );
 
 // Enable Debug logging to the /wp-content/debug.log file
-define( 'WP_DEBUG_LOG', true );
+//define( 'WP_DEBUG_LOG', true );
 
 /* exit if directly accessed */
 if ( ! defined( 'ABSPATH' ) ) {
@@ -43,10 +43,6 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
 		require_once plugin_dir_path(__file__) . 'inc/pages.php' ; //auto setup pages
 
-		//form error checking
-		//db extraction error checking
-		//nonce?
-
 	}
 
 }
@@ -55,4 +51,6 @@ if( class_exists('imok') ){
 	$imok = new imok();
 	}
 
+	//admin sees timezone field
+	
 ?>

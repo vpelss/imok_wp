@@ -40,6 +40,7 @@ function imnotok(){
 	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
 	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
 	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
+	array_push( $email_to , $user->user_email ); 
 	$email_to_str = implode( " : ", $email_to );
 
 	$subject = "IM Not OK";

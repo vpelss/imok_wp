@@ -47,16 +47,15 @@ foreach ( $users as $user ) {
             array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_1', true ) );
             array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_2', true ) );
             array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_3', true ) );
+            array_push( $email_to , $user->user_email );
             $subject = "IMOK alert";
             $message = get_user_meta( $userID , 'imok_email_form', true );
             $headers = $email_from;
-            //Content-type: text/html
             $result = wp_mail( $email_to , $subject , $message , $headers  );
             }
         elseif( $now_UTC > ($imok_alert_unix_time - (3600 * get_user_meta( $userID , 'imok_pre_warn_time', true )) ) ){ //pre-alert time , email to client
             $email_from = 'From: imok <imok@emogic.com>';
              $email_to = $user->user_email;
-            //$email_to = array();
             $subject = "IMOK pre-alert";
             $message = "Your IMOK Alert will be triggered and sent to your contact list at $imok_alert_date_time_string_local. Stop it by pushing IMOK button at " . IMOK_ROOT_URL;
             $headers = $email_from;
