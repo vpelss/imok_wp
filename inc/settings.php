@@ -1,17 +1,38 @@
 <?php
 
-//shorcode for settings url
-add_shortcode( 'imok_settings_url', 'imok_settings_url_func' );
-function imok_settings_url_func(){
-	$page = get_page_by_title("IMOK Settings");
-	$newURL = get_permalink($page->ID);
-	return( $newURL );
-}
-
+//Create the form fields for the imok-settings page add nonce code on settings form
 add_shortcode( 'imok_settings', 'imok_settings_form_nonce' );
 function imok_settings_form_nonce(){
 	$user = wp_get_current_user();
 	return wp_nonce_field( 'imok_process_settings' . $user->ID ) . imok_settings_form();
+}
+
+add_shortcode( 'imok_stay_on_settings_page_checkbox', 'imok_stay_on_settings_page_checkbox_function' );
+function imok_stay_on_settings_page_checkbox_function(){
+	$user = wp_get_current_user();
+	$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
+	if($imok_stay_on_settings_page == 1){
+		return "<input type='checkbox' id='imok_stay_on_settings_page' name='imok_stay_on_settings_page' value='1' checked>
+			<label for='imok_stay_on_settings_page'> Stay on this page</label><br>
+			</p>";
+	}
+	else{
+		return "<input type='checkbox' id='imok_stay_on_settings_page' name='imok_stay_on_settings_page' value='1'>
+			<label for='imok_stay_on_settings_page'> Stay on this page</label><br>
+			</p>";
+	}
+	return ;
+}
+
+function imok_add_stay_on_settings_page_checkbox(){
+	$user = wp_get_current_user();
+	$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
+	if($imok_stay_on_settings_page){
+
+	}
+	else{
+
+	}
 }
 
 //this is newer one shared on imok-settings page and (not the shorcode part) in user profile
@@ -26,6 +47,7 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 	$imok_alert_interval = get_user_meta( $user->ID, 'imok_alert_interval', true );
 	$imok_pre_warn_time = get_user_meta( $user->ID, 'imok_pre_warn_time', true );
 	$imok_timezone =	get_user_meta( $user->ID, 'imok_timezone', true );
+	$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
 
 	$html = "
 	  <label for='imok_contact_email_1'>What email(s) would you like to be notified if you are not responsive?</label>
@@ -101,6 +123,8 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 	}
 
 //respond to form submissions and redirect giving feedback to user
+
+//verify that nonce is valid
 add_action('admin_post_imok_process_settings_action_hook', 'imok_process_form_nonce');
 function imok_process_form_nonce(){
 	$user = wp_get_current_user();
@@ -125,6 +149,8 @@ function imok_process_form() {
 	update_user_meta( $user->ID , 'imok_alert_interval' , $_POST['imok_alert_interval'] );
 	update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
 
+	update_user_meta( $user->ID , 'imok_stay_on_settings_page' , $_POST['imok_stay_on_settings_page'] );
+
 	$email_from = 'From: imok <imok@emogic.com>';
 	$email_to = $user->user_email;
 	$subject = "Your IMOK settings were changed";
@@ -133,7 +159,8 @@ function imok_process_form() {
 	$result = wp_mail( $email_to , $subject , $message , $headers  );
 
 	//$admin_notice = "success"; //???
-	$page = get_page_by_title("IMOK Redirector");
+	if( $_POST['imok_stay_on_settings_page'] ) { $page = get_page_by_title("IMOK Settings"); }
+	else { $page = get_page_by_title("IMOK Redirector"); }
 	$homeURL = get_permalink($page->ID);
 	wp_redirect( $homeURL );
 	return(1);

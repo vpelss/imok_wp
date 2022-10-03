@@ -10,7 +10,9 @@
 [imok_settings]
 <p>
 <input type="submit" name="submit" id="submit" value="Save Settings">
-</p></form>
+</p>
+[imok_stay_on_settings_page_checkbox]
+</form>
 
 <script>
 const d = new Date();

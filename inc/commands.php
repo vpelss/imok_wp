@@ -1,6 +1,14 @@
 <?php
 //commands for the IMOK Logged In page and countdown function and message text for that page
 
+//shorcode for settings url. used with settings button on the imok-logged-in page. in case we change the imok-settings page name
+add_shortcode( 'imok_settings_url', 'imok_settings_url_func' );
+function imok_settings_url_func(){
+	$page = get_page_by_title("IMOK Settings");
+	$newURL = get_permalink($page->ID);
+	return( $newURL );
+}
+
 add_shortcode( 'imok_commands', 'imok_commands_func' );
 function imok_commands_func(){
 	$user = wp_get_current_user();

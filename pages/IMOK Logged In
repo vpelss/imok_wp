@@ -8,7 +8,7 @@
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="?command=imok">IMOK</a></div>
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link">IMOK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -18,7 +18,7 @@
 <!-- /wp:button -->
 
 <!-- wp:button {"align":"center"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="?command=imnotok">IM NOT OK</a></div>
+<div class="wp-block-button aligncenter" id="imnotok"><a class="wp-block-button__link" href="?command=imnotok">IM NOT OK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -37,3 +37,10 @@
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button /--></div>
 <!-- /wp:buttons -->
+
+<!-- wp:html -->
+<script>
+elemm = document.getElementById("imnotok");
+elemm.onclick = function() { return confirm('Send ImNotOK alert to your email list? Are you sure?'); };
+</script>
+<!-- /wp:html -->
