@@ -120,10 +120,15 @@ function imok_countdown(){
 	//alert time local to user PC
 	$imok_alert_date =  get_user_meta( $user->ID, 'imok_alert_date', true );
 	$imok_alert_time = get_user_meta( $user->ID, 'imok_alert_time', true );
-	$imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true ); //in minutes * 60
+	//$imok_timezone = get_user_meta( $user->ID , 'imok_timezone', true );
+	if( get_user_meta( $user->ID , 'imok_timezone', true ) ) {
+		$imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true );
+		} //in minutes * 60
 
 	$imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
-	$imok_alert_unix_time =  strtotime( $imok_alert_date_time_string_local ) + $imok_timezone; //converts time (ignoring timezone) , need to add users timezone so we can convert to GMT to compare
+	if( $imok_alert_date_time_string_local ){
+		$imok_alert_unix_time =  strtotime( $imok_alert_date_time_string_local ) + $imok_timezone; //converts time (ignoring timezone) , need to add users timezone so we can convert to GMT to compare
+	}
 
 	$imok_alert_unix_time_string = date("Y-m-d H:i"  , $imok_alert_unix_time); //convert to string
 	$now_UTC_string = date("Y-m-d H:i"  , $now_UTC); //convert to string

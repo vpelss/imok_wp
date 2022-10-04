@@ -40,7 +40,7 @@ add_filter( "plugin_action_links_" . IMOK_PLUGIN_NAME , 'admin::settings_link' )
 add_action( 'show_user_profile', 'imok_settings_form_echo' ); // Add the imok fields to user's own profile editing screen
 add_action( 'edit_user_profile', 'imok_settings_form_echo' ); // Add the imok fields to user profile editing screen for admins
 function imok_settings_form_echo( $user ){
-	$html = imok_settings_form();
+	$html = imok_settings_form($user);
 	$html = "<h2 id='settings_top'>IMOK Data Settings Below:</h2><hr>" . $html;
 	echo $html;
 	}

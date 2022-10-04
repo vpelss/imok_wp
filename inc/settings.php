@@ -4,7 +4,7 @@
 add_shortcode( 'imok_settings', 'imok_settings_form_nonce' );
 function imok_settings_form_nonce(){
 	$user = wp_get_current_user();
-	return wp_nonce_field( 'imok_process_settings' . $user->ID ) . imok_settings_form();
+	return wp_nonce_field( 'imok_process_settings' . $user->ID ) . imok_settings_form($user);
 }
 
 add_shortcode( 'imok_stay_on_settings_page_checkbox', 'imok_stay_on_settings_page_checkbox_function' );
@@ -36,8 +36,8 @@ function imok_add_stay_on_settings_page_checkbox(){
 }
 
 //this is newer one shared on imok-settings page and (not the shorcode part) in user profile
-function imok_settings_form(){ //so we can use same code for edit_user_profile (requires echo o/p) and [shortcode] in settings.php (requires return o/p)
-	$user = wp_get_current_user();
+function imok_settings_form( $user ){ //so we can use same code for edit_user_profile (requires echo o/p) and [shortcode] in settings.php (requires return o/p)
+	//$user = wp_get_current_user();
 	$imok_contact_email_1 = get_user_meta( $user->ID, 'imok_contact_email_1', true );
 	$imok_contact_email_2 = get_user_meta( $user->ID, 'imok_contact_email_2', true );
 	$imok_contact_email_3 = get_user_meta( $user->ID, 'imok_contact_email_3', true );
@@ -48,6 +48,15 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 	$imok_pre_warn_time = get_user_meta( $user->ID, 'imok_pre_warn_time', true );
 	$imok_timezone =	get_user_meta( $user->ID, 'imok_timezone', true );
 	$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
+
+	if($imok_email_form == ""){
+		$imok_email_form = " Your Name has not reported in to the IMOK service by the scheduled time.
+Please consider checking on them.
+They have pets.
+Phone: xxx-xxx-xxxx
+Email: email@gmail.com
+		";
+	}
 
 	$html = "
 	  <label for='imok_contact_email_1'>What email(s) would you like to be notified if you are not responsive?</label>
@@ -68,7 +77,7 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 			value='$imok_contact_email_2'
 			title='Please enter a valid email address.'
 			pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-			required>
+			>
 <p>
 	  <label for='imok_contact_email_3'>What email(s) would you like to be notified if you are not responsive?</label>
 		<input type='email'
@@ -78,19 +87,19 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 			value='$imok_contact_email_3'
 			title='Please enter a valid email address.'
 			pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-			required>
+			>
 <p>
 		<label for='imok_email_form'>
 		What email message would you like to send if you are not responsive? (Edit the suggested one to suit)
 		</label><br>
-		<textarea id='imok_email_form' name='imok_email_form' rows='4' cols='40'>$imok_email_form</textarea>
+		<textarea id='imok_email_form' name='imok_email_form' rows='4' cols='40' required>$imok_email_form</textarea>
 <p>
 		<div>On what date &amp; time should your first alert be sent if you are not responsive?</div>
-		<label for='imok_alert_date'>Date:</label> <input type='date' name='imok_alert_date' id='imok_alert_date' value='$imok_alert_date'>
-		<label for='imok_alert_time'>Time:</label> <input type='time' id='imok_alert_time' name='imok_alert_time' value='$imok_alert_time'>
+		<label for='imok_alert_date'>Date:</label> <input type='date' name='imok_alert_date' id='imok_alert_date' value='$imok_alert_date' required>
+		<label for='imok_alert_time'>Time:</label> <input type='time' id='imok_alert_time' name='imok_alert_time' value='$imok_alert_time' required>
 <p>
 <label for='imok_alert_interval'>How many days after you push the IMOK button would you like to set your next alert date?</label>
-<select name='imok_alert_interval' id='imok_alert_interval' value='$imok_alert_interval'>
+<select name='imok_alert_interval' id='imok_alert_interval' value='$imok_alert_interval' required>
   <option value='.5'>.5</option>
   <option value='1' selected>1</option>
   <option value='2'>2</option>
@@ -102,8 +111,8 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 </select>
 <script>document.getElementById('imok_alert_interval').value = '$imok_alert_interval';</script>
 <p>
-<label for='imok_pre_warn_time'>A reminder email will be sent to your email address before the alert is sent. How many hours before the alert should this email be sent?</label>
-<select name='imok_pre_warn_time' id='imok_pre_warn_time' value='$imok_pre_warn_time'>
+<label for='imok_pre_warn_time'>A reminder email will be sent to {$user->user_email} before the alert is sent. How many hours before the alert should this email be sent?</label>
+<select name='imok_pre_warn_time' id='imok_pre_warn_time' value='$imok_pre_warn_time' required>
   <option value='.5'>.5</option>
   <option value='1' selected>1</option>
   <option value='2'>2</option>
@@ -116,7 +125,7 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 <script>document.getElementById('imok_pre_warn_time').value = '$imok_pre_warn_time';</script>
 <p>
 <label for='imok_timezone'>Timezone in minutes. Do not alter.</label>
-<input type='text' name='imok_timezone' id='imok_timezone' value='$imok_timezone'>
+<input type='text' name='imok_timezone' id='imok_timezone' value='$imok_timezone' required>
 	";
 
 	return $html;
@@ -125,21 +134,21 @@ function imok_settings_form(){ //so we can use same code for edit_user_profile (
 //respond to form submissions and redirect giving feedback to user
 
 //verify that nonce is valid
-add_action('admin_post_imok_process_settings_action_hook', 'imok_process_form_nonce');
+add_action('admin_post_imok_process_form', 'imok_process_form_nonce');
 function imok_process_form_nonce(){
 	$user = wp_get_current_user();
 	if ( ! check_admin_referer( 'imok_process_settings' . $user->ID ) ) {	return;	}
-	imok_process_form();
+	imok_process_form( $user->ID);
 }
 
-function imok_process_form() {
-	$user = wp_get_current_user();
+function imok_process_form($user_id) {
+	$user = get_userdata($user_id);
 
 	update_user_meta( $user->ID , 'imok_timezone' ,  $_POST['imok_timezone'] ); //$_POST['imok_timezone'] in minutes
 
   update_user_meta( $user->ID , 'imok_contact_email_1' , is_email( $_POST['imok_contact_email_1'] ) ); //$_POST['imok_contact_email_X']
   update_user_meta( $user->ID , 'imok_contact_email_2' , is_email( $_POST['imok_contact_email_2'] ) ); //$_POST['imok_contact_email_X']
-  update_user_meta( $user->ID , 'imok_contact_email_3' , is_email( $_POST['imok_contact_email_3'] ) ); //$_POST['imok_contact_email_X']
+	update_user_meta( $user->ID , 'imok_contact_email_3' , is_email( $_POST['imok_contact_email_3'] ) ); //$_POST['imok_contact_email_X']
 
 	update_user_meta( $user->ID , 'imok_email_form' , $_POST['imok_email_form'] ) ;
 

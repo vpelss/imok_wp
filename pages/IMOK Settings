@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="../wp-admin/css/forms.css?ver=6.0.2.2">
 <link rel="stylesheet" href="../wp-admin/css/forms.min.css?ver=6.0.2.2">
 <form method="post" action="../wp-admin/admin-post.php">
-<input type="hidden" name="action" value="imok_process_settings_action_hook">
+<input type="hidden" name="action" value="imok_process_form">
 [imok_settings]
 <p>
 <input type="submit" name="submit" id="submit" value="Save Settings">
