@@ -157,7 +157,7 @@ function imok_process_form($user_id) {
 
 	update_user_meta( $user->ID , 'imok_alert_interval' , $_POST['imok_alert_interval'] );
 	update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
-
+	$r = $_POST['imok_stay_on_settings_page'] ;
 	update_user_meta( $user->ID , 'imok_stay_on_settings_page' , $_POST['imok_stay_on_settings_page'] );
 
 	$email_from = 'From: imok <imok@emogic.com>';
@@ -178,6 +178,11 @@ function imok_process_form($user_id) {
 //[shortcodes]
 
 //these were used on the templates/Old_Setting_Form.html and can still be used if useful
+add_shortcode( 'imok_root_url', 'imok_root_url_func' );
+function imok_root_url_func(){
+	$imok_root_url = IMOK_ROOT_URL;
+	return $imok_root_url;
+	}
 add_shortcode( 'imok_contact_email_1', 'imok_contact_email_1_func' );
 function imok_contact_email_1_func(){
 		$user = wp_get_current_user();

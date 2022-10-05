@@ -6,7 +6,7 @@ add_shortcode( 'wp_login_form', 'imok_login_form_func' );
 function imok_login_form_func(){
 	$page = get_page_by_title("IMOK Redirector");
 	$homeURL = get_permalink($page->ID);
-	return wp_login_form(
+	$wp_login_form = wp_login_form(
 		['echo' => false,	//'redirect' => $site_url,
 		'redirect' => $homeURL,
         'form_id' => 'loginform',
@@ -17,6 +17,14 @@ function imok_login_form_func(){
         'remember' => true,
 		'value_remember' => true
 		]);
+
+		$imok_root_url = IMOK_ROOT_URL;
+		$wp_login_form =  $wp_login_form . "<p id='nav'>
+				<a href='$imok_root_url/wp-login.php?action=register'>Register</a> |	<a href='$imok_root_url/wp-login.php?action=lostpassword'>Lost your password?</a>
+			</p>";
+
+	return $wp_login_form;
+
 	};
 
 //create a wp logout url and send to shortcode : wp_logout_url( string $redirect = '' ) : redirect to main page on log out
@@ -26,5 +34,19 @@ function imok_logout_url_func(){
 		$homeURL = get_permalink($page->ID);
 		return wp_logout_url( $homeURL );
 	}
+
+function imok_my_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url( IMOK_PLUGIN_LOCATION_URL . '/images/imok-logo.svg');
+		height:65px;
+		width:320px;
+		background-size: 320px 65px;
+		background-repeat: no-repeat;
+        	padding-bottom: 30px;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'imok_my_login_logo' );
 
 ?>

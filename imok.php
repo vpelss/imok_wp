@@ -53,5 +53,18 @@ if( class_exists('imok') ){
 
 	// in header or footer document.addEventListener('contextmenu', event => event.preventDefault())
 	//test email list option? where
+	//link to personal settings
+	//change pw link wp-login.php?action=lostpassword
+
+	//missing recover pw and registr in login page....
+
+	//no comments
+	//no posts
+	//no media
+
+	//fixes for no permalink
+
+	//imnotok add email form?
+
 
 ?>
