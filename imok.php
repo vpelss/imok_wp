@@ -52,17 +52,15 @@ if( class_exists('imok') ){
 	}
 
 	// in header or footer document.addEventListener('contextmenu', event => event.preventDefault())
-	//test email list option? where
-	//link to personal settings
+	//test email list option? where. can be done manually
+	//link to personal settings? benefits? or just direct links to selected parts? like kick off other devices
 	//change pw link wp-login.php?action=lostpassword
-
-	//missing recover pw and registr in login page....
 
 	//no comments
 	//no posts
 	//no media
 
-	//fixes for no permalink
+	//fixes for no permalink. permalink breaks command=
 
 	//imnotok add email form?
 
