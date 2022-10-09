@@ -27,6 +27,14 @@ function imok_login_form_func(){
 
 	};
 
+//need this for registration login, which likely comes from wp-login.php not our custom form
+add_filter( 'login_redirect', 'imok_login_redirect' );
+function imok_login_redirect() {
+    $page = get_page_by_title("IMOK Logged In");
+	$homeURL = get_permalink($page->ID);
+    return $homeURL ;
+}
+
 //create a wp logout url and send to shortcode : wp_logout_url( string $redirect = '' ) : redirect to main page on log out
 add_shortcode( 'wp_logout_url', 'imok_logout_url_func' );
 function imok_logout_url_func(){
@@ -35,8 +43,10 @@ function imok_logout_url_func(){
 		return wp_logout_url( $homeURL );
 	}
 
-function imok_my_login_logo() { ?>
-    <style type="text/css">
+add_action( 'login_enqueue_scripts', 'imok_my_login_logo' );
+function imok_my_login_logo() {
+	echo "
+	    <style type='text/css'>
         #login h1 a, .login h1 a {
             background-image: url( IMOK_PLUGIN_LOCATION_URL . '/images/imok-logo.svg');
 		height:65px;
@@ -46,7 +56,21 @@ function imok_my_login_logo() { ?>
         	padding-bottom: 30px;
         }
     </style>
-<?php }
-add_action( 'login_enqueue_scripts', 'imok_my_login_logo' );
+	";
+	}
 
+
+/*
+    <style type='text/css'>
+        #login h1 a, .login h1 a {
+            background-image: url( IMOK_PLUGIN_LOCATION_URL . '/images/imok-logo.svg');
+		height:65px;
+		width:320px;
+		background-size: 320px 65px;
+		background-repeat: no-repeat;
+        	padding-bottom: 30px;
+        }
+    </style>
+
+ */
 ?>

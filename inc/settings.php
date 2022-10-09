@@ -169,10 +169,11 @@ function imok_process_form($user_id) {
 
 	//$admin_notice = "success"; //???
 	if( $_POST['imok_stay_on_settings_page'] ) { $page = get_page_by_title("IMOK Settings"); }
-	else { $page = get_page_by_title("IMOK Redirector"); }
+	else { $page = get_page_by_title("IMOK Logged In"); }
 	$homeURL = get_permalink($page->ID);
 	wp_redirect( $homeURL );
-	return(1);
+	exit;
+	//return(1);
 }
 
 //[shortcodes]

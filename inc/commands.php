@@ -1,11 +1,20 @@
 <?php
 //commands for the IMOK Logged In page and countdown function and message text for that page
 
-//shorcode for settings url. used with settings button on the imok-logged-in page. in case we change the imok-settings page name
+//shortcode for settings url. used with settings button on the imok-logged-in page. in case we change the imok-settings page name
 add_shortcode( 'imok_settings_url', 'imok_settings_url_func' );
 function imok_settings_url_func(){
 	$page = get_page_by_title("IMOK Settings");
 	$newURL = get_permalink($page->ID);
+	return( $newURL );
+}
+
+//shortcode log_out_everywhere_else link
+add_shortcode( 'imok_log_out_everywhere_else_url', 'imok_log_out_everywhere_else_url_func' );
+function imok_log_out_everywhere_else_url_func(){
+	$page = get_page_by_title("IMOK Logged In");
+	$newURL = get_permalink($page->ID);
+	$newURL = $newURL . "?command=log_out_everywhere_else";
 	return( $newURL );
 }
 
@@ -24,6 +33,14 @@ function imok_commands_func(){
 	}
 	elseif($response == 'imokcron'){
 		//return imok_cron_exec();
+	}
+	elseif($response == 'log_out_everywhere_else'){
+		$user = wp_get_current_user();
+		$sessions = WP_Session_Tokens::get_instance( $user->ID );
+		$sessions->destroy_others(  wp_get_session_token() );
+		$msg = 'You have logged out everywhere else.</br></br>';
+		$msg = $msg . imok_countdown();
+		return $msg;
 	}
 	//elseif($response == 'settings'){//may not use. allows us to rename stiing page slug and not need to update href as we use ?command=settings
 		//$page = get_page_by_title("IMOK Settings");
@@ -49,6 +66,7 @@ function imnotok(){
 
 	$subject = "IM Not OK";
 	$message = $user->display_name . ' ' . $user->user_email . " pushed the IM Not OK button. Please check on them.";
+	$message = $message . "\r\n\r\n" . get_user_meta( $user->ID , 'imok_email_form', true );
 	$headers = $email_from;
 	$result = wp_mail( $email_to , $subject , $message , $headers  );
 	return "IM Not OK Alert sent to your contact list:<br> {$email_to_str} <br><br>The following was sent to your contact list:<br>{$message}";
@@ -95,8 +113,8 @@ function imok(){
 	$now_str = date( "Y-m-d H:i", $now);
 	$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
 	$msg = imok_countdown();
-	$msg2 = "<br>Start alert time: {$imok_alert_date_time_string}<br>Now: {$now_str}<br>New alert time: {$new_alert_date_time}";
-	return "{$msg}{$msg2}";
+	//$msg2 = "<br>Start alert time: {$imok_alert_date_time_string}<br>Now: {$now_str}<br>New alert time: {$new_alert_date_time}";
+	return $msg;
 }
 
 add_shortcode( 'imok_countdown', 'imok_countdown' );

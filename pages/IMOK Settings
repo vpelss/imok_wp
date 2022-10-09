@@ -23,6 +23,10 @@ document.getElementById('imok_form_settings').action = '[imok_root_url]/wp-admin
 </script>
 <!-- /wp:html -->
 
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center"><a href="[imok_log_out_everywhere_else_url]">Log out everywhere else</a></p>
+<!-- /wp:paragraph -->
+
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
 <div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="https://github.com/vpelss/imok_wp/blob/master/imok.md#about" target="_blank" rel="noreferrer noopener">Help</a></div>

@@ -51,18 +51,22 @@ if( class_exists('imok') ){
 	$imok = new imok();
 	}
 
-	// in header or footer document.addEventListener('contextmenu', event => event.preventDefault())
-	//test email list option? where. can be done manually
+//fixes
 	//link to personal settings? benefits? or just direct links to selected parts? like kick off other devices
-	//change pw link wp-login.php?action=lostpassword
+	//imnotok add / send email form?
+	//security benefit to commands going through : /wp-admin/admin-post.php
+
+	//fixes for no permalink. permalink breaks command=
+	//or just update install instructions
+	//IMOK-Logged in MUST be set to main page if permalinks are 'plain' ?page=2
+	//settings ccs breaks if plain perma link??? ../
 
 	//no comments
 	//no posts
 	//no media
 
-	//fixes for no permalink. permalink breaks command=
-
-	//imnotok add email form?
-
+//to do
+	//messaging option
+	//pay system?
 
 ?>
