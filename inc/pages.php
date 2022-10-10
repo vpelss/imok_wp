@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+
 //add_action('init', 'imok_read_and_create_pages'); //if we want to continually check for and add missing pages....
 
 //load default pages and create them if they do not already exist.

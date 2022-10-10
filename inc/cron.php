@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+
 //set a wp_cron interval
 add_filter( 'cron_schedules', 'imok_add_cron_interval' );
 function imok_add_cron_interval( $schedules ) {

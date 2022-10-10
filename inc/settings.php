@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+
 //Create the form fields for the imok-settings page add nonce code on settings form
 add_shortcode( 'imok_settings', 'imok_settings_form_nonce' );
 function imok_settings_form_nonce(){
@@ -172,8 +174,7 @@ function imok_process_form($user_id) {
 	else { $page = get_page_by_title("IMOK Logged In"); }
 	$homeURL = get_permalink($page->ID);
 	wp_redirect( $homeURL );
-	exit;
-	//return(1);
+	return(1);
 }
 
 //[shortcodes]

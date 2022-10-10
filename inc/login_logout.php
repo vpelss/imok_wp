@@ -1,6 +1,8 @@
 <?php
 //set login form shortcode and logout URL shortcodes with our redirects
 
+if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+
 //login form shortcode
 add_shortcode( 'wp_login_form', 'imok_login_form_func' );
 function imok_login_form_func(){

@@ -1,6 +1,8 @@
 <?php
 //commands for the IMOK Logged In page and countdown function and message text for that page
 
+if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+
 //shortcode for settings url. used with settings button on the imok-logged-in page. in case we change the imok-settings page name
 add_shortcode( 'imok_settings_url', 'imok_settings_url_func' );
 function imok_settings_url_func(){

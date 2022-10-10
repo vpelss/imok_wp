@@ -21,6 +21,8 @@
 //	return IMOK_PLUGIN_LOCATION_URL . '/images/flash.gif';
 //}
 
+if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+
 add_shortcode( 'imok_redirector', 'imok_redirector_func' );
 function imok_redirector_func(){
 	$currentURL = get_permalink();

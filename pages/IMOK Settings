@@ -8,10 +8,12 @@
 <form method="post" action="see js script below" id="imok_form_settings">
 <input type="hidden" name="action" value="imok_process_form">
 [imok_settings]
+<center>
 <p>
 <input type="submit" name="submit" id="submit" value="Save Settings">
 </p>
 [imok_stay_on_settings_page_checkbox]
+</center>
 </form>
 
 <script>
@@ -22,6 +24,10 @@ document.getElementById('imok_timezone').value = timezone;
 document.getElementById('imok_form_settings').action = '[imok_root_url]/wp-admin/admin-post.php';
 </script>
 <!-- /wp:html -->
+
+<!-- wp:separator {"className":"is-style-wide"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+<!-- /wp:separator -->
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center"><a href="[imok_log_out_everywhere_else_url]">Log out everywhere else</a></p>

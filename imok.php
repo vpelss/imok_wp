@@ -15,10 +15,7 @@
 //define( 'WP_DEBUG_LOG', true );
 
 /* exit if directly accessed */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit($staus='ABSPATH not defn');
-	//die('ABSPATH not defn');
-}
+if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
 // define variable for path to this plugin file.
 define( 'IMOK_PLUGIN_PATH_AND_FILENAME' , __file__ ); // c:\*********\imok_pulgin_folder\imok.php
@@ -52,14 +49,8 @@ if( class_exists('imok') ){
 	}
 
 //fixes
-	//link to personal settings? benefits? or just direct links to selected parts? like kick off other devices
-	//imnotok add / send email form?
 	//security benefit to commands going through : /wp-admin/admin-post.php
-
-	//fixes for no permalink. permalink breaks command=
-	//or just update install instructions
-	//IMOK-Logged in MUST be set to main page if permalinks are 'plain' ?page=2
-	//settings ccs breaks if plain perma link??? ../
+	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
 
 	//no comments
 	//no posts
