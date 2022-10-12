@@ -77,95 +77,50 @@ function check_ipp(){
 			//add_action( 'admin_notices', 'my_error_notice' );
 			}
 
-//!!!!!!!!!!!!!!!!!!!remove later
-/*
-function _wp_usermeta_form_fields_imok( $user )
-{
-    ?>
 
-	<h2 id="settings_top">IMOK Data</h2>
-    <h3>What email(s) would you like to be notified if you are not responsive?</h3>
+//admin options.
+//from email. should be same domain
+add_action( 'admin_init', 'imok_settings_init' );
 
-		<input type="email"
-                       class="regular-text ltr form-required"
-                       id="imok_contact_email_1"
-                       name="imok_contact_email_1"
-                       value="<?= esc_attr( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ) ?>"
-                       title="Please enter a valid email address."
-                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                       required>
-
-		<input type="email"
-                       class="regular-text ltr form-required"
-                       id="imok_contact_email_1"
-                       name="imok_contact_email_1"
-                       value="<?= esc_attr( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ) ?>"
-                       title="Please enter a valid email address."
-                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                       required>
-
-
-    <table class="form-table">
-        <tr>
-            <th>
-                <label for="imok_contact_email_1">Contact Email # 1</label>
-            </th>
-            <td>
-                <input type="email"
-                       class="regular-text ltr form-required"
-                       id="imok_contact_email_1"
-                       name="imok_contact_email_1"
-                       value="<?= esc_attr( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ) ?>"
-                       title="Please enter a valid email address."
-                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                       required>
-            </td>
-        </tr>
-    </table>
-  <table class="form-table">
-        <tr>
-            <th>
-                <label for="imok_contact_email_2">Contact Email # 2</label>
-            </th>
-            <td>
-                <input type="email"
-                       class="regular-text ltr"
-                       id="imok_contact_email_2"
-                       name="imok_contact_email_2"
-                       value="<?= esc_attr( get_user_meta( $user->ID, 'imok_contact_email_2', true ) ) ?>"
-                       title="Please enter a valid email address."
-                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                       >
-            </td>
-        </tr>
-    </table>
-  <table class="form-table">
-        <tr>
-            <th>
-                <label for="imok_contact_email_3">Contact Email # 3</label>
-            </th>
-            <td>
-                <input type="email"
-                       class="regular-text ltr "
-                       id="imok_contact_email_3"
-                       name="imok_contact_email_3"
-                       value="<?= esc_attr( get_user_meta( $user->ID, 'imok_contact_email_3', true ) ) ?>"
-                       title="Please enter a valid email address."
-                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                       >
-            </td>
-        </tr>
-    </table>
-
-	<script type="text/javascript">
-		//wp has this turned on???? and there seems no way to show failed sanitized data on server side...
-		//maybe try profile_update!
-    //var commentForm = document.getElementById('your-profile');
-    //commentForm.removeAttribute('novalidate');
-</script>
-
-    <?php
+function imok_settings_init(  ) {
+	register_setting( 'imok_admin_page', 'imok_settings' );
+	add_settings_section(
+		'imok_pluginPage_section',
+		__( 'imok admin settings', 'emogic.com' ),
+		'imok_settings_section_callback',
+		'imok_admin_page'
+	);
+	add_settings_field(
+		'imok_text_field_0',
+		__( 'From Email', 'emogic.com' ),
+		'imok_text_field_0_render',
+		'imok_admin_page',
+		'imok_pluginPage_section'
+	);
 }
-*/
+
+function imok_settings_section_callback(  ) {
+	echo __( 'This section description', 'emogic.com' );
+}
+
+function imok_text_field_0_render(  ) {
+	$options = get_option( 'imok_settings' );
+	$option1 = $options['imok_text_field_0'];
+	echo "<input type='text' name='imok_settings[imok_text_field_0]' value='{$options['imok_text_field_0']}'>";
+}
+
+add_action( 'admin_menu', 'imok_add_admin_menu' );
+
+function imok_add_admin_menu(  ) {
+	add_options_page( 'imok_wp', 'imok_wp', 'manage_options', 'imok_wp', 'imok_options_page' );
+}
+
+function imok_options_page(  ) {
+	echo"<form action='options.php' method='post'> <h2>imok_wp</h2>";
+	settings_fields( 'imok_admin_page' );
+	do_settings_sections( 'imok_admin_page' );
+	submit_button();
+	echo"</form>";
+}
 
 ?>

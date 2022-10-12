@@ -51,6 +51,7 @@ if( class_exists('imok') ){
 //fixes
 	//security benefit to commands going through : /wp-admin/admin-post.php
 	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
+	// set from email address and name on admin page?
 
 	//no comments
 	//no posts
