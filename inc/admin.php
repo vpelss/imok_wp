@@ -77,13 +77,13 @@ function check_ipp(){
 			//add_action( 'admin_notices', 'my_error_notice' );
 			}
 
-
+//--------------------------------
 //admin options.
-//from email. should be same domain
-add_action( 'admin_init', 'imok_settings_init' );
+
+add_action( 'admin_init', 'imok_settings_init' ); //admin_init is triggered before any other hook when a user accesses the admin area.
 
 function imok_settings_init(  ) {
-	register_setting( 'imok_admin_page', 'imok_settings' );
+	register_setting( 'imok_admin_page', 'imok_admin_settings' ); //string $option_group, string $option_name : we are saving all settings in an array (imok_admin_settings in wp_options contains array)
 	add_settings_section(
 		'imok_pluginPage_section',
 		__( 'imok admin settings', 'emogic.com' ),
@@ -91,36 +91,41 @@ function imok_settings_init(  ) {
 		'imok_admin_page'
 	);
 	add_settings_field(
-		'imok_text_field_0',
+		'imok_from_email_field',
 		__( 'From Email', 'emogic.com' ),
-		'imok_text_field_0_render',
+		'imok_from_email_field_render',
 		'imok_admin_page',
 		'imok_pluginPage_section'
 	);
 }
 
 function imok_settings_section_callback(  ) {
-	echo __( 'This section description', 'emogic.com' );
+	//echo __( 'This section description', 'emogic.com' );
 }
 
-function imok_text_field_0_render(  ) {
-	$options = get_option( 'imok_settings' );
-	$option1 = $options['imok_text_field_0'];
-	echo "<input type='text' name='imok_settings[imok_text_field_0]' value='{$options['imok_text_field_0']}'>";
+function imok_from_email_field_render(  ) {
+	$options = get_option( 'imok_admin_settings' );
+	$option1 = $options['imok_from_email_field'];
+	echo "<input type='text' name='imok_admin_settings[imok_from_email_field]' value='{$options['imok_from_email_field']}'>";
 }
+
+//Admin menu create and display
 
 add_action( 'admin_menu', 'imok_add_admin_menu' );
 
 function imok_add_admin_menu(  ) {
-	add_options_page( 'imok_wp', 'imok_wp', 'manage_options', 'imok_wp', 'imok_options_page' );
+	add_options_page( 'imok_wp', 'imok_wp', 'manage_options', 'imok_wp', 'imok_options_page' ); //Adds a submenu page to the Settings main menu.
 }
 
 function imok_options_page(  ) {
-	echo"<form action='options.php' method='post'> <h2>imok_wp</h2>";
+	echo"<form action='options.php' method='post'>";
 	settings_fields( 'imok_admin_page' );
 	do_settings_sections( 'imok_admin_page' );
 	submit_button();
 	echo"</form>";
 }
+
+//add_option('vince' , 'values');
+//update_option('imok_admin_settings' , array('a'=>'j' , 'b'=>'gg') );
 
 ?>

@@ -28,6 +28,9 @@ class deactivate{
 			delete_user_meta($user->ID , 'imok_pre_warn_time');
 			}
 */
+
+		//unregister_setting( 'imok_admin_page', 'imok_settings' );
+
 		flush_rewrite_rules();
 	}
 

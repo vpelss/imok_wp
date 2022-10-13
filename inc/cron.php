@@ -25,6 +25,9 @@ $users = get_users();
 $msg = '';
 $msg1 = '';
 
+$options = get_option( 'imok_admin_settings' );
+$from_email = $options['imok_from_email_field'];
+
 foreach ( $users as $user ) {
     $userID = $user->ID;
     $imok_contact_email_1 = get_user_meta( $userID , 'imok_contact_email_1', true ); // imok_contact_email_1
@@ -44,7 +47,7 @@ foreach ( $users as $user ) {
         $result;
         apply_filters( 'wp_mail_content_type',  "text/html" );
         if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered , email to list
-            $email_from = 'From: imok <imok@emogic.com>';
+            $email_from = 'From: imok <$from_email>';
             $email_to = array();
             array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_1', true ) );
             array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_2', true ) );
@@ -56,7 +59,7 @@ foreach ( $users as $user ) {
             $result = wp_mail( $email_to , $subject , $message , $headers  );
             }
         elseif( $now_UTC > ($imok_alert_unix_time - (3600 * get_user_meta( $userID , 'imok_pre_warn_time', true )) ) ){ //pre-alert time , email to client
-            $email_from = 'From: imok <imok@emogic.com>';
+            $email_from = 'From: imok <$from_email>';
             $email_to = $user->user_email;
             $subject = "IMOK pre-alert";
             $message = "Your IMOK Alert will be triggered and sent to your contact list at $imok_alert_date_time_string_local. Stop it by pushing IMOK button at " . IMOK_ROOT_URL;
