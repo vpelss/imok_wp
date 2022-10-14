@@ -14,7 +14,6 @@
 // Enable Debug logging to the /wp-content/debug.log file
 //define( 'WP_DEBUG_LOG', true );
 
-/* exit if directly accessed */
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
 // define variable for path to this plugin file.
@@ -39,6 +38,7 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
 		require_once plugin_dir_path(__file__) . 'inc/pages.php' ; //auto setup pages
+		require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email 
 
 	}
 

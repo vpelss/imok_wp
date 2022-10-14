@@ -162,7 +162,10 @@ function imok_process_form($user_id) {
 	$r = $_POST['imok_stay_on_settings_page'] ;
 	update_user_meta( $user->ID , 'imok_stay_on_settings_page' , $_POST['imok_stay_on_settings_page'] );
 
-	$email_from = 'From: imok <imok@emogic.com>';
+	$options = get_option( 'imok_admin_settings' );
+	$from_email = $options['imok_from_email_field'];
+
+	$email_from = "From: imok <$from_email>";
 	$email_to = $user->user_email;
 	$subject = "Your IMOK settings were changed";
 	$message = "Your IMOK settings were changed";

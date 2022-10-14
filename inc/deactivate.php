@@ -2,10 +2,10 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
+register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , array( 'deactivate' , 'deactivate_plugin') );
+
 class deactivate{
-
 	public static function deactivate_plugin(){
-
 		//remove created pages
 		$pages = array("IMOK Log In" , "IMOK Logged In" , "IMOK Redirector" ,  "IMOK Settings");
 		foreach ($pages as $page_name) {
@@ -29,11 +29,8 @@ class deactivate{
 			}
 */
 
-		//unregister_setting( 'imok_admin_page', 'imok_settings' );
-
+		delete_option( 'imok_admin_settings' );
 		flush_rewrite_rules();
 	}
 
 }
-
-register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , array( 'deactivate' , 'deactivate_plugin') );

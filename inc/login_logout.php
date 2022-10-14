@@ -60,19 +60,5 @@ function imok_my_login_logo() {
     </style>
 	";
 	}
-
-
-/*
-    <style type='text/css'>
-        #login h1 a, .login h1 a {
-            background-image: url( IMOK_PLUGIN_LOCATION_URL . '/images/imok-logo.svg');
-		height:65px;
-		width:320px;
-		background-size: 320px 65px;
-		background-repeat: no-repeat;
-        	padding-bottom: 30px;
-        }
-    </style>
-
- */
+	
 ?>
