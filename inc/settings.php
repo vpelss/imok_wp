@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
-//Create the form fields for the imok-settings page add nonce code on settings form
+//Create nonce fields and then add the user's form fields for the imok-settings page
 add_shortcode( 'imok_settings', 'imok_settings_form_nonce' );
 function imok_settings_form_nonce(){
 	$user = wp_get_current_user();
@@ -37,7 +37,7 @@ function imok_add_stay_on_settings_page_checkbox(){
 	}
 }
 
-//this is newer one shared on imok-settings page and (not the shorcode part) in user profile
+//this is newer one shared on imok-settings page via shortcode and in user profile via echo
 function imok_settings_form( $user ){ //so we can use same code for edit_user_profile (requires echo o/p) and [shortcode] in settings.php (requires return o/p)
 	//$user = wp_get_current_user();
 	$imok_contact_email_1 = get_user_meta( $user->ID, 'imok_contact_email_1', true );
@@ -186,9 +186,8 @@ function imok_process_form($user_id) {
 	return(1);
 }
 
-//[shortcodes]
-
-//these were used on the templates/Old_Setting_Form.html and can still be used if useful
+//------------------------------
+//these [shortcodes] were used on the templates/Old_Setting_Form.html and can still be used if useful
 add_shortcode( 'imok_root_url', 'imok_root_url_func' );
 function imok_root_url_func(){
 	$imok_root_url = IMOK_ROOT_URL;

@@ -3,7 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
 //register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , array( 'deactivate' , 'deactivate_plugin') );
-register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , array( 'deactivate' , 'imok_deactivate_plugin') );
+register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , 'imok_deactivate_plugin' );
 
 /*
 class deactivate{
