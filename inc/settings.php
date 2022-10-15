@@ -52,11 +52,17 @@ function imok_settings_form( $user ){ //so we can use same code for edit_user_pr
 	$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
 
 	if($imok_email_form == ""){
-		$imok_email_form = " Your Name has not reported in to the IMOK service by the scheduled time.
+		$imok_email_form = " This is an example. Please edit it.
+
+Your Name has not reported in to the IMOK service by the scheduled time.
 Please consider checking on them.
 They have pets.
 Phone: xxx-xxx-xxxx
 Email: email@gmail.com
+Contact list:
+- Contact 1
+- Contact 2
+- Contact 3
 		";
 	}
 
@@ -162,15 +168,15 @@ function imok_process_form($user_id) {
 	$r = $_POST['imok_stay_on_settings_page'] ;
 	update_user_meta( $user->ID , 'imok_stay_on_settings_page' , $_POST['imok_stay_on_settings_page'] );
 
-	$options = get_option( 'imok_admin_settings' );
-	$from_email = $options['imok_from_email_field'];
+	//$options = get_option( 'imok_admin_settings' );
+	//$from_email = $options['imok_from_email_field'];
 
-	$email_from = "From: imok <$from_email>";
+	//$email_from = "From: imok <$from_email>";
 	$email_to = $user->user_email;
 	$subject = "Your IMOK settings were changed";
 	$message = "Your IMOK settings were changed";
-	$headers = $email_from;
-	$result = wp_mail( $email_to , $subject , $message , $headers  );
+	//$headers = $email_from;
+	$result = imok_mail( $email_to , $subject , $message );
 
 	//$admin_notice = "success"; //???
 	if( $_POST['imok_stay_on_settings_page'] ) { $page = get_page_by_title("IMOK Settings"); }
