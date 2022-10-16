@@ -64,7 +64,7 @@ foreach ( $users as $user ) {
             $subject = "IMOK pre-alert";
             $message = "Your IMOK Alert will be triggered and sent to your contact list at $imok_alert_date_time_string_local. Stop it by pushing IMOK button at " . IMOK_ROOT_URL;
             //$headers = $email_from;
-            $result = wp_mail( $email_to , $subject , $message );
+            $result = imok_mail( $email_to , $subject , $message );
             }
         apply_filters( 'wp_mail_content_type',  "text/plain" );
 

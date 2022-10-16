@@ -24,9 +24,7 @@ define( 'IMOK_PLUGIN_NAME' , plugin_basename( __FILE__ ) ); // imok_wp (or other
 define( 'IMOK_ROOT_URL' , home_url() ); // http://wp_url/
 
 class imok {
-
 	function __construct() {
-
 		require_once plugin_dir_path(__file__) . 'inc/activate.php' ; //set up pages
 		require_once plugin_dir_path(__file__) . 'inc/deactivate.php' ; //remove created pages
 		require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
@@ -38,9 +36,7 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
 		require_once plugin_dir_path(__file__) . 'inc/pages.php' ; //auto setup pages
 		require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email
-
 	}
-
 }
 
 if( class_exists('imok') ){
@@ -50,7 +46,8 @@ if( class_exists('imok') ){
 //fixes
 	//security benefit to commands going through : /wp-admin/admin-post.php
 	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
-	// set from email address and name on admin page?
+
+	//set main page?
 
 	//no comments
 	//no posts

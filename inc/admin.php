@@ -47,7 +47,6 @@ add_action( 'edit_user_profile_update', 'imok_process_form' ); // admin to proce
 //admin options.
 
 add_action( 'admin_init', 'imok_settings_init' ); //admin_init is triggered before any other hook when a user accesses the admin area.
-
 function imok_settings_init(  ) {
 	register_setting( 'imok_admin_page', 'imok_admin_settings' ); //string $option_group, string $option_name : we are saving all settings in an array (imok_admin_settings in wp_options contains array)
 	add_settings_section(
@@ -75,11 +74,10 @@ function imok_from_email_field_render(  ) {
 	echo "<input type='text' name='imok_admin_settings[imok_from_email_field]' value='{$options['imok_from_email_field']}'>";
 }
 
-//Admin menu create and display
-
+//Adds an imok link to the Dashboard Settings menu. Also creates the imok setting page 
 add_action( 'admin_menu', 'imok_add_admin_menu' );
 function imok_add_admin_menu(  ) {
-	add_options_page( 'imok settings', 'imok', 'manage_options', 'imok_settings', 'imok_options_page' ); //Adds a submenu page to the Settings main menu.
+	add_options_page( 'imok settings', 'imok', 'manage_options', 'imok_settings', 'imok_options_page' );
 	//add_options_page( string $page_title, string $menu_title, string $capability, string $menu_slug, callable $callback = '', int $position = null ):
 }
 
@@ -92,5 +90,13 @@ function imok_options_page(  ) {
 	echo"</form>";
 	//return ob_get_clean(); //allow return with same code
 }
+
+//add custom settings link next to plugin deactivate link
+add_filter( "plugin_action_links_" . IMOK_PLUGIN_NAME , 'imok_settings_link' );
+function imok_settings_link($links){
+		$settings_link = '<a href="admin.php?page=imok_settings">Settings</a>';
+		array_push($links , $settings_link);
+		return $links;
+	}
 
 ?>
