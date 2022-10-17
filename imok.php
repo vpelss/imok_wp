@@ -47,7 +47,7 @@ if( class_exists('imok') ){
 	//security benefit to commands going through : /wp-admin/admin-post.php
 	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
 
-	//set main page?
+	//build imok only menu & show where?
 
 	//no comments
 	//no posts
