@@ -1,3 +1,5 @@
+<!-- wp:navigation {"ref":62,"layout":{"type":"flex","justifyContent":"center"}} /-->
+
 <link rel="stylesheet" href="../wp-admin/css/forms.min.css?ver=6.0.2.2">
  	<link rel="_stylesheet" href="../wp-admin/css/login.min.css?ver=6.0.2.2">
 

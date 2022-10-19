@@ -1,3 +1,5 @@
+<!-- wp:navigation {"ref":62,"layout":{"type":"flex","justifyContent":"center"}} /-->
+
 <!-- wp:shortcode -->
 [imok_redirector]
 <!-- /wp:shortcode -->
@@ -31,4 +33,8 @@ document.getElementById('imok_form_settings').action = '[imok_root_url]/wp-admin
 
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center"><a href="[imok_log_out_everywhere_else_url]">Log out everywhere else</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center"><a href="[wp_logout_url]">Log out here</a></p>
 <!-- /wp:paragraph -->
