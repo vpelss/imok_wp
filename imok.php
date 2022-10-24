@@ -36,6 +36,7 @@ class imok {
 		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
 		require_once plugin_dir_path(__file__) . 'inc/pages.php' ; //auto setup pages
 		require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email
+		require_once plugin_dir_path(__file__) . 'inc/menu.php';
 	}
 }
 
@@ -48,6 +49,12 @@ if( class_exists('imok') ){
 	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
 
 	//build imok only menu & show where?
+
+	//wp_create_nav_menu( string $menu_name ):
+	//wp_update_nav_menu_object( int $menu_id, array $menu_data = array() ):
+	//wp_get_nav_menu_object( int|string|WP_Term $menu )
+
+
 
 	//no comments
 	//no posts

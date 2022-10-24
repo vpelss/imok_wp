@@ -1,4 +1,18 @@
-<!-- wp:navigation {"ref":62,"layout":{"type":"flex","justifyContent":"center"}} /-->
+<!-- wp:html -->
+<nav class="wp-container-3 is-content-justification-center is-responsive items-justified-center wp-block-navigation" aria-label=""><button aria-haspopup="true" aria-label="Open menu" class="wp-block-navigation__responsive-container-open always-shown" data-micromodal-trigger="modal-2"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="7.5" width="16" height="1.5"></rect><rect x="4" y="15" width="16" height="1.5"></rect></svg></button>
+			<div class="wp-block-navigation__responsive-container hidden-by-default " style="" id="modal-2">
+				<div class="wp-block-navigation__responsive-close" tabindex="-1" data-micromodal-close="">
+					<div class="wp-block-navigation__responsive-dialog" aria-label="Menu">
+							<button aria-label="Close menu" data-micromodal-close="" class="wp-block-navigation__responsive-container-close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M13 11.8l6.1-6.3-1-1-6.1 6.2-6.1-6.2-1 1 6.1 6.3-6.5 6.7 1 1 6.5-6.6 6.5 6.6 1-1z"></path></svg></button>
+						<div class="wp-block-navigation__responsive-container-content" id="modal-2-content">
+
+[imok_menu]
+
+						</div>
+					</div>
+				</div>
+			</div></nav>
+<!-- /wp:html -->
 
 <!-- wp:shortcode -->
 [imok_redirector]
