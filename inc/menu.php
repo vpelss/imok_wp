@@ -36,7 +36,7 @@ if( !$menu_exists){ // If it doesn't exist, let's create it.
 add_action('shutdown', 'shutdown_funct');
 function shutdown_funct(){
 	global $imok_menu;
-	$tt = wp_delete_nav_menu( $imok_menu );
+	wp_delete_nav_menu( $imok_menu );
 };
 
 
@@ -48,24 +48,14 @@ function imok_menu_func(){
 									'menu_id' => 'imok_menu_id',
 									'menu_class' => "menu",
 									'echo'=>false ,
-									//'container'=>'' ,
 									'container'			=> "div", // (string) Whether to wrap the ul, and what to wrap it with. Default 'div'.
 									'container_id'		=> "imok_menu",
 									'container_class'	=> "imok_menu",
 									//'items_wrap' => '%3$s'
 								  ) );
-/*
-			$txt .= sprintf(
-    $args->items_wrap
-,   esc_attr( 'foo' )    // %1$s
-,   esc_attr( 'ssss' ) // %2$s
-,   $items                  // %3$s
-);
-*/
 
-		return $txt;
+	return $txt;
 
-//wp_delete_nav_menu( 'imok_menu2' );
 	}
 
 	/*
