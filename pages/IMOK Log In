@@ -1,3 +1,21 @@
+Edit Page
+
+
+
+
+
+
+Switch to draft
+Preview
+Update
+
+
+Page updated.
+View Page
+Editing code
+Exit code editor
+IMOK Log In
+Type text or HTML
 <!-- wp:html -->
 <!--
 https://www.woolston.com.au/so-simple-collapsible-responsive-navigation-using-only-css/
@@ -78,15 +96,49 @@ function closeNav() {
 </script>
 <!-- /wp:html -->
 
-<p> </p>
-<p> </p>
+<!-- wp:html -->
 <center>
-<p> </p>
 <div id="login">[wp_login_form]</div>
-<p> </p>
 </center>
-<p> </p>
-<p> </p>
-<p><script><br />
-document.body.classList.add('login');<br />
-</script></p>
+<script>
+document.body.classList.add('login');
+</script>
+<!-- /wp:html -->
+Page
+Block
+
+
+Status & visibility
+Visibility
+Public
+Publish
+October 25, 2022 1:59 pm
+Author
+
+vince
+Move to trash
+
+Template: Page
+Template:
+
+Default template
+EditNew
+4 Revisions
+
+Permalink
+VIEW PAGE
+http://home/wordpress/?page_id=6607(opens in a new tab)
+
+Featured image
+Set featured image
+
+Discussion
+Allow comments
+
+Page Attributes
+Parent Page:
+
+Order
+0
+Open publish panel
+NotificationsCode editor selected

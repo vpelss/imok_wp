@@ -17,18 +17,19 @@ By having the customer report to a server that he is OK, the server can send out
 
 ## Install
 
-- This was designed to work alone on a Wordpress install and may conflict with existing pages. You can easily create another Wordpress installation on your web host under a sub directory as I have done. https://www.emogic.com/imok/
+- This was designed as a web app to work on a stand alone Wordpress install and may conflict with existing pages. You can easily create another Wordpress installation on your web host under a sub directory as I have done. https://www.emogic.com/imok/
 - Download and place all files under your Wordpress installation at \wp-content\plugins\imok_wp
-- Acivate the imok plugin. It will create 3 pages unless they exist; 'IMOK Log In', 'IMOK Logged In', 'IMOK Settings'
+- Activate the imok plugin. It will create multiple pages unless they exist; 'IMOK Log In', 'IMOK Logged In', 'IMOK Settings', etc
 - If suitable, it is recommended to set the page 'IMOK Logged In' as your main page
-- Set permalinks to 'Post name'. 'Plain' wil work but css may break
-- Create a header and footer as required an set on the 3 pages
+- Set permalinks to 'Post name'. 'Plain' will work but css may break
+- Create a header and footer as required and set on the IMOK pages
+- There is a very simple menu on each page, but you will likely want to remove it and set your own and place it in the header
 - Set up a cron job to run at least every hour. eg: wget -qO- https://yoursite.com/imok/wp-cron.php &> /dev/null
 - Create an account and test
 - You may change the page(s) URL slugs (you may need to change button hrefs), but you cannot change the page(s) name. If you do the script will break
-- You may edit the pages, but if you remove the [shortcode](s) you may break the page functions
+- You may edit the pages, but if you remove the [shortcode](s) you may break some of the page functions
 - enable users to register accounts in wp
-- disable posts in wp. set all registrations subscribers
+- disable posts in wp. set all registrations to subscribers
 
 ## Liabilty
 

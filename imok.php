@@ -48,13 +48,6 @@ if( class_exists('imok') ){
 	//security benefit to commands going through : /wp-admin/admin-post.php
 	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
 
-	//build imok only menu & show where?
-
-	//wp_create_nav_menu( string $menu_name ):
-	//wp_update_nav_menu_object( int $menu_id, array $menu_data = array() ):
-	//wp_get_nav_menu_object( int|string|WP_Term $menu )
-
-
 
 	//no comments
 	//no posts

@@ -78,10 +78,6 @@ function closeNav() {
 </script>
 <!-- /wp:html -->
 
-<!-- wp:shortcode -->
-[imok_menu]
-<!-- /wp:shortcode -->
-
 <!-- wp:paragraph {"align":"center"} -->
 <p class="has-text-align-center"><a href="https://github.com/vpelss/imok_wp" data-type="URL" data-id="https://github.com/vpelss/imok_wp" target="_blank" rel="noreferrer noopener">Get IMOK</a></p>
 <!-- /wp:paragraph -->
