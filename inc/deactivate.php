@@ -42,7 +42,8 @@ class deactivate{
 function imok_deactivate_plugin(){
 		//remove created pages
 		$dir = IMOK_PLUGIN_PATH . "/pages/";
-		$pages = scandir($dir);
+		//$pages = scandir($dir);
+		$pages = array_diff(scandir($dir), array('..', '.'));
 		foreach ($pages as $page_name) {
 			$page = get_page_by_title($page_name);
 			wp_delete_post($page->ID , 1);
