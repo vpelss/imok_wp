@@ -27,7 +27,7 @@ class imok {
 	function __construct() {
 		require_once plugin_dir_path(__file__) . 'inc/activate.php' ; //set up pages
 		require_once plugin_dir_path(__file__) . 'inc/deactivate.php' ; //remove created pages
-		require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
+		//require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
 		require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
 		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
 		require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status

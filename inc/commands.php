@@ -24,8 +24,12 @@ add_shortcode( 'imok_commands', 'imok_commands_func' );
 function imok_commands_func(){
 	$user = wp_get_current_user();
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST"){ $response = $_POST['command']; }
-	else{ $response = $_GET['command'];	}
+	//if ($_SERVER["REQUEST_METHOD"] == "POST"){ $response = $_POST['command']; }
+	//else{ $response = $_GET['command'];	}
+
+	$response = 'none';
+	if( isset($_REQUEST['command']) )
+		$response = $_REQUEST['command'];
 
 	if($response == 'imok'){
 		return imok();
