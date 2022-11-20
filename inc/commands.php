@@ -62,7 +62,7 @@ function imok_commands_func(){
 function imnotok(){
 	$user = wp_get_current_user();
 
-	$email_from = 'From: imok <imok@emogic.com>';
+	//$email_from = 'From: imok <imok@emogic.com>';
 	$email_to = array();
 	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
 	array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
