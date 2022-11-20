@@ -58,7 +58,7 @@ Your Name has not reported in to the IMOK service by the scheduled time.
 Please consider checking on them.
 They have pets.
 Phone: xxx-xxx-xxxx
-Email: email@gmail.com
+Email: change_to_your_address@gmail.com
 Contact list:
 - Contact 1
 - Contact 2
