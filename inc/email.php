@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if dir
 	$options = get_option( 'imok_admin_settings' );
 	$from_email = $options['imok_from_email_field'];
 	$headers = "From: imok <$from_email>";
-    $result = wp_mail( $email_to , $subject , $message , $headers  );
+ $result = wp_mail( $email_to , $subject , $message , $headers  );
 	return $result;
 }
 
