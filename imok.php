@@ -49,6 +49,9 @@ if( class_exists('imok') ){
 	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
 
 
+//audio alarm. bypass dom interaction?
+//no audio alarm option in settings?
+
 	//no comments
 	//no posts
 	//no media

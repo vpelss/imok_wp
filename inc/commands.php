@@ -153,8 +153,18 @@ function imok_countdown(){
 	$imok_alert_unix_time_string = date("Y-m-d H:i"  , $imok_alert_unix_time); //convert to string
 	$now_UTC_string = date("Y-m-d H:i"  , $now_UTC); //convert to string
 
+	$IMOK_PLUGIN_LOCATION_URL = IMOK_PLUGIN_LOCATION_URL;
 	if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered
-		$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
+		$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.
+		<audio id='imok_alarm' src='$IMOK_PLUGIN_LOCATION_URL/audio/Windows-Notify-Calendar.wav'></audio>
+
+		<script>
+		setInterval( alarm_me , 5000 * 1 ); //update every 15 seconds
+
+		function alarm_me(){
+			imok_alarm.play();
+			}
+		</script>";
 		}
 	else{
 		$msg = "Push 'IM OK' before:<br>
@@ -162,13 +172,18 @@ function imok_countdown(){
 		<font id='countdown'>countdown</font><br>
 		<font id='timezone_error' color='orange'></font>
 
+		<audio id='imok_alarm' src='$IMOK_PLUGIN_LOCATION_URL/audio/Windows-Notify-Calendar.wav'></audio>
+
 		<script>
 		var trigger_time = $imok_alert_unix_time;
+		var imok_alarm = document.getElementById('imok_alarm');
+
 		function countdown() {
 			var now = Date.now() / 1000; //in seconds
 			var difference_seconds = trigger_time - now;
 			if(difference_seconds <= 0){
 				document.getElementById('countdown').innerHTML = 'Timeout exceeded. Alerts are being sent.';
+				imok_alarm.play();
 				}
 			else{
 				var days = Math.floor( difference_seconds / (60 * 60 * 24) );
