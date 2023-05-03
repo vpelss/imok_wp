@@ -66,6 +66,9 @@ function imok_deactivate_plugin(){
 */
 
 		delete_option( 'imok_admin_settings' );
+		wp_clear_scheduled_hook( 'imok_cron_hook' );
+		 //wp_schedule_event( $time , 'fifteen_minutes', 'imok_cron_hook' );
+		 //wp_schedule_event( int $timestamp, string $recurrence, string $hook, array $args = array(), bool $wp_error = false )
 		flush_rewrite_rules();
 	}
 
