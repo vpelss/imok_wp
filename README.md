@@ -17,7 +17,7 @@ By having the customer report to a server that he is OK, the server can send out
 
 ## Install
 
-- This was designed as a web app to work on a stand alone Wordpress install and may conflict with existing pages. You can easily create another Wordpress installation on your web host under a sub directory as I have done. https://imok.emogic.com
+- This was designed as a web app to work on a stand alone Wordpress install and may conflict with existing pages. You can easily create another Wordpress installation on your web host under a sub directory. 
 - Download and place all files under your Wordpress installation at \wp-content\plugins\imok_wp
 - Activate the imok plugin. It will create multiple pages unless they exist; 'IMOK Log In', 'IMOK Logged In', 'IMOK Settings', etc
 - If suitable, it is recommended to set the page 'IMOK Logged In' as your main page
