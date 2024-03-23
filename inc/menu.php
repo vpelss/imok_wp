@@ -15,7 +15,7 @@ if( !$menu_exists){ // If it doesn't exist, let's create it.
 
 	foreach ($files as $file) {
 		if( ! str_starts_with( $file, 'IMOK' ) ){continue;}
-		$page = get_page_by_title($file);
+		$page = get_posts( ['post_type' => 'page' , 'title'=> $file] )[0];
 		$post_title = $page->post_title;
 		$guid = $page->guid;
 

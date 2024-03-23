@@ -1,18 +1,15 @@
 <?php
+
 /**
-* Plugin Name: imok
-* Plugin URI: https://github.com/vpelss/imok_wp
-* Description: IMOK for WP.
-* Version: 1.0
+* Plugin Name: Emogic IMOK
+* Plugin URI: https://github.com/vpelss/imok_wp#readme
+* Description: Emogic IMOK 
+* Version: 0.5.0
+* License: GPLv3
+* License URI:  https://github.com/vpelss/imok_wp?tab=GPL-3.0-1-ov-file#readme
 * Author: Vince Pelss
 * Author URI: https://www.emogic.com/
 **/
-
-// Enable WP_DEBUG mode
-//define( 'WP_DEBUG', true );
-
-// Enable Debug logging to the /wp-content/debug.log file
-//define( 'WP_DEBUG_LOG', true );
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
@@ -23,25 +20,28 @@ define( 'IMOK_PLUGIN_LOCATION_URL', plugins_url( '', __FILE__ ) ); // http://wp_
 define( 'IMOK_PLUGIN_NAME' , plugin_basename( __FILE__ ) ); // imok_wp (or other if renamed)
 define( 'IMOK_ROOT_URL' , home_url() ); // http://wp_url/
 
-class imok {
-	function __construct() {
+register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK_Activate' , 'activate'] ); 
+
+class EMOGIC_IMOK {
+	
+	public static function run() {
 		require_once plugin_dir_path(__file__) . 'inc/activate.php' ; //set up pages
 		require_once plugin_dir_path(__file__) . 'inc/deactivate.php' ; //remove created pages
-		//require_once plugin_dir_path(__file__) . 'inc/enqueue.php' ;//add js and styles : none
+		
 		require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
-		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
-		require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status
-		require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
-		require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
-		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
-		require_once plugin_dir_path(__file__) . 'inc/pages.php' ; //auto setup pages
-		require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email
-		require_once plugin_dir_path(__file__) . 'inc/menu.php';
+		//require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
+		//require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status
+		//require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
+		//require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
+		//require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
+		//require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email
+		//require_once plugin_dir_path(__file__) . 'inc/menu.php';
 	}
 }
 
-if( class_exists('imok') ){
-	$imok = new imok();
+if( class_exists('EMOGIC_IMOK') ){
+	$EMOGIC_IMOK = new EMOGIC_IMOK();
+	$EMOGIC_IMOK->run();
 	}
 
 //fixes

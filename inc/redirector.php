@@ -27,23 +27,23 @@ add_shortcode( 'imok_redirector', 'imok_redirector_func' );
 function imok_redirector_func(){
 	$currentURL = get_permalink();
 	$newURL = $currentURL; //assume we are already on the correct page. test this assumption below
-	$page = get_page_by_title("IMOK Settings"); //then assume we are on IMOK Settings page
+	$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0];  //then assume we are on IMOK Settings page
 	$imokSettingsURL = get_permalink($page->ID);
 	if( is_user_logged_in() ){
 			if( $currentURL != $imokSettingsURL ){ //if not on IMOK-Settings see if we should be
 				$user = wp_get_current_user();
 				if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ) { //we have set up our settings already
-					$page = get_page_by_title("IMOK Logged In");
+					$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
 					$newURL = get_permalink($page->ID);
 				}
 				else{ //we need to set up our settings. 1st login?
-					$page = get_page_by_title("IMOK Settings");
+					$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0]; 
 					$newURL = get_permalink($page->ID);
 				}
 			}
 		}
 		else{
-			$page = get_page_by_title("IMOK Log In");
+			$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Log In'] )[0]; 
 			$newURL = get_permalink($page->ID);
 		}
 	if($currentURL != $newURL){//only redirect if we are changing pages. compare current URL with redirected one so we don't loop

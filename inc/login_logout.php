@@ -6,7 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if dir
 //login form shortcode
 add_shortcode( 'wp_login_form', 'imok_login_form_func' );
 function imok_login_form_func(){
-	$page = get_page_by_title("IMOK Logged In");
+	
+	$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
+	
 	$homeURL = get_permalink($page->ID);
 	$wp_login_form = wp_login_form(
 		['echo' => false,	//'redirect' => $site_url,
@@ -32,7 +34,7 @@ function imok_login_form_func(){
 //need this for registration login, which likely comes from wp-login.php not our custom form
 add_filter( 'login_redirect', 'imok_login_redirect' );
 function imok_login_redirect() {
-    $page = get_page_by_title("IMOK Logged In");
+    $page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
 	$homeURL = get_permalink($page->ID);
     return $homeURL ;
 }
@@ -40,7 +42,7 @@ function imok_login_redirect() {
 //create a wp logout url and send to shortcode : wp_logout_url( string $redirect = '' ) : redirect to main page on log out
 add_shortcode( 'wp_logout_url', 'imok_logout_url_func' );
 function imok_logout_url_func(){
-		$page = get_page_by_title("IMOK Log In");
+		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Log In'] )[0]; 
 		$homeURL = get_permalink($page->ID);
 		return wp_logout_url( $homeURL );
 	}

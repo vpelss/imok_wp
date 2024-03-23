@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if dir
 //shortcode for settings url. used with settings button on the imok-logged-in page. in case we change the imok-settings page name
 add_shortcode( 'imok_settings_url', 'imok_settings_url_func' );
 function imok_settings_url_func(){
-	$page = get_page_by_title("IMOK Settings");
+	$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0];	
 	$newURL = get_permalink($page->ID);
 	return( $newURL );
 }
@@ -14,7 +14,7 @@ function imok_settings_url_func(){
 //shortcode log_out_everywhere_else link
 add_shortcode( 'imok_log_out_everywhere_else_url', 'imok_log_out_everywhere_else_url_func' );
 function imok_log_out_everywhere_else_url_func(){
-	$page = get_page_by_title("IMOK Logged In");
+	$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
 	$newURL = get_permalink($page->ID);
 	$newURL = $newURL . "?command=log_out_everywhere_else";
 	return( $newURL );
@@ -23,9 +23,6 @@ function imok_log_out_everywhere_else_url_func(){
 add_shortcode( 'imok_commands', 'imok_commands_func' );
 function imok_commands_func(){
 	$user = wp_get_current_user();
-
-	//if ($_SERVER["REQUEST_METHOD"] == "POST"){ $response = $_POST['command']; }
-	//else{ $response = $_GET['command'];	}
 
 	$response = 'none';
 	if( isset($_REQUEST['command']) )
@@ -48,11 +45,7 @@ function imok_commands_func(){
 		$msg = $msg . imok_countdown();
 		return $msg;
 	}
-	//elseif($response == 'settings'){//may not use. allows us to rename stiing page slug and not need to update href as we use ?command=settings
-		//$page = get_page_by_title("IMOK Settings");
-		//$newURL = get_permalink($page->ID);
-		//return( "<script>window.location.replace('$newURL');</script>" );
-	//}
+
 	elseif(1){//no command
 		return imok_countdown();
 	}
