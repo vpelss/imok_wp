@@ -23,39 +23,43 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
-add_shortcode( 'imok_redirector', 'imok_redirector_func' );
-function imok_redirector_func(){
-	$currentURL = get_permalink();
-	$newURL = $currentURL; //assume we are already on the correct page. test this assumption below
-	$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0];  //then assume we are on IMOK Settings page
-	$imokSettingsURL = get_permalink($page->ID);
-	if( is_user_logged_in() ){
-			if( $currentURL != $imokSettingsURL ){ //if not on IMOK-Settings see if we should be
-				$user = wp_get_current_user();
-				if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ) { //we have set up our settings already
-					$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
-					$newURL = get_permalink($page->ID);
-				}
-				else{ //we need to set up our settings. 1st login?
-					$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0]; 
-					$newURL = get_permalink($page->ID);
+add_shortcode( 'imok_redirector', ['Emogic_IMOK_Redireector' , 'imok_redirector_func'] );
+
+class Emogic_IMOK_Redireector{
+
+	public static function imok_redirector_func(){
+		$currentURL = get_permalink();
+		$newURL = $currentURL; //assume we are already on the correct page. test this assumption below
+		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0];  //then assume we are on IMOK Settings page
+		$imokSettingsURL = get_permalink($page->ID);
+		if( is_user_logged_in() ){
+				if( $currentURL != $imokSettingsURL ){ //if not on IMOK-Settings see if we should be
+					$user = wp_get_current_user();
+					if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ) { //we have set up our settings already
+						$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
+						$newURL = get_permalink($page->ID);
+					}
+					else{ //we need to set up our settings. 1st login?
+						$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0]; 
+						$newURL = get_permalink($page->ID);
+					}
 				}
 			}
+			else{
+				$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Log In'] )[0]; 
+				$newURL = get_permalink($page->ID);
+			}
+		if($currentURL != $newURL){//only redirect if we are changing pages. compare current URL with redirected one so we don't loop
+			$flash = IMOK_PLUGIN_LOCATION_URL . '/images/flash.gif';
+			$string = "<!-- wp:image {'align':'center','sizeSlug':'large'} -->
+			<figure class='wp-block-image aligncenter size-large'><img src='$flash' alt=''/><figcaption>Please Wait...</figcaption></figure>
+			<!-- /wp:image -->
+			<script>window.location.replace('$newURL');</script>
+			";
+			return( $string );
 		}
-		else{
-			$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Log In'] )[0]; 
-			$newURL = get_permalink($page->ID);
-		}
-	if($currentURL != $newURL){//only redirect if we are changing pages. compare current URL with redirected one so we don't loop
-		$flash = IMOK_PLUGIN_LOCATION_URL . '/images/flash.gif';
-		$string = "<!-- wp:image {'align':'center','sizeSlug':'large'} -->
-<figure class='wp-block-image aligncenter size-large'><img src='$flash' alt=''/><figcaption>Please Wait...</figcaption></figure>
-<!-- /wp:image -->
-
-<script>window.location.replace('$newURL');</script>
-		";
-		return( $string );
 	}
+	
 }
 
 ?>

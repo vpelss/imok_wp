@@ -9,10 +9,14 @@ add_shortcode( 'wp_login_form', ['Emogic_IMOK_Login_Logout' , 'imok_login_form_f
 //need this for registration login, which likely comes from wp-login.php not our custom form
 add_filter( 'login_redirect', ['Emogic_IMOK_Login_Logout' , 'imok_login_redirect'] );
 
+//create a wp logout url and send to shortcode : wp_logout_url( string $redirect = '' ) : redirect to main page on log out
+add_shortcode( 'wp_logout_url', ['Emogic_IMOK_Login_Logout' , 'imok_logout_url_func'] );
+
+add_action( 'login_enqueue_scripts', ['Emogic_IMOK_Login_Logout' , 'imok_my_login_logo'] );
 
 class Emogic_IMOK_Login_Logout{
 
-	function imok_login_form_func(){	
+	public static function imok_login_form_func(){	
 		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
 		
 		$homeURL = get_permalink($page->ID);
@@ -36,11 +40,32 @@ class Emogic_IMOK_Login_Logout{
 		return $wp_login_form;
 	}
 
-	function imok_login_redirect() {
+	public static function imok_login_redirect() {
 		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
 		$homeURL = get_permalink($page->ID);
 		return $homeURL ;
 	}	
+
+	public static function imok_logout_url_func(){
+		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Log In'] )[0]; 
+		$homeURL = get_permalink($page->ID);
+		return wp_logout_url( $homeURL );
+		}
+
+	public static function imok_my_login_logo() {
+		echo "
+			<style type='text/css'>
+			#login h1 a, .login h1 a {
+				background-image: url( IMOK_PLUGIN_LOCATION_URL . '/images/imok-logo.svg');
+			height:65px;
+			width:320px;
+			background-size: 320px 65px;
+			background-repeat: no-repeat;
+				padding-bottom: 30px;
+			}
+		</style>
+		";
+		}
 		
 }
 
@@ -49,28 +74,8 @@ class Emogic_IMOK_Login_Logout{
 
 
 
-//create a wp logout url and send to shortcode : wp_logout_url( string $redirect = '' ) : redirect to main page on log out
-add_shortcode( 'wp_logout_url', 'imok_logout_url_func' );
-function imok_logout_url_func(){
-		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Log In'] )[0]; 
-		$homeURL = get_permalink($page->ID);
-		return wp_logout_url( $homeURL );
-	}
 
-add_action( 'login_enqueue_scripts', 'imok_my_login_logo' );
-function imok_my_login_logo() {
-	echo "
-	    <style type='text/css'>
-        #login h1 a, .login h1 a {
-            background-image: url( IMOK_PLUGIN_LOCATION_URL . '/images/imok-logo.svg');
-		height:65px;
-		width:320px;
-		background-size: 320px 65px;
-		background-repeat: no-repeat;
-        	padding-bottom: 30px;
-        }
-    </style>
-	";
-	}
+
+
 	
 ?>
