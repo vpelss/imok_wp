@@ -75,7 +75,7 @@ class Emogic_IMOK_Settings{
 			$subject = "Your IMOK settings were changed";
 			$message = "Your IMOK settings were changed";
 			//$headers = $email_from;
-			$result = imok_mail( $email_to , $subject , $message );
+			$result = Emogic_IMOK_Email::imok_mail( $email_to , $subject , $message );
 		
 			//$admin_notice = "success"; //???
 			if( $_POST['imok_stay_on_settings_page'] ) {

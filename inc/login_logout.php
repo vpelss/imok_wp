@@ -4,40 +4,50 @@
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
 //login form shortcode
-add_shortcode( 'wp_login_form', 'imok_login_form_func' );
-function imok_login_form_func(){
-	
-	$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
-	
-	$homeURL = get_permalink($page->ID);
-	$wp_login_form = wp_login_form(
-		['echo' => false,	//'redirect' => $site_url,
-		'redirect' => $homeURL,
-        'form_id' => 'loginform',
-        'label_username' => __( 'Login Email' ),
-        'label_password' => __( 'Password' ),
-        'label_remember' => __( 'Remember Me' ),
-        'label_log_in' => __( 'Log In' ),
-        'remember' => true,
-		'value_remember' => true
-		]);
-
-		$imok_root_url = IMOK_ROOT_URL;
-		$wp_login_form =  $wp_login_form . "<p id='nav'>
-				<a href='$imok_root_url/wp-login.php?action=register'>Register</a> |	<a href='$imok_root_url/wp-login.php?action=lostpassword'>Lost your password?</a>
-			</p>";
-
-	return $wp_login_form;
-
-	};
+add_shortcode( 'wp_login_form', ['Emogic_IMOK_Login_Logout' , 'imok_login_form_func'] );
 
 //need this for registration login, which likely comes from wp-login.php not our custom form
-add_filter( 'login_redirect', 'imok_login_redirect' );
-function imok_login_redirect() {
-    $page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
-	$homeURL = get_permalink($page->ID);
-    return $homeURL ;
+add_filter( 'login_redirect', ['Emogic_IMOK_Login_Logout' , 'imok_login_redirect'] );
+
+
+class Emogic_IMOK_Login_Logout{
+
+	function imok_login_form_func(){	
+		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
+		
+		$homeURL = get_permalink($page->ID);
+		$wp_login_form = wp_login_form(
+			['echo' => false,	//'redirect' => $site_url,
+			'redirect' => $homeURL,
+			'form_id' => 'loginform',
+			'label_username' => __( 'Login Email' ),
+			'label_password' => __( 'Password' ),
+			'label_remember' => __( 'Remember Me' ),
+			'label_log_in' => __( 'Log In' ),
+			'remember' => true,
+			'value_remember' => true
+			]);
+	
+			$imok_root_url = IMOK_ROOT_URL;
+			$wp_login_form =  $wp_login_form . "<p id='nav'>
+					<a href='$imok_root_url/wp-login.php?action=register'>Register</a> |	<a href='$imok_root_url/wp-login.php?action=lostpassword'>Lost your password?</a>
+				</p>";
+	
+		return $wp_login_form;
+	}
+
+	function imok_login_redirect() {
+		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
+		$homeURL = get_permalink($page->ID);
+		return $homeURL ;
+	}	
+		
 }
+
+
+
+
+
 
 //create a wp logout url and send to shortcode : wp_logout_url( string $redirect = '' ) : redirect to main page on log out
 add_shortcode( 'wp_logout_url', 'imok_logout_url_func' );

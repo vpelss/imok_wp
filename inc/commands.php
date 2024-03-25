@@ -67,7 +67,7 @@ function imnotok(){
 	$message = $user->display_name . ' ' . $user->user_email . " pushed the IM Not OK button. Please check on them.";
 	$message = $message . "\r\n\r\n" . get_user_meta( $user->ID , 'imok_email_form', true );
 	//$headers = $email_from;
-	$result = imok_mail( $email_to , $subject , $message );
+	$result = Emogic_IMOK_Email::imok_mail( $email_to , $subject , $message );
 	return "IM Not OK Alert sent to your contact list:<br> {$email_to_str} <br><br>The following was sent to your contact list:<br>{$message}";
 	}
 
