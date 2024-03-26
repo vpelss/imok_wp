@@ -38,6 +38,7 @@ This is a proof of concept script. Don't risk your life on it.
 
 ## To Do
 
+- request in email to stop account emails
 - security issues
 - alert to text
 - alert to social media

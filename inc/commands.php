@@ -12,20 +12,20 @@ add_shortcode( 'imok_countdown', ['Emogic_IMOK_Commands' , 'imok_countdown'] );
 
 class Emogic_IMOK_Commands{
 
-	function imok_settings_url_func(){
+	public static function imok_settings_url_func(){
 		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0];	
 		$newURL = get_permalink($page->ID);
 		return( $newURL );
 	}
 
-	function imok_log_out_everywhere_else_url_func(){
+	public static function imok_log_out_everywhere_else_url_func(){
 		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
 		$newURL = get_permalink($page->ID);
 		$newURL = $newURL . "?command=log_out_everywhere_else";
 		return( $newURL );
 	}
 
-	function imok_commands_func(){
+	public static function imok_commands_func(){
 		$user = wp_get_current_user();
 	
 		$response = 'none';
@@ -33,10 +33,10 @@ class Emogic_IMOK_Commands{
 			$response = $_REQUEST['command'];
 	
 		if($response == 'imok'){
-			return imok();
+			return self::imok();
 		}
 		elseif($response == 'imnotok'){
-			return imnotok();
+			return self::imnotok();
 		}
 		elseif($response == 'imokcron'){
 			//return imok_cron_exec();
@@ -46,17 +46,17 @@ class Emogic_IMOK_Commands{
 			$sessions = WP_Session_Tokens::get_instance( $user->ID );
 			$sessions->destroy_others(  wp_get_session_token() );
 			$msg = 'You have logged out everywhere else.</br></br>';
-			$msg = $msg . imok_countdown();
+			$msg = $msg . self::imok_countdown();
 			return $msg;
 		}
 	
 		elseif(1){//no command
-			return imok_countdown();
+			return self::imok_countdown();
 		}
 	
 	}
 	
-	function imnotok(){
+	public static function imnotok(){
 		$user = wp_get_current_user();
 	
 		//$email_from = 'From: imok <imok@emogic.com>';
@@ -75,7 +75,7 @@ class Emogic_IMOK_Commands{
 		return "IM Not OK Alert sent to your contact list:<br> {$email_to_str} <br><br>The following was sent to your contact list:<br>{$message}";
 	}
 	
-	function imok(){
+	public static function imok(){
 		$user = wp_get_current_user();
 		$unix_day = 60 * 60 * 24; //seconds in a day
 	
@@ -115,12 +115,12 @@ class Emogic_IMOK_Commands{
 		//return and display message
 		$now_str = date( "Y-m-d H:i", $now);
 		$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
-		$msg = imok_countdown();
+		$msg = self::imok_countdown();
 		//$msg2 = "<br>Start alert time: {$imok_alert_date_time_string}<br>Now: {$now_str}<br>New alert time: {$new_alert_date_time}";
 		return $msg;
 	}
 
-	function imok_countdown(){
+	public static function imok_countdown(){
 		$user = wp_get_current_user();
 		//$unix_day = 60 * 60 * 24; //seconds in a day
 	
@@ -208,16 +208,5 @@ class Emogic_IMOK_Commands{
 	}
 		
 }
-
-
-
-
-
-
-
-
-
-
-
 
 ?>

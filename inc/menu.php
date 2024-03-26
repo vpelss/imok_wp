@@ -9,7 +9,7 @@ add_shortcode( 'imok_menu', ['Emogic_IMOK_Menu' , 'imok_menu_func'] );
 
 class Emogic_IMOK_Menu{
  
-    function imok_nav_creation_primary(){
+    public static function imok_nav_creation_primary(){
         global $imok_menu_name;
         $menu_exists = wp_get_nav_menu_object( $imok_menu_name );
         if( !$menu_exists){ // If it doesn't exist, let's create it.
@@ -33,12 +33,12 @@ class Emogic_IMOK_Menu{
             }
     }
    
-    function shutdown_funct(){ //maybe move to deactivate
+    public static function shutdown_funct(){ //maybe move to deactivate
        global $imok_menu_name;
        wp_delete_nav_menu( $imok_menu_name );
     }
  
-    function imok_menu_func(){
+    public static function imok_menu_func(){
         global $imok_menu_name;
     
         $page_links = wp_nav_menu( array( 'menu'=> $imok_menu_name ,
