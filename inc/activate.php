@@ -4,12 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if dir
 
 class Emogic_IMOK_Activate{
 
-public static function activate(){
+	public static function activate(){
 	
-		//require_once plugin_dir_path(__file__) . 'inc/pages.php' ; //auto setup pages
 		self::create_pages(); //create default pages
 
-		//set from email
+		//set a default from email
 		$imok_r1 = $_SERVER['HTTP_HOST'];
 		$imok_r2 = $_SERVER['SERVER_NAME'];
 		$imok_from_email = 'imok@' . $_SERVER['HTTP_HOST']; //assume a send from email address
@@ -30,10 +29,7 @@ public static function activate(){
 		foreach ($files as $file) {
 			if($file == "."){continue;}
 			if($file == ".."){continue;}
-			
-			//$r = get_posts( ['title'=> $file] )[0];
-			//$rr = get_posts( ['title'=> $file] )[0];
-			
+				
 			if( isset(get_posts( ['post_type' => 'page' , 'title' => $file] )[0]) ){
 				continue;
 				} //skip if this file page already exists
@@ -53,6 +49,6 @@ public static function activate(){
 
 }
 
-
+Emogic_IMOK_Activate::activate();
 
 ?>

@@ -3,6 +3,16 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
+
+//do_action( “admin_post_{$action}” )
+
+//add_action( '“admin_post_imok”', 'prefix_admin_add_foobar' );
+
+//do_action( “admin_post_imok” )
+//do_action( “admin_post_imnotok” )
+//do_action( “admin_post_imokcron” )
+//do_action( “admin_post_log_out_everywhere_else” )
+
 //shortcode for settings url. used with settings button on the imok-logged-in page. in case we change the imok-settings page name
 add_shortcode( 'imok_settings_url', ['Emogic_IMOK_Commands' , 'imok_settings_url_func'] );
 //shortcode log_out_everywhere_else link

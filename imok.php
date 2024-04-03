@@ -20,44 +20,78 @@ define( 'IMOK_PLUGIN_LOCATION_URL', plugins_url( '', __FILE__ ) ); // http://wp_
 define( 'IMOK_PLUGIN_NAME' , plugin_basename( __FILE__ ) ); // imok_wp (or other if renamed)
 define( 'IMOK_ROOT_URL' , home_url() ); // http://wp_url/
 
-register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK_Activate' , 'activate'] ); 
+register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'activate'] ); 
+register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'deactivate'] );
+
+//require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
 
 class EMOGIC_IMOK {
 	
 	public static function run() {
-		require_once plugin_dir_path(__file__) . 'inc/activate.php' ; //set up pages
-		require_once plugin_dir_path(__file__) . 'inc/deactivate.php' ; //remove created pages
 		
-		require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
+		/*
+		$response = 'none';
+		if( isset($_REQUEST['command']) ){
+			$response = $_REQUEST['command'];
+			}
+			
+		if($response == 'imok'){
+			
+			//return self::imok();
+		}
+		*/
+		
 		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
-		require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status
-		require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
-		require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
-		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
-		require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email
-		require_once plugin_dir_path(__file__) . 'inc/menu.php';
+		//require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status
+		//require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
+		//require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
+		//require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
+		//require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email
+		//require_once plugin_dir_path(__file__) . 'inc/menu.php';
 	}
+	
+	public static function activate() {
+		require_once plugin_dir_path(__file__) . 'inc/activate.php' ; //set up pages
+	}
+	
+	public static function deactivate() {
+		require_once plugin_dir_path(__file__) . 'inc/deactivate.php' ; //set up pages
+	}
+	
 }
 
-if( class_exists('EMOGIC_IMOK') ){
-	$EMOGIC_IMOK = new EMOGIC_IMOK();
-	$EMOGIC_IMOK->run();
+
+
+if( is_admin() ){
+	
+	global $wp;
+//echo home_url( $wp->request )
+	$r = home_url( $wp->request );
+	
+	if( wp_basename( home_url( $wp->request ) ) == "admin-post.php" ){
+		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
+	}
+	else{
+		require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
 	}
 
-//fixes
-	//security benefit to commands going through : /wp-admin/admin-post.php
-	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
+    //require_once EMOGIC_TAROT_PLUGIN_PATH . 'admin/EmogicTarotReader_Admin.php';
+    //EmogicTarotReader_Admin::init(); //set up admin option(s)
+    }  // for some reason wp calculates shortcodes on edit screens causing errors even though it will not display them
+else{
+	EMOGIC_IMOK::run();
+	//$EMOGIC_IMOK = new EMOGIC_IMOK();
+	//$EMOGIC_IMOK->run();
+	
+    //require_once EMOGIC_TAROT_PLUGIN_PATH . 'inc/EmogicTarotReader_Core.php' ; 
+    //EmogicTarotReader_Core::init();
+}
+
+//if( class_exists('EMOGIC_IMOK') ){
+	//$EMOGIC_IMOK = new EMOGIC_IMOK();
+	//$EMOGIC_IMOK->run();
+	//}
 
 
-//audio alarm. bypass dom interaction?
-//no audio alarm option in settings?
-
-	//no comments
-	//no posts
-	//no media
-
-//to do
-	//messaging option
-	//pay system?
 
 ?>

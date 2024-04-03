@@ -2,30 +2,29 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
-
 //set a wp_cron interval
 add_filter( 'cron_schedules', ['Emogic_IMOK_Chron' , 'imok_add_cron_interval'] );
 
 //create my hook
-add_action( 'imok_cron_hook', ['Emogic_IMOK_Chron' , 'imok_cron_exec'] );
+add_action( 'EMOGIC_IMOK_cron_hook', ['Emogic_IMOK_Chron' , 'imok_cron_exec'] );
 
 //scheduled our cron
-if ( ! wp_next_scheduled( 'imok_cron_hook' ) ) {
+if ( ! wp_next_scheduled( 'EMOGIC_IMOK_cron_hook' ) ) {
     //set to exactly the 1/4 hour
     $time = time();
     //so convert to 1/4 hours
     $time = round($time / 60 / 15);
     //and then back
     $time = $time * 60 * 15;
-    wp_schedule_event( $time , 'fifteen_minutes', 'imok_cron_hook' );
+    wp_schedule_event( $time , 'EMOGIC_IMOK_fifteen_minutes', 'EMOGIC_IMOK_cron_hook' );
 }
 
 class Emogic_IMOK_Chron{
     
     public static function imok_add_cron_interval( $schedules ) {
-        $schedules['fifteen_minutes'] = array(
+        $schedules['EMOGIC_IMOK_fifteen_minutes'] = array(
             'interval' => 900,
-            'display'  => esc_html__( 'Every Fifteen Minutes' ), );
+            'display'  => esc_html__( 'EMOGIC IMOK Every Fifteen Minutes' ), );
         return $schedules;
     }
 

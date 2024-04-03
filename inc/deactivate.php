@@ -2,10 +2,6 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
-//register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , array( 'deactivate' , 'deactivate_plugin') );
-register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK_Deactivate' , 'deactivate'] );
-
-
 class Emogic_IMOK_Deactivate{
 	
 	public static function deactivate(){
@@ -46,5 +42,7 @@ class Emogic_IMOK_Deactivate{
 	}
 	
 }
+
+Emogic_IMOK_Deactivate::deactivate();
 
 ?>

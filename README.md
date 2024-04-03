@@ -17,14 +17,16 @@ By having the customer report to a server that he is OK, the server can send out
 
 ## Install
 
-- This was designed as a web app to work on a stand alone Wordpress install and may conflict with existing pages. You can easily create another Wordpress installation on your web host under a sub directory as I have done. https://www.emogic.com/imok/
+- This was designed as a web app to work on a stand alone Wordpress install and may conflict with existing pages.
+For example, anyone who registers for a new account on your site will be asked to fill in the IMOK settings page.
+To avoid site conflicts, you can easily create another Wordpress installation on your web host under a sub directory as I have done. https://www.emogic.com/imok/
 - Download and place all files under your Wordpress installation at \wp-content\plugins\imok_wp
 - Activate the imok plugin. It will create multiple pages unless they exist; 'IMOK Log In', 'IMOK Logged In', 'IMOK Settings', etc
 - If suitable, it is recommended to set the page 'IMOK Logged In' as your main page
 - Set permalinks to 'Post name'. 'Plain' will work but css may break
 - Create a header and footer as required and set on the IMOK pages
 - There is a very simple menu on each page, but you will likely want to remove it and set your own and place it in the header
-- Set up a cron job to run at least every hour. eg: wget -qO- https://yoursite.com/imok/wp-cron.php &> /dev/null
+- Set up a cron job to run wp-cron.php on your wordpress insatllation at least every hour. eg: wget -qO- https://yoursite.com/imok/wp-cron.php &> /dev/null
 - Create an account and test
 - You may change the page(s) URL slugs (you may need to change button hrefs), but you cannot change the page(s) name. If you do the script will break
 - You may edit the pages, but if you remove the [shortcode](s) you may break some of the page functions
@@ -38,7 +40,30 @@ This is a proof of concept script. Don't risk your life on it.
 
 ## To Do
 
+- templates for most displays
+	- settings : unlimited emails?
+	- emails : imok , imnotok , settings changed
+	- menu shows only : pages required
+
+- commands in first page and load modules as required
+- better email admin link 
 - request in email to stop account emails
 - security issues
 - alert to text
 - alert to social media
+
+//fixes
+	//security benefit to commands going through : /wp-admin/admin-post.php
+	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
+
+
+//audio alarm. bypass dom interaction?
+//no audio alarm option in settings?
+
+	//no comments
+	//no posts
+	//no media
+
+//to do
+	//messaging option
+	//pay system?
