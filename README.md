@@ -42,7 +42,7 @@ This is a proof of concept script. Don't risk your life on it.
 
 - templates for most displays
 	- settings : unlimited emails?
-	- emails : imok , imnotok , settings changed
+	- emails : imok , imnotok , admin settings
 	- menu shows only : pages required
 
 - commands in first page and load modules as required
@@ -51,6 +51,11 @@ This is a proof of concept script. Don't risk your life on it.
 - security issues
 - alert to text
 - alert to social media
+
+-rename logged in page to IMOK
+-hide IMOK Settings Fields and menu
+
+-test admin access to user, it may not work.... Do we need this??? Nice to have...
 
 //fixes
 	//security benefit to commands going through : /wp-admin/admin-post.php

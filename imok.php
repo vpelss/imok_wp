@@ -28,26 +28,15 @@ register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'de
 class EMOGIC_IMOK {
 	
 	public static function run() {
-		
-		/*
-		$response = 'none';
-		if( isset($_REQUEST['command']) ){
-			$response = $_REQUEST['command'];
-			}
 			
-		if($response == 'imok'){
-			
-			//return self::imok();
-		}
-		*/
-		
+		require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
 		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
-		//require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status
-		//require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
-		//require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
-		//require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
-		//require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email
-		//require_once plugin_dir_path(__file__) . 'inc/menu.php';
+		require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status
+		require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
+		require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
+		require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
+		require_once plugin_dir_path(__file__) . 'inc/email.php' ; //email
+		require_once plugin_dir_path(__file__) . 'inc/menu.php';
 	}
 	
 	public static function activate() {
@@ -60,37 +49,20 @@ class EMOGIC_IMOK {
 	
 }
 
-
-
 if( is_admin() ){
-	
-	global $wp;
-//echo home_url( $wp->request )
-	$r = home_url( $wp->request );
-	
-	if( wp_basename( home_url( $wp->request ) ) == "admin-post.php" ){
-		require_once plugin_dir_path(__file__) . 'inc/settings.php' ; //settings page functions
-	}
-	else{
-		require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
-	}
+	//$thebasename = wp_basename( "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}" );
+
+		//require_once plugin_dir_path(__file__) . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
 
     //require_once EMOGIC_TAROT_PLUGIN_PATH . 'admin/EmogicTarotReader_Admin.php';
     //EmogicTarotReader_Admin::init(); //set up admin option(s)
     }  // for some reason wp calculates shortcodes on edit screens causing errors even though it will not display them
 else{
-	EMOGIC_IMOK::run();
-	//$EMOGIC_IMOK = new EMOGIC_IMOK();
-	//$EMOGIC_IMOK->run();
-	
-    //require_once EMOGIC_TAROT_PLUGIN_PATH . 'inc/EmogicTarotReader_Core.php' ; 
-    //EmogicTarotReader_Core::init();
+	//EMOGIC_IMOK::run();
 }
 
-//if( class_exists('EMOGIC_IMOK') ){
-	//$EMOGIC_IMOK = new EMOGIC_IMOK();
-	//$EMOGIC_IMOK->run();
-	//}
+EMOGIC_IMOK::run();
+
 
 
 

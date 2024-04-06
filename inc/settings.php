@@ -12,13 +12,14 @@ add_action('after_setup_theme', ['Emogic_IMOK_Settings' , 'remove_admin_bar']);
 //these require echo to feed to user page at correct time. return goes to a bit bucket so it does not work here
 add_action( 'show_user_profile', ['Emogic_IMOK_Settings' , 'imok_settings_form_echo'] ); // Add the imok fields to user's own profile editing screen
 add_action( 'edit_user_profile', ['Emogic_IMOK_Settings' , 'imok_settings_form_echo'] ); // Add the imok fields to user profile editing screen for admins
+add_shortcode( 'imok_get_setting_fields', ['Emogic_IMOK_Settings' , 'imok_get_settings_fields_func'] );
 
-//add_action( 'personal_options_update', ['Emogic_IMOK_Settings' , 'imok_process_form'] ); // user to process IMOK setting changes on their account page. imok_process_form() is in settings.php
-//add_action( 'edit_user_profile_update', ['Emogic_IMOK_Settings' , 'imok_process_form'] ); // admin to process user's IMOK setting.  imok_process_form() is in settings.php
+add_action( 'personal_options_update', ['Emogic_IMOK_Settings' , 'imok_process_form'] ); // user to process IMOK setting changes on their account page. imok_process_form() is in settings.php
+add_action( 'edit_user_profile_update', ['Emogic_IMOK_Settings' , 'imok_process_form'] ); // admin to process user's IMOK setting.  imok_process_form() is in settings.php
 
 //add_shortcode( 'imok_settings',  ['Emogic_IMOK_Settings' , 'imok_create_form_nonce'] );//Create nonce fields and then add the user's form fields for the imok-settings page
 add_shortcode( 'imok_nonce',  ['Emogic_IMOK_Settings' , 'imok_create_form_nonce'] );//Create nonce fields and then add the user's form fields for the imok-settings page
-//add_shortcode( 'imok_stay_on_settings_page_checkbox', ['Emogic_IMOK_Settings' , 'imok_stay_on_settings_page_checkbox_function'] );
+add_shortcode( 'imok_stay_on_settings_page_checked', ['Emogic_IMOK_Settings' , 'imok_stay_on_settings_page_checkbox_function'] );
 
 //these [shortcodes] were used on the templates/Old_Setting_Form.html and can still be used if useful
 add_shortcode( 'imok_root_url', ['Emogic_IMOK_Settings' , 'imok_root_url_func'] );
@@ -33,24 +34,10 @@ add_shortcode( 'imok_alert_interval', ['Emogic_IMOK_Settings' , 'imok_alert_inte
 add_shortcode( 'imok_pre_warn_time', ['Emogic_IMOK_Settings' , 'imok_pre_warn_time_func'] );
 add_shortcode( 'imok_timezone', ['Emogic_IMOK_Settings' , 'imok_timezone_func'] );
 
-add_shortcode( 'imok_actions', 'imokshowactions' );
-function imokshowactions(){
-	return 	print_r($GLOBALS['wp_filter']);
-}
-
-add_action('admin_post_biff', 'doformstuff');
-
-function doformstuff(){
-		echo '77';
-		$t = 9;
-	}
 
 class Emogic_IMOK_Settings{
 	
-	public static function doformstuff(){
-		
-		$t = 9;
-	}
+	static public $useris;
 	
 	public static function imok_timezone_func(){
 		$user = wp_get_current_user();
@@ -67,12 +54,42 @@ class Emogic_IMOK_Settings{
 		$html = "<h2 id='settings_top'>IMOK Data Settings Below:</h2><hr>" . self::imok_settings_form($user);
 		echo $html;
 		}	
-
-	public static function imok_process_form_nonce(){
-		$user = wp_get_current_user();
-		if ( ! check_admin_referer( 'imok_process_settings' . $user->ID ) ) {	return;	}
-		self::imok_process_form( $user->ID);
-	}
+	
+	public static function imok_settings_form( $user ){ //so we can use same code for edit_user_profile (requires echo o/p) and [shortcode] in settings.php (requires return o/p)
+		if( is_admin() ){//if we are on admin page we are likely looking up a client's account
+			self::$useris = $user;
+			}
+		else{
+			self::$useris = null;
+		}
+		$posts = get_posts(
+		array( 'post_type'              => 'page',
+			'title'                  => 'IMOK Settings Fields',
+			'post_status'            => 'all', ) );
+		$page_got_by_title = null;		 
+		if ( ! empty( $posts ) ) {
+			$page_got_by_title = $posts[0];
+		}
+		
+		$textme = $page_got_by_title->post_content;
+		$textme = do_shortcode( $textme );
+		return $textme;
+		}
+		
+		//DUPLICATE????
+		public static function imok_get_settings_fields_func(){
+			$posts = get_posts(
+			array( 'post_type'              => 'page',
+				'title'                  => 'IMOK Settings Fields',
+				'post_status'            => 'all', ) );
+			$page_got_by_title = null;
+			if ( ! empty( $posts ) ) {
+				$page_got_by_title = $posts[0];
+			}
+			$textme = $page_got_by_title->post_content;
+			$textme = do_shortcode( $textme );
+			return $textme;
+		}
 	
 	public static function imok_process_form($user_id) {
 			$user = get_userdata($user_id);
@@ -123,6 +140,12 @@ class Emogic_IMOK_Settings{
 		return wp_nonce_field( 'imok_process_settings' . $user->ID ); // . self::imok_settings_form($user);
 		//return wp_nonce_field( 'imok_process_settings' . $user->ID ) . self::imok_settings_form($user);
 	}
+
+	public static function imok_process_form_nonce(){
+		$user = wp_get_current_user();
+		if ( ! check_admin_referer( 'imok_process_settings' . $user->ID ) ) {	return;	}
+		self::imok_process_form( $user->ID);
+	}
 	
 	public static function imok_root_url_func(){
 		$imok_root_url = IMOK_ROOT_URL;
@@ -130,45 +153,80 @@ class Emogic_IMOK_Settings{
 		}
 	
 	public static function imok_contact_email_1_func(){
-			$user = wp_get_current_user();
-			return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
+		$user = $user = wp_get_current_user();	
+			if( isset(self::$useris) ){ //we are admin and looking up client
+				$user = self::$useris;
+			}
+			$val = sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
+			if( $val == "" ){ //kludge for wp ticket #60948
+				$val = '""';		
+			}
+				return  $val ;
 		}
 		
-	public static function imok_contact_email_2_func(){
-			$user = wp_get_current_user();
-			return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
+	public static function imok_contact_email_2_func($user){
+		$user = $user = wp_get_current_user();	
+			if( isset(self::$useris) ){ //we are admin and looking up client
+				$user = self::$useris;
+			}
+			$val = sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
+			if( $val == "" ){ //kludge for wp ticket #60948
+				$val = '""';		
+			}
+				return  $val ;
 		}
 		
-	public static function imok_contact_email_3_func(){
-			$user = wp_get_current_user();
-			return esc_attr( get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
+	public static function imok_contact_email_3_func($user){
+		$user = $user = wp_get_current_user();	
+			if( isset(self::$useris) ){ //we are admin and looking up client
+				$user = self::$useris;
+			}
+			$val = sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
+			if( $val == "" ){ //kludge for wp ticket #60948
+				$val = '""';		
+			}
+				return  $val ;
 		}
 		
-	public static function imok_email_form_func(){
+	public static function imok_email_form_func($user){
 			$user = wp_get_current_user();
 			return esc_attr( get_user_meta( $user->ID, 'imok_email_form', true ) );
 		}
 		
-	public static function imok_alert_date_func(){
+	public static function imok_alert_date_func($user){
 			$user = wp_get_current_user();
 			return esc_attr( get_user_meta( $user->ID, 'imok_alert_date', true ) );
 		}
 		
-	public static function imok_alert_time_func(){
+	public static function imok_alert_time_func($user){
 			$user = wp_get_current_user();
 			return esc_attr( get_user_meta( $user->ID, 'imok_alert_time', true ) );
 		}
 		
-	public static function imok_alert_interval_func(){
+	public static function imok_alert_interval_func($user){
 			$user = wp_get_current_user();
 			return esc_attr( get_user_meta( $user->ID, 'imok_alert_interval', true ) );
 		}
 		
-	public static function imok_pre_warn_time_func(){
+	public static function imok_pre_warn_time_func($user){
 			$user = wp_get_current_user();
 			return esc_attr( get_user_meta( $user->ID, 'imok_pre_warn_time', true ) );
 		}
 
+	public static function imok_stay_on_settings_page_checkbox_function($user){
+		$user = wp_get_current_user();
+		$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
+		if($imok_stay_on_settings_page == 1){
+			return "checked";
+		}
+		else{
+			return "";
+		}
+		return ;
+	}
+	
+	
+	
 }
 	
 ?>
