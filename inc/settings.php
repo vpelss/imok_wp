@@ -33,7 +33,7 @@ add_shortcode( 'imok_alert_time', ['Emogic_IMOK_Settings' , 'imok_alert_time_fun
 add_shortcode( 'imok_alert_interval', ['Emogic_IMOK_Settings' , 'imok_alert_interval_func'] );
 add_shortcode( 'imok_pre_warn_time', ['Emogic_IMOK_Settings' , 'imok_pre_warn_time_func'] );
 add_shortcode( 'imok_timezone', ['Emogic_IMOK_Settings' , 'imok_timezone_func'] );
-
+add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_EMAIL', ['Emogic_IMOK_Settings' , 'EMOGIC_IMOK_CURRENT_USER_EMAIL_func'] );
 
 class Emogic_IMOK_Settings{
 	
@@ -152,69 +152,69 @@ class Emogic_IMOK_Settings{
 		return $imok_root_url;
 		}
 	
+	public static function cleanup_shortcode($val){
+		if( $val == "" ){ //kludge for wp ticket #60948
+			$val = '""';		
+		}
+		return  $val ;
+	}
+
+	public static function which_user(){
+		$user = wp_get_current_user();	
+		if( isset(self::$useris) ){ //we are admin and looking up client
+				$user = self::$useris;
+			}
+		return $user;
+	}
+	
 	public static function imok_contact_email_1_func(){
-		$user = $user = wp_get_current_user();	
-			if( isset(self::$useris) ){ //we are admin and looking up client
-				$user = self::$useris;
-			}
-			$val = sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
-			if( $val == "" ){ //kludge for wp ticket #60948
-				$val = '""';		
-			}
-				return  $val ;
+		$user = self::which_user();	
+		return self::cleanup_shortcode( sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_1', true ) ) );
 		}
 		
-	public static function imok_contact_email_2_func($user){
-		$user = $user = wp_get_current_user();	
-			if( isset(self::$useris) ){ //we are admin and looking up client
-				$user = self::$useris;
-			}
-			$val = sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
-			if( $val == "" ){ //kludge for wp ticket #60948
-				$val = '""';		
-			}
-				return  $val ;
+	public static function imok_contact_email_2_func(){
+		$user = self::which_user();
+		return self::cleanup_shortcode( sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_2', true ) ) );
 		}
 		
-	public static function imok_contact_email_3_func($user){
-		$user = $user = wp_get_current_user();	
-			if( isset(self::$useris) ){ //we are admin and looking up client
-				$user = self::$useris;
-			}
-			$val = sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
-			if( $val == "" ){ //kludge for wp ticket #60948
-				$val = '""';		
-			}
-				return  $val ;
+	public static function imok_contact_email_3_func(){
+		$user = self::which_user();
+		return self::cleanup_shortcode( sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_3', true ) ) );
 		}
 		
-	public static function imok_email_form_func($user){
-			$user = wp_get_current_user();
-			return esc_attr( get_user_meta( $user->ID, 'imok_email_form', true ) );
+	public static function imok_email_form_func(){
+		$user = self::which_user();
+		return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_email_form', true ) ) );
 		}
 		
-	public static function imok_alert_date_func($user){
-			$user = wp_get_current_user();
-			return esc_attr( get_user_meta( $user->ID, 'imok_alert_date', true ) );
+	public static function imok_alert_date_func(){
+		$user = self::which_user();
+		return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_alert_date', true ) ) );
 		}
 		
-	public static function imok_alert_time_func($user){
-			$user = wp_get_current_user();
-			return esc_attr( get_user_meta( $user->ID, 'imok_alert_time', true ) );
+	public static function imok_alert_time_func(){
+		$user = self::which_user();
+		return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_alert_time', true ) ) );
 		}
 		
-	public static function imok_alert_interval_func($user){
-			$user = wp_get_current_user();
-			return esc_attr( get_user_meta( $user->ID, 'imok_alert_interval', true ) );
+	public static function imok_alert_interval_func(){
+		$user = self::which_user();
+		return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_alert_interval', true ) ) );
 		}
 		
-	public static function imok_pre_warn_time_func($user){
-			$user = wp_get_current_user();
-			return esc_attr( get_user_meta( $user->ID, 'imok_pre_warn_time', true ) );
+	public static function imok_pre_warn_time_func(){
+		$user = self::which_user();
+		return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_pre_warn_time', true ) ) );
+		}
+		
+	public static function EMOGIC_IMOK_CURRENT_USER_EMAIL_func(){
+		$user = self::which_user();
+		return self::cleanup_shortcode( sanitize_email( $user->user_email ) );
 		}
 
+
 	public static function imok_stay_on_settings_page_checkbox_function($user){
-		$user = wp_get_current_user();
+		$user = self::which_user();
 		$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
 		if($imok_stay_on_settings_page == 1){
 			return "checked";

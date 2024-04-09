@@ -67,9 +67,10 @@ class Emogic_IMOK_Commands{
 	}
 	
 	public static function imnotok(){
-		$user = wp_get_current_user();
-	
+			
+		$template_page_name = 'IMOK IMNOTOK Email';
 		//$email_from = 'From: imok <imok@emogic.com>';
+		$user = wp_get_current_user();
 		$email_to = array();
 		array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
 		array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
@@ -77,12 +78,9 @@ class Emogic_IMOK_Commands{
 		array_push( $email_to , $user->user_email );
 		$email_to_str = implode( " : ", $email_to );
 	
-		$subject = "IM Not OK";
-		$message = $user->display_name . ' ' . $user->user_email . " pushed the IM Not OK button. Please check on them.";
-		$message = $message . "\r\n\r\n" . get_user_meta( $user->ID , 'imok_email_form', true );
-		//$headers = $email_from;
-		$result = Emogic_IMOK_Email::imok_mail( $email_to , $subject , $message );
-		return "IM Not OK Alert sent to your contact list:<br> {$email_to_str} <br><br>The following was sent to your contact list:<br>{$message}";
+		$result = Emogic_IMOK_Email::template_mail($email_to , $template_page_name);
+		
+		return "IMNOTOK Alert sent to your contact list.";
 	}
 	
 	public static function imok(){

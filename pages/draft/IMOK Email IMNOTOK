@@ -1,0 +1,7 @@
+<!-- wp:html -->
+<subject value="IM NOT OK email"></subject>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>[EMOGIC_IMOK_CURRENT_USER_EMAIL] pushed the IM Not OK button. Please check on them.</p>
+<!-- /wp:paragraph -->

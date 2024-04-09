@@ -5,18 +5,20 @@ if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if dir
 class Emogic_IMOK_Deactivate{
 	
 	public static function deactivate(){
-
-		//remove created pages
-		$dir = IMOK_PLUGIN_PATH . "/pages/";
-		//$pages = scandir($dir);
-		$pages = array_diff(scandir($dir), array('..', '.'));
-		foreach ($pages as $page_name) {
-			if(isset(get_posts( ['post_type' => 'page' , 'title' => $page_name] )[0])){
-				$page = get_posts( ['post_type' => 'page' , 'title' => $page_name] )[0]; 
+			
+		$folders = ['draft' , 'publish'];
+		foreach($folders as $folder){
+			$dir = IMOK_PLUGIN_PATH . "/pages/{$folder}/";
+			$files = scandir($dir);
+			foreach ($files as $file) {
+				if($file == "."){continue;}
+				if($file == ".."){continue;}
+				if(isset(get_posts( ['post_type' => 'page' , 'title' => $files] )[0])){
+				$page = get_posts( ['post_type' => 'page' , 'title' => $files] )[0]; 
 				wp_delete_post($page->ID , 1);
 				}
-			}
-
+		}
+		
 		//remove all user metadata starting with imok
 		$users = get_users();
 /*

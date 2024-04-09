@@ -23,30 +23,34 @@ class Emogic_IMOK_Activate{
 	}
 	
 	public static function create_pages(){	
-		$dir = IMOK_PLUGIN_PATH . "/pages/";
-		$files = scandir($dir);
-		
-		foreach ($files as $file) {
-			if($file == "."){continue;}
-			if($file == ".."){continue;}
-				
-			if( isset(get_posts( ['post_type' => 'page' , 'title' => $file] )[0]) ){
-				continue;
-				} //skip if this file page already exists
-						
-			$file_string = file_get_contents($dir . $file , true);
-		
+		$folders = ['draft' , 'publish'];
+		foreach($folders as $folder){
+			$dir = IMOK_PLUGIN_PATH . "/pages/{$folder}/";
+			$files = scandir($dir);
+			foreach ($files as $file) {
+				if($file == "."){continue;}
+				if($file == ".."){continue;}
+				if( isset(get_posts( ['post_type' => 'page' , 'title' => $file] )[0]) ){
+					continue;
+					} //skip if this file page already exists
+				$file_string = file_get_contents($dir . $file , true);		
+				post_page($file , $file_string , $folder);
+				}
+		}
+	}
+
+	public static function post_page($file , $file_string , $status){
 			$wordpress_page = array(
 				'post_title'    => $file,
 				'post_content'  => $file_string,
-				'post_status'   => 'publish',
+				'post_status'   => $status,
 				'post_author'   => 1,
 				'post_type' => 'page'
 				);
-			wp_insert_post( $wordpress_page );
-			}
+			wp_insert_post( $wordpress_page );	
 	}
-
+	
+	
 }
 
 Emogic_IMOK_Activate::activate();

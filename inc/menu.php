@@ -15,7 +15,7 @@ class Emogic_IMOK_Menu{
         if( !$menu_exists){ // If it doesn't exist, let's create it.
             $menu_id = wp_create_nav_menu( $imok_menu_name );
         
-            $dir = IMOK_PLUGIN_PATH . "/pages/";
+            $dir = IMOK_PLUGIN_PATH . "/pages/publish/";
             $files = scandir($dir);
         
             foreach ($files as $file) {
