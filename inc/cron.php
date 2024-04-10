@@ -8,6 +8,10 @@ add_filter( 'cron_schedules', ['Emogic_IMOK_Chron' , 'imok_add_cron_interval'] )
 //create my hook
 add_action( 'EMOGIC_IMOK_cron_hook', ['Emogic_IMOK_Chron' , 'imok_cron_exec'] );
 
+add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_EMAIL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_CURRENT_USER_EMAIL_func'] );
+add_shortcode( 'EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL_func'] );
+add_shortcode( 'EMOGIC_IMOK__ROOT_URL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK__ROOT_URL_func'] );
+
 //scheduled our cron
 if ( ! wp_next_scheduled( 'EMOGIC_IMOK_cron_hook' ) ) {
     //set to exactly the 1/4 hour
@@ -20,6 +24,24 @@ if ( ! wp_next_scheduled( 'EMOGIC_IMOK_cron_hook' ) ) {
 }
 
 class Emogic_IMOK_Chron{
+    
+    public static function EMOGIC_IMOK__ROOT_URL_func(){
+        return IMOK_ROOT_URL;
+    }
+    
+     public static function EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL_func(){
+            $userID = $user->ID;          
+            //$imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true ); //in minutes * 60
+            //$now_UTC = current_time("timestamp" , 1); //now in UTC time
+            $imok_alert_date = get_user_meta( $userID, 'imok_alert_date', true );
+            $imok_alert_time = get_user_meta( $userID, 'imok_alert_time', true );
+            $imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
+            return $imok_alert_date_time_string_local;
+     }
+    
+     public static function EMOGIC_IMOK_CURRENT_USER_EMAIL_func(){
+        return get_user_meta( $userID , 'imok_email_form', true );
+     }
     
     public static function imok_add_cron_interval( $schedules ) {
         $schedules['EMOGIC_IMOK_fifteen_minutes'] = array(
@@ -52,27 +74,16 @@ class Emogic_IMOK_Chron{
             $message;
             $result;
             apply_filters( 'wp_mail_content_type',  "text/html" );
-            if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered , email to list
-                //$email_from = "From: imok <$from_email>";
-        
-                $email_to = array();
-                array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_1', true ) );
-                array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_2', true ) );
-                array_push( $email_to , get_user_meta( $userID , 'imok_contact_email_3', true ) );
-                array_push( $email_to , $user->user_email );
-                $subject = "IMOK alert";
-                $message = get_user_meta( $userID , 'imok_email_form', true );
-                //$headers = $email_from;
-                $result = Emogic_IMOK_Email::imok_mail( $email_to , $subject , $message );
+            if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered , email to list                       
+            	$template_page_name = 'IMOK Email Missed Check In';
+            	$email_to_str =	EMOGIC_IMOK_Email::gett_dist_list();
+                $result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);   
                 }
             elseif( $now_UTC > ($imok_alert_unix_time - (3600 * get_user_meta( $userID , 'imok_pre_warn_time', true )) ) ){ //pre-alert time , email to client
-                //$email_from = "From: imok <$from_email>";
-                $email_to = $user->user_email;
-                $subject = "IMOK pre-alert";
-                $message = "Your IMOK Alert will be triggered and sent to your contact list at $imok_alert_date_time_string_local. Stop it by pushing IMOK button at " . IMOK_ROOT_URL;
-                //$headers = $email_from;
-                $result = Emogic_IMOK_Email::imok_mail( $email_to , $subject , $message );
-                }
+                $email_to_str = $user->user_email;
+            	$template_page_name = 'IMOK Email Pre Alert';
+                $result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);   
+               }
         
             apply_filters( 'wp_mail_content_type',  "text/plain" );
         

@@ -113,15 +113,10 @@ class Emogic_IMOK_Settings{
 			}
 			update_user_meta( $user->ID , 'imok_stay_on_settings_page' , $_POST['imok_stay_on_settings_page'] );
 		
-			//$options = get_option( 'imok_admin_settings' );
-			//$from_email = $options['imok_from_email_field'];
-		
-			//$email_from = "From: imok <$from_email>";
-			$email_to = $user->user_email;
-			$subject = "Your IMOK settings were changed";
-			$message = "Your IMOK settings were changed";
-			//$headers = $email_from;
-			$result = Emogic_IMOK_Email::imok_mail( $email_to , $subject , $message );
+			//email user that settings have changed
+			$template_page_name = 'IMOK Email Settings Changed';
+			$email_to_str = $user->user_email;
+			$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
 		
 			//$admin_notice = "success"; //???
 			if( $_POST['imok_stay_on_settings_page'] ) {

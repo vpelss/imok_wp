@@ -66,20 +66,10 @@ class Emogic_IMOK_Commands{
 	
 	}
 	
-	public static function imnotok(){
-			
-		$template_page_name = 'IMOK IMNOTOK Email';
-		//$email_from = 'From: imok <imok@emogic.com>';
-		$user = wp_get_current_user();
-		$email_to = array();
-		array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
-		array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
-		array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
-		array_push( $email_to , $user->user_email );
-		$email_to_str = implode( " : ", $email_to );
-	
-		$result = Emogic_IMOK_Email::template_mail($email_to , $template_page_name);
-		
+	public static function imnotok(){			
+		$template_page_name = 'IMOK Email IMNOTOK';
+		$email_to_str =	EMOGIC_IMOK_Email::gett_dist_list();
+		$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
 		return "IMNOTOK Alert sent to your contact list.";
 	}
 	

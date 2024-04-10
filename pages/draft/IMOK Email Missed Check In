@@ -1,0 +1,7 @@
+<!-- wp:html -->
+<subject value="IMOK Alert"></subject>
+<!-- /wp:html -->
+
+<!-- wp:shortcode -->
+[IMOK_User_Missed_Check_In_Message]
+<!-- /wp:shortcode -->

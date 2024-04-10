@@ -1,0 +1,7 @@
+<!-- wp:html -->
+<subject value="IMOK Settings Changed"></subject>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Your IMOK settings have changed. Account : [EMOGIC_IMOK_CURRENT_USER_EMAIL]</p>
+<!-- /wp:paragraph -->

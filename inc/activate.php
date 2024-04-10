@@ -34,7 +34,7 @@ class Emogic_IMOK_Activate{
 					continue;
 					} //skip if this file page already exists
 				$file_string = file_get_contents($dir . $file , true);		
-				post_page($file , $file_string , $folder);
+				self::post_page($file , $file_string , $folder);
 				}
 		}
 	}

@@ -17,7 +17,9 @@ class Emogic_IMOK_Deactivate{
 				$page = get_posts( ['post_type' => 'page' , 'title' => $files] )[0]; 
 				wp_delete_post($page->ID , 1);
 				}
+			}
 		}
+			
 		
 		//remove all user metadata starting with imok
 		$users = get_users();

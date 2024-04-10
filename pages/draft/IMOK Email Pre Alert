@@ -1,0 +1,9 @@
+<p><subject value="IM NOT OK email"></subject></p>
+
+<!-- wp:html -->
+<subject value="IM NOT OK email"></subject>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>Your IMOK Alert will be triggered and sent to your contact list at [EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL]. Stop it by pushing IMOK button at EMOGIC_IMOK__ROOT_URL;</p>
+<!-- /wp:paragraph -->

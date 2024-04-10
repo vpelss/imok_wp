@@ -18,7 +18,6 @@ class Emogic_IMOK_Email{
  
  public static function template_mail($email_to , $template_page_name){
 		$user = wp_get_current_user();
-		
 		//get email template
 		$posts = get_posts(
 		array( 'post_type'              => 'page',
@@ -40,6 +39,15 @@ class Emogic_IMOK_Email{
   return $result;
  }
   
+   public static function get_dist_list(){
+    $email_to = array();
+    array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
+    array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
+    array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
+    array_push( $email_to , $user->user_email );
+    $email_to_str = implode( ",", $email_to );
+    return $email_to_str;
+  }
  
 }
 
