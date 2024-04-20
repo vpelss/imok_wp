@@ -3,5 +3,6 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p>Your IMOK settings have changed. Account : [EMOGIC_IMOK_CURRENT_USER_EMAIL]</p>
+<p>Your IMOK settings have changed.</p>
+<p>Changed by : [EMOGIC_IMOK_CURRENT_USER_EMAIL]</p>
 <!-- /wp:paragraph -->

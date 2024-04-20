@@ -31,7 +31,7 @@
 				<label for='imok_email_form'>
 				What email message would you like to send if you are not responsive? (Edit the suggested one to suit)
 				</label><br>
-				<textarea id='imok_email_form' name='imok_email_form' rows='4' cols='40' required>[imok_email_form]</textarea>
+				<textarea id='imok_email_form' name='imok_email_form' rows='4' cols='40' placeholder='Suggest you add instructions, contact information, emergency contacts, etc.' required>[imok_email_form]</textarea>
 		<p>
 				<div>On what date &amp; time should your first alert be sent if you are not responsive?</div>
 <p>				

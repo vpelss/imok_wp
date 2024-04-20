@@ -7,8 +7,8 @@
 <!-- /wp:shortcode -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link" href="?command=imok">IMOK</a></div>
+<div class="wp-block-buttons"><!-- wp:button {"className":"aligncenter"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link wp-element-button" href="?command=imok">IMOK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -16,9 +16,9 @@
 <p class="has-text-align-center">[imok_commands]</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"align":"center"} -->
-<div class="wp-block-button aligncenter" id="imnotok"><a class="wp-block-button__link" href="?command=imnotok">IM NOT OK</a></div>
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"textAlign":"center"} -->
+<div class="wp-block-button" id="imnotok"><a class="wp-block-button__link has-text-align-center wp-element-button" href="?command=imnotok">IM NOT OK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 

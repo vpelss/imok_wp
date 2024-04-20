@@ -8,9 +8,10 @@ add_filter( 'cron_schedules', ['Emogic_IMOK_Chron' , 'imok_add_cron_interval'] )
 //create my hook
 add_action( 'EMOGIC_IMOK_cron_hook', ['Emogic_IMOK_Chron' , 'imok_cron_exec'] );
 
-add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_EMAIL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_CURRENT_USER_EMAIL_func'] );
+add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_FORM', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_CURRENT_USER_FORM_func'] );
 add_shortcode( 'EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL_func'] );
-add_shortcode( 'EMOGIC_IMOK__ROOT_URL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK__ROOT_URL_func'] );
+add_shortcode( 'EMOGIC_IMOK_ROOT_URL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_ROOT_URL_func'] );
+add_shortcode( 'EMOGIC_IMOK_CURRENT_CRON_USER_EMAIL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_CURRENT_CRON_USER_EMAIL_func'] );
 
 //scheduled our cron
 if ( ! wp_next_scheduled( 'EMOGIC_IMOK_cron_hook' ) ) {
@@ -25,12 +26,16 @@ if ( ! wp_next_scheduled( 'EMOGIC_IMOK_cron_hook' ) ) {
 
 class Emogic_IMOK_Chron{
     
-    public static function EMOGIC_IMOK__ROOT_URL_func(){
+    static public $current_user_email = null;
+    static public $current_user_id = null;
+    
+    public static function EMOGIC_IMOK_ROOT_URL_func(){
         return IMOK_ROOT_URL;
     }
     
      public static function EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL_func(){
-            $userID = $user->ID;          
+            //$userID = $user->ID;
+            $userID = self::$current_user_id;
             //$imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true ); //in minutes * 60
             //$now_UTC = current_time("timestamp" , 1); //now in UTC time
             $imok_alert_date = get_user_meta( $userID, 'imok_alert_date', true );
@@ -39,7 +44,8 @@ class Emogic_IMOK_Chron{
             return $imok_alert_date_time_string_local;
      }
     
-     public static function EMOGIC_IMOK_CURRENT_USER_EMAIL_func(){
+     public static function EMOGIC_IMOK_CURRENT_USER_FORM_func(){
+       $userID = self::$current_user_id;
         return get_user_meta( $userID , 'imok_email_form', true );
      }
     
@@ -58,6 +64,8 @@ class Emogic_IMOK_Chron{
         
         foreach ( $users as $user ) {
             $userID = $user->ID;
+            self::$current_user_id = $userID;
+            self::$current_user_email = $userID->email;
             $imok_contact_email_1 = get_user_meta( $userID , 'imok_contact_email_1', true ); // imok_contact_email_1
             if( ! get_user_meta( $user->ID , 'imok_timezone', true ) ){ continue; } //did user set settings? if not, next user
             $imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true ); //in minutes * 60
@@ -101,7 +109,11 @@ class Emogic_IMOK_Chron{
             //}
         
             return $msg;       
-    }    
+    }
+    
+    public static function EMOGIC_IMOK_CURRENT_CRON_USER_EMAIL_func(){
+        return self::$current_user_email;
+    }
     
 }
 

@@ -123,7 +123,7 @@ class Emogic_IMOK_Settings{
 				$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0];
 				} 
 			else {
-				$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0];
+				$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0];
 				} 
 			$homeURL = get_permalink($page->ID);
 			wp_redirect( $homeURL );
@@ -179,7 +179,9 @@ class Emogic_IMOK_Settings{
 		
 	public static function imok_email_form_func(){
 		$user = self::which_user();
-		return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_email_form', true ) ) );
+		//return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_email_form', true ) ) );
+		//textarea do not need cleanup_shortcode
+		return sanitize_text_field( get_user_meta( $user->ID, 'imok_email_form', true ) ) ;
 		}
 		
 	public static function imok_alert_date_func(){

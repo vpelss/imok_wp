@@ -13,8 +13,8 @@ class Emogic_IMOK_Deactivate{
 			foreach ($files as $file) {
 				if($file == "."){continue;}
 				if($file == ".."){continue;}
-				if(isset(get_posts( ['post_type' => 'page' , 'title' => $files] )[0])){
-				$page = get_posts( ['post_type' => 'page' , 'title' => $files] )[0]; 
+				if(isset(get_posts( ['post_type' => 'page' , 'title' => $files , 'post_status' => $folders] )[0])){
+				$page = get_posts( ['post_type' => 'page' , 'title' => $files , 'post_status' => $folders ] )[0]; 
 				wp_delete_post($page->ID , 1);
 				}
 			}

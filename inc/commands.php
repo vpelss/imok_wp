@@ -19,6 +19,7 @@ add_shortcode( 'imok_settings_url', ['Emogic_IMOK_Commands' , 'imok_settings_url
 add_shortcode( 'imok_log_out_everywhere_else_url', ['Emogic_IMOK_Commands' , 'imok_log_out_everywhere_else_url_func'] );
 add_shortcode( 'imok_commands', ['Emogic_IMOK_Commands' , 'imok_commands_func'] );
 add_shortcode( 'imok_countdown', ['Emogic_IMOK_Commands' , 'imok_countdown'] );
+add_shortcode( 'EMOGIC_IMOK_CURRENT_COMMANDS_USER_EMAIL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_CURRENT_COMMANDS_USER_EMAIL_func'] );
 
 class Emogic_IMOK_Commands{
 
@@ -29,7 +30,7 @@ class Emogic_IMOK_Commands{
 	}
 
 	public static function imok_log_out_everywhere_else_url_func(){
-		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
+		$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
 		$newURL = get_permalink($page->ID);
 		$newURL = $newURL . "?command=log_out_everywhere_else";
 		return( $newURL );
@@ -66,7 +67,8 @@ class Emogic_IMOK_Commands{
 	
 	}
 	
-	public static function imnotok(){			
+	public static function imnotok(){
+		
 		$template_page_name = 'IMOK Email IMNOTOK';
 		$email_to_str =	EMOGIC_IMOK_Email::gett_dist_list();
 		$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
@@ -204,6 +206,11 @@ class Emogic_IMOK_Commands{
 			}
 		return $msg;
 	}
+	
+    public static function EMOGIC_IMOK_CURRENT_COMMANDS_USER_EMAIL_func(){
+		$user = wp_get_current_user();
+        return $user->email;
+    }	
 		
 }
 

@@ -118,12 +118,12 @@ class Emogic_IMOK_Menu{
         
         <center>
         <span style='font-size:30px;cursor:pointer;' onclick='openNav()'>☰</span>
-        </center>
-        
+
         <div id='myNav' class='overlay'>
         <a href='javascript:void(0)' class='closebtn' onclick='closeNav()'>×</a>
         {$page_links}
         </div>
+        </center>
         
         <script>
         function openNav() {
@@ -141,12 +141,5 @@ class Emogic_IMOK_Menu{
    
     
 }
-
-
-
-
-
-
-
 
 ?>

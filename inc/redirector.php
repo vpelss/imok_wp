@@ -36,7 +36,7 @@ class Emogic_IMOK_Redireector{
 				if( $currentURL != $imokSettingsURL ){ //if not on IMOK-Settings see if we should be
 					$user = wp_get_current_user();
 					if( get_user_meta( $user->ID, 'imok_contact_email_1', true ) == true ) { //we have set up our settings already
-						$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
+						$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
 						$newURL = get_permalink($page->ID);
 					}
 					else{ //we need to set up our settings. 1st login?

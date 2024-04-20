@@ -17,7 +17,7 @@ add_action( 'login_enqueue_scripts', ['Emogic_IMOK_Login_Logout' , 'imok_my_logi
 class Emogic_IMOK_Login_Logout{
 
 	public static function imok_login_form_func(){	
-		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
+		$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
 		
 		$homeURL = get_permalink($page->ID);
 		$wp_login_form = wp_login_form(
@@ -41,7 +41,7 @@ class Emogic_IMOK_Login_Logout{
 	}
 
 	public static function imok_login_redirect() {
-		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Logged In'] )[0]; 
+		$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
 		$homeURL = get_permalink($page->ID);
 		return $homeURL ;
 	}	
@@ -69,13 +69,4 @@ class Emogic_IMOK_Login_Logout{
 		
 }
 
-
-
-
-
-
-
-
-
-	
 ?>

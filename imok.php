@@ -19,6 +19,7 @@ define( 'IMOK_PLUGIN_PATH', dirname( __FILE__ ) ); // c:\************\imok_pulgi
 define( 'IMOK_PLUGIN_LOCATION_URL', plugins_url( '', __FILE__ ) ); // http://wp_url/wp-content/plugins/imok_pulgin_folder
 define( 'IMOK_PLUGIN_NAME' , plugin_basename( __FILE__ ) ); // imok_wp (or other if renamed)
 define( 'IMOK_ROOT_URL' , home_url() ); // http://wp_url/
+define( 'IMOK_MAIN_PAGE' , 'IMOK' ); // set to main page name : curently IMOK
 
 register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'activate'] ); 
 register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'deactivate'] );

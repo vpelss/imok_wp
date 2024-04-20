@@ -40,27 +40,23 @@ This is a proof of concept script. Don't risk your life on it.
 
 ## To Do
 
-- templates for most displays
-	- settings : unlimited emails?
-	- emails : imok , imnotok , admin settings
-	- menu shows only : pages required
+- imnotok message?
+- accounts not checked in and how long. delete option???
+- maybe email to admin or special email address?
+- option to set main page, with warning first
+-don't send last email on imok
+- settings : 5 x unlimited emails?
 
 - commands in first page and load modules as required
-- better email admin link 
-- request in email to stop account emails
+- email admin link in email???
 - security issues
+
 - alert to text
 - alert to social media
-
--rename logged in page to IMOK
--hide IMOK Settings Fields and menu
-
--test admin access to user, it may not work.... Do we need this??? Nice to have...
 
 //fixes
 	//security benefit to commands going through : /wp-admin/admin-post.php
 	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
-
 
 //audio alarm. bypass dom interaction?
 //no audio alarm option in settings?
