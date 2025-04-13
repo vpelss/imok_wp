@@ -2,53 +2,32 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
-//register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , array( 'deactivate' , 'deactivate_plugin') );
-register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , 'imok_deactivate_plugin' );
+require_once IMOK_PLUGIN_PATH . 'inc/menu.php';
 
-/*
-class deactivate{
-	public static function deactivate_plugin(){
-		//remove created pages
-		$pages = array("IMOK Log In" , "IMOK Logged In" , "IMOK Redirector" ,  "IMOK Settings");
-		foreach ($pages as $page_name) {
-			$page = get_page_by_title($page_name);
-			wp_delete_post($page->ID , 1);
+add_action('shutdown', ['Emogic_IMOK_Menu' , 'shutdown_funct'] );
+
+class Emogic_IMOK_Deactivate{
+	
+	public static function deactivate(){
+			
+		//add_action('shutdown', ['Emogic_IMOK_Menu' , 'shutdown_funct'] );
+		//Emogic_IMOK_Menu::shutdown_funct(); //remove menu
+
+		$folders = ['draft' , 'publish'];
+		foreach($folders as $folder){
+			$dir = IMOK_PLUGIN_PATH . "/pages/{$folder}/";
+			$files = scandir($dir);
+			foreach ($files as $file) {
+				if($file == "."){continue;}
+				if($file == ".."){continue;}
+				if(isset(get_posts( ['post_type' => 'page' , 'title' => $files , 'post_status' => $folders] )[0])){
+				$page = get_posts( ['post_type' => 'page' , 'title' => $files , 'post_status' => $folders ] )[0]; 
+				wp_delete_post($page->ID , 1);
+				}
 			}
-
-		//remove all user metadata starting with imok
-		$users = get_users();
-/*
-		foreach ( $users as $user ) {
-			delete_user_meta($user->ID , 'imok_timezone');
-			delete_user_meta($user->ID , 'imok_contact_email_1');
-			delete_user_meta($user->ID , 'imok_contact_email_2');
-			delete_user_meta($user->ID , 'imok_contact_email_3');
-			delete_user_meta($user->ID , 'imok_email_form');
-			delete_user_meta($user->ID , 'imok_alert_date');
-			delete_user_meta($user->ID , 'imok_alert_time');
-			delete_user_meta($user->ID , 'imok_alert_interval');
-			delete_user_meta($user->ID , 'imok_pre_warn_time');
-			}
-
-
-		delete_option( 'imok_admin_settings' );
-		flush_rewrite_rules();
-	}
-
-}
-
-*/
-
-function imok_deactivate_plugin(){
-		//remove created pages
-		$dir = IMOK_PLUGIN_PATH . "/pages/";
-		//$pages = scandir($dir);
-		$pages = array_diff(scandir($dir), array('..', '.'));
-		foreach ($pages as $page_name) {
-			$page = get_page_by_title($page_name);
-			wp_delete_post($page->ID , 1);
-			}
-
+		}
+			
+		
 		//remove all user metadata starting with imok
 		$users = get_users();
 /*
@@ -70,6 +49,11 @@ function imok_deactivate_plugin(){
 		 //wp_schedule_event( $time , 'fifteen_minutes', 'imok_cron_hook' );
 		 //wp_schedule_event( int $timestamp, string $recurrence, string $hook, array $args = array(), bool $wp_error = false )
 		flush_rewrite_rules();
+	
 	}
+	
+}
+
+Emogic_IMOK_Deactivate::deactivate();
 
 ?>

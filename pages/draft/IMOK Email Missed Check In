@@ -1,0 +1,11 @@
+<!-- wp:html -->
+<subject value="IMOK Alert"></subject>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p>[EMOGIC_IMOK_CURRENT_CRON_USER_EMAIL] has not checked in. This is their standard message.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:shortcode -->
+[EMOGIC_IMOK_CURRENT_USER_FORM]
+<!-- /wp:shortcode -->

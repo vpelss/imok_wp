@@ -1,0 +1,30 @@
+<!-- wp:html -->
+[imok_menu]
+<!-- /wp:html -->
+
+<!-- wp:shortcode -->
+[EMOGIC_IMOK_COMMANDS_HERE]
+<!-- /wp:shortcode -->
+
+<!-- wp:shortcode -->
+[imok_redirector]
+<!-- /wp:shortcode -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"className":"aligncenter"} -->
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link wp-element-button" href="?command=imok">IMOK</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
+<div class="wp-block-buttons"><!-- wp:button {"textAlign":"center"} -->
+<div class="wp-block-button" id="imnotok"><a class="wp-block-button__link has-text-align-center wp-element-button" href="?command=imnotok">IM NOT OK</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:html -->
+<script>
+elemm = document.getElementById("imnotok");
+elemm.onclick = function() { return confirm('Send ImNotOK alert to your email list? Are you sure?'); };
+</script>
+<!-- /wp:html -->
