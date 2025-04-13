@@ -1,19 +1,26 @@
 <?php
-//root page redirect. JS redirect code is returned from our shortcode, and also have busy flash icon
-//most pages redirect back here. we verify user is logged in and chose which page to redirect to based on that
+/*
 
-// [redirector] is only on IMOK Logged In, IMOK Settings
-//-If we are logged in
-//	IMOK Setting page
-//		stay
-//	IMOK Logged In page
-//		if no settings -> IMOK Settings page
-//		if settings -> stay
-//-If we are not logged in
-//	IMOK Setting page
-//		-> IMOK Logged In page
-//	IMOK Logged In page
-//		-> IMOK Logged In page
+ [redirector] is only found on IMOK Logged In & IMOK Settings
+
+ redirect from wrong page to correct page. 
+ JS redirect code is returned from our shortcode, and also also shows busy flash icon
+ see if user is logged in and chose which page to redirect to based on that
+
+-If we are logged in
+	IMOK Setting page
+		stay
+	IMOK Logged In page
+		if user has no settings -> IMOK Settings page
+		if user has settings -> stay
+-If we are not logged in
+	IMOK Setting page
+		-> IMOK Logged In page
+	IMOK Logged In page
+		-> IMOK Logged In page
+
+*/
+
 
 //wait image
 //add_shortcode( 'imok_flash', 'imok_flash_func' );

@@ -1,19 +1,15 @@
 <?php
 
-global $imok_menu_name;
-$imok_menu_name = 'imok_menu';
-
-add_action('init', ['Emogic_IMOK_Menu' , 'imok_nav_creation_primary'] );
-add_action('shutdown', ['Emogic_IMOK_Menu' , 'shutdown_funct'] );
-add_shortcode( 'imok_menu', ['Emogic_IMOK_Menu' , 'imok_menu_func'] );
+add_shortcode( 'imok_menu', ['Emogic_IMOK_Menu' , 'imok_menu_shortcode_func'] );
 
 class Emogic_IMOK_Menu{
  
+    // run on and from activate
+    //read all pages/publish files and make a menu link for them
     public static function imok_nav_creation_primary(){
-        global $imok_menu_name;
-        $menu_exists = wp_get_nav_menu_object( $imok_menu_name );
+        $menu_exists = wp_get_nav_menu_object( IMOK_MENU_NAME );
         if( !$menu_exists){ // If it doesn't exist, let's create it.
-            $menu_id = wp_create_nav_menu( $imok_menu_name );
+            $menu_id = wp_create_nav_menu( IMOK_MENU_NAME );
         
             $dir = IMOK_PLUGIN_PATH . "/pages/publish/";
             $files = scandir($dir);
@@ -33,21 +29,20 @@ class Emogic_IMOK_Menu{
             }
     }
    
-    public static function shutdown_funct(){ //maybe move to deactivate
-       global $imok_menu_name;
-       wp_delete_nav_menu( $imok_menu_name );
+    //run from deactivate
+    public static function shutdown_funct(){ 
+       wp_delete_nav_menu( IMOK_MENU_NAME );
     }
- 
-    public static function imok_menu_func(){
-        global $imok_menu_name;
     
-        $page_links = wp_nav_menu( array( 'menu'=> $imok_menu_name ,
+    //run when shortcode on page
+    public static function imok_menu_shortcode_func(){   
+        $page_links = wp_nav_menu( array( 'menu'=> IMOK_MENU_NAME ,
                                         'menu_id' => 'imok_menu_id',
                                         'menu_class' => "menu",
                                         'echo'=>false ,
                                         'container'			=> "div", // (string) Whether to wrap the ul, and what to wrap it with. Default 'div'.
                                         'container_id'		=> "imok_menu",
-                                        'container_class'	=> "imok_menu",
+                                        'container_class'	=> "imok_menu"
                                         //'items_wrap' => '%3$s'
                                       ) );
     

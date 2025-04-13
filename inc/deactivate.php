@@ -2,10 +2,17 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
+require_once IMOK_PLUGIN_PATH . 'inc/menu.php';
+
+add_action('shutdown', ['Emogic_IMOK_Menu' , 'shutdown_funct'] );
+
 class Emogic_IMOK_Deactivate{
 	
 	public static function deactivate(){
 			
+		//add_action('shutdown', ['Emogic_IMOK_Menu' , 'shutdown_funct'] );
+		//Emogic_IMOK_Menu::shutdown_funct(); //remove menu
+
 		$folders = ['draft' , 'publish'];
 		foreach($folders as $folder){
 			$dir = IMOK_PLUGIN_PATH . "/pages/{$folder}/";

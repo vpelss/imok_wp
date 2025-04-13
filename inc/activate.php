@@ -2,6 +2,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
+require_once IMOK_PLUGIN_PATH . 'inc/menu.php';
+
+//create menu on WP init
+add_action('init', ['Emogic_IMOK_Menu' , 'imok_nav_creation_primary'] ); 
+
 class Emogic_IMOK_Activate{
 
 	public static function activate(){
@@ -14,6 +19,7 @@ class Emogic_IMOK_Activate{
 		$imok_from_email = 'imok@' . $_SERVER['HTTP_HOST']; //assume a send from email address
 		update_option('imok_admin_settings' , array( 'imok_from_email_field'=>$imok_from_email ) );
 
+		
 		//set new home page
 		//$home = get_page_by_title( 'IMOK Logged In' );
 		//update_option( 'page_on_front', $home->ID );
@@ -53,6 +59,7 @@ class Emogic_IMOK_Activate{
 	
 }
 
+//run if we require_once
 Emogic_IMOK_Activate::activate();
 
 ?>

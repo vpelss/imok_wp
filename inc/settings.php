@@ -35,6 +35,7 @@ add_shortcode( 'imok_pre_warn_time', ['Emogic_IMOK_Settings' , 'imok_pre_warn_ti
 add_shortcode( 'imok_timezone', ['Emogic_IMOK_Settings' , 'imok_timezone_func'] );
 add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_EMAIL', ['Emogic_IMOK_Settings' , 'EMOGIC_IMOK_CURRENT_USER_EMAIL_func'] );
 
+
 class Emogic_IMOK_Settings{
 	
 	static public $useris;

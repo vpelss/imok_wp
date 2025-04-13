@@ -1,34 +1,23 @@
 <?php
-//commands for the IMOK Logged In page and countdown function and message text for that page
+/*
+checks $_REQUEST['command'] on the IMOK main page and calls functions based on the command.
+functions will return $msg to display
+*/
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
+//shortcode [EMOGIC_IMOK_COMMANDS_HERE] checks $_REQUEST['command'] and calls functions based on command
+add_shortcode( 'EMOGIC_IMOK_COMMANDS_HERE', ['Emogic_IMOK_Commands' , 'imok_commands_func'] );
 
-//do_action( “admin_post_{$action}” )
-
-//add_action( '“admin_post_imok”', 'prefix_admin_add_foobar' );
-
-//do_action( “admin_post_imok” )
-//do_action( “admin_post_imnotok” )
-//do_action( “admin_post_imokcron” )
-//do_action( “admin_post_log_out_everywhere_else” )
-
-//shortcode for settings url. used with settings button on the imok-logged-in page. in case we change the imok-settings page name
-add_shortcode( 'imok_settings_url', ['Emogic_IMOK_Commands' , 'imok_settings_url_func'] );
-//shortcode log_out_everywhere_else link
+//shortcode log_out_everywhere_else link user on settings page. it is in command.php and not settings.php as it is a ?command= and takes us back to IMOK main page
 add_shortcode( 'imok_log_out_everywhere_else_url', ['Emogic_IMOK_Commands' , 'imok_log_out_everywhere_else_url_func'] );
-add_shortcode( 'imok_commands', ['Emogic_IMOK_Commands' , 'imok_commands_func'] );
+
+//shortcode [imok_countdown] returns sthe countdown js logic and display code
 add_shortcode( 'imok_countdown', ['Emogic_IMOK_Commands' , 'imok_countdown'] );
-add_shortcode( 'EMOGIC_IMOK_CURRENT_COMMANDS_USER_EMAIL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_CURRENT_COMMANDS_USER_EMAIL_func'] );
 
 class Emogic_IMOK_Commands{
 
-	public static function imok_settings_url_func(){
-		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0];	
-		$newURL = get_permalink($page->ID);
-		return( $newURL );
-	}
-
+	//set shortcode for [imok_log_out_everywhere_else_url]
 	public static function imok_log_out_everywhere_else_url_func(){
 		$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
 		$newURL = get_permalink($page->ID);
@@ -36,6 +25,8 @@ class Emogic_IMOK_Commands{
 		return( $newURL );
 	}
 
+	// all $_REQUEST['command'] are fed here then the appropriate function (below) is called
+	// we can return $msg to show after call
 	public static function imok_commands_func(){
 		$user = wp_get_current_user();
 	
@@ -49,9 +40,12 @@ class Emogic_IMOK_Commands{
 		elseif($response == 'imnotok'){
 			return self::imnotok();
 		}
-		elseif($response == 'imokcron'){
+		/* remove as it is an DOS vector
+		elseif($response == 'cron'){
+			Emogic_IMOK_Chron::imok_cron_exec();
 			//return imok_cron_exec();
 		}
+			*/
 		elseif($response == 'log_out_everywhere_else'){
 			$user = wp_get_current_user();
 			$sessions = WP_Session_Tokens::get_instance( $user->ID );
@@ -59,18 +53,16 @@ class Emogic_IMOK_Commands{
 			$msg = 'You have logged out everywhere else.</br></br>';
 			$msg = $msg . self::imok_countdown();
 			return $msg;
-		}
-	
-		elseif(1){//no command
+		}	
+		elseif(1){//no command so just return countdown as default
 			return self::imok_countdown();
 		}
-	
 	}
 	
-	public static function imnotok(){
-		
+	public static function imnotok(){ 
+		$user = wp_get_current_user();
 		$template_page_name = 'IMOK Email IMNOTOK';
-		$email_to_str =	EMOGIC_IMOK_Email::gett_dist_list();
+		$email_to_str =	EMOGIC_IMOK_Email::get_dist_list($user->ID);
 		$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
 		return "IMNOTOK Alert sent to your contact list.";
 	}
@@ -90,65 +82,59 @@ class Emogic_IMOK_Commands{
 		$imok_alert_date_time_string = $imok_alert_date . ' ' . $imok_alert_time;
 		$imok_alert_unix_time = strtotime( $imok_alert_date_time_string ); //convert to unix time
 	
-		//compare and reset alert time
-		if( ($imok_alert_unix_time - $imok_alert_interval_unix_time) > $now  ){# we are a full alert interval before the alert date time. do nothing
-			//return 1;
-			}#do nothing
-		if($imok_alert_unix_time <= $now){#alarm was/is triggered
+		// reset alert time
+		if( ($imok_alert_unix_time - $imok_alert_interval_unix_time) > $now  ){ 
+			// we are at least one full alert interval before the alert date time. do nothing
+			} 
+		if($imok_alert_unix_time <= $now){ //alarm was triggered, so set a new alert time
 			while( $imok_alert_unix_time <= $now ){
 				$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time;
 			};
-			//$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
 		}
-		elseif( ($imok_alert_unix_time - $imok_alert_interval_unix_time) <= $now ){# we are clicking just before alarm will trigger in the window of the alert interval
-			$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time; //one ping please
+		elseif( ($imok_alert_unix_time - $imok_alert_interval_unix_time) <= $now ){ // we are clicking just before alarm will trigger in the window of the alert interval
+			$imok_alert_unix_time = $imok_alert_unix_time + $imok_alert_interval_unix_time; //one ping only please
 		}
 	
-		//set in db
+		//set new alert time in the db
 		$imok_alert_date = date("Y-m-d"  , $imok_alert_unix_time); //convert to string
 		update_user_meta( $user->ID , 'imok_alert_date' , $imok_alert_date ) ;
 		$imok_alert_time = date("H:i" , $imok_alert_unix_time); //convert to string
 		update_user_meta( $user->ID , 'imok_alert_time' , $imok_alert_time ) ;
 	
-		//Send email to ? user
-	
-		//return and display message
+		//return and display a new message
 		$now_str = date( "Y-m-d H:i", $now);
 		$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
 		$msg = self::imok_countdown();
-		//$msg2 = "<br>Start alert time: {$imok_alert_date_time_string}<br>Now: {$now_str}<br>New alert time: {$new_alert_date_time}";
 		return $msg;
 	}
 
 	public static function imok_countdown(){
 		$user = wp_get_current_user();
-		//$unix_day = 60 * 60 * 24; //seconds in a day
 	
-		//NOTE: Server and user PC are in different time zones so:
-		//when comparing on server convert all user pc times and server times to UTC
-		//JS routines see unix timestamp as UTC but shows as local
-		//so on user PC (JS) convert all times to UTC
+		/*
+		NOTE: Server and user PC are in different time zones. 
+		So when comparing server an PC times on the server, convert all user pc times and server times to a common UTC time zone
+		JS routines, when recieving any unix timestamp, see them as UTC (no timezone), 
+		but Date() returns a unix timestamp based on the PC's timezone
+		so on the user PC using JS, convert all times to UTC
+		*/
+
+		$now_UTC = current_time("timestamp" , 1); //get server time in UTC tz
 	
-		//$server_timezone_diff = current_time("timestamp" , 0) - current_time("timestamp" , 1);
-	
-		$now_UTC = current_time("timestamp" , 1); //now in UTC time
-	
-		//alert time local to user PC
+		//get users alert date, time, and tz 
 		$imok_alert_date =  get_user_meta( $user->ID, 'imok_alert_date', true );
 		$imok_alert_time = get_user_meta( $user->ID, 'imok_alert_time', true );
-		//$imok_timezone = get_user_meta( $user->ID , 'imok_timezone', true );
 		if( get_user_meta( $user->ID , 'imok_timezone', true ) ) {
 			$imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true );
-			} //in minutes * 60
+			} //tz was store in minutes, so we convert to seconds
 	
+		//convert the users alert time to their PC's tz
 		$imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
 		if( $imok_alert_date_time_string_local ){
-			$imok_alert_unix_time =  strtotime( $imok_alert_date_time_string_local ) + $imok_timezone; //converts time (ignoring timezone) , need to add users timezone so we can convert to GMT to compare
+			//converts time (ignoring timezone) , need to add users timezone so we can convert to GMT to compare
+			$imok_alert_unix_time =  strtotime( $imok_alert_date_time_string_local ) + $imok_timezone; 
 		}
-	
-		$imok_alert_unix_time_string = date("Y-m-d H:i"  , $imok_alert_unix_time); //convert to string
-		$now_UTC_string = date("Y-m-d H:i"  , $now_UTC); //convert to string
-	
+		
 		$IMOK_PLUGIN_LOCATION_URL = IMOK_PLUGIN_LOCATION_URL;
 		if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered
 			$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.
@@ -206,11 +192,6 @@ class Emogic_IMOK_Commands{
 			}
 		return $msg;
 	}
-	
-    public static function EMOGIC_IMOK_CURRENT_COMMANDS_USER_EMAIL_func(){
-		$user = wp_get_current_user();
-        return $user->email;
-    }	
 		
 }
 

@@ -3,11 +3,14 @@
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
 //admin options.
-add_action( 'admin_init', ['Emogic_IMOK_Admin' , 'imok_settings_init'] ); //admin_init is triggered before any other hook when a user accesses the admin area.
+//if (is_page('wp-admin')) {
+//admin_init is triggered before any other hook when a user accesses the admin area.
+add_action( 'admin_init', ['Emogic_IMOK_Admin' , 'imok_settings_init'] );
 //Adds an imok link to the Dashboard Settings menu. Also creates the imok setting page 
 add_action( 'admin_menu', ['Emogic_IMOK_Admin' , 'imok_add_admin_menu' ] );
 //add custom settings link next to plugin deactivate link
 add_filter( "plugin_action_links_" . IMOK_PLUGIN_NAME , ['Emogic_IMOK_Admin' , 'imok_settings_link'] );
+//}
 
 class Emogic_IMOK_Admin{
 

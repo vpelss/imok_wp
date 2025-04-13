@@ -36,7 +36,8 @@ class Emogic_IMOK_Email{
   return $result;
  }
   
-   public static function get_dist_list(){
+   public static function get_dist_list($user_id){
+    $user = get_user_by( 'ID' , $user_id );
     $email_to = array();
     array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
     array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
@@ -45,6 +46,13 @@ class Emogic_IMOK_Email{
     $email_to_str = implode( ",", $email_to );
     return $email_to_str;
   }
+
+  /*
+    public static function get_ser_email(){
+		$user = wp_get_current_user();
+        return $user->email;
+    }
+	*/	
  
 }
 
