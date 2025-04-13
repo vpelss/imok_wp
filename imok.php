@@ -15,6 +15,7 @@
 //load times. seems like wp cache issue
 //page load icon on click js
 // not logged in and main page : error?
+//center imok
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 

@@ -22,13 +22,13 @@ For example, anyone who registers for a new account on your site will be asked t
 To avoid site conflicts, you can easily create another Wordpress installation on your web host under a sub directory as I have done. https://www.emogic.com/imok/
 - Download and place all files under your Wordpress installation at \wp-content\plugins\imok_wp
 - Activate the imok plugin. It will create multiple pages unless they exist; 'IMOK Log In', 'IMOK Logged In', 'IMOK Settings', etc
-- If suitable, it is recommended to set the page 'IMOK Logged In' as your main page
+- If suitable, it is recommended to set the page 'IMOK' as your main page
 - Set permalinks to 'Post name'. 'Plain' will work but css may break
 - Create a header and footer as required and set on the IMOK pages
 - There is a very simple menu on each page, but you will likely want to remove it and set your own and place it in the header
-- Set up a cron job to run wp-cron.php on your wordpress insatllation at least every hour. eg: wget -qO- https://yoursite.com/imok/wp-cron.php &> /dev/null
+- Set up a cron job to run wp-cron.php on your wordpress insatllation at least every hour. eg: wget -qO- https://yoursite.com/imok/wp-cron.php &> /dev/null or better(as web access cron may be disabled): 	/usr/local/bin/php /home/xx/imok.emogic.com/wp-cron.php
 - Create an account and test
-- You may change the page(s) URL slugs (you may need to change button hrefs), but you cannot change the page(s) name. If you do the script will break
+- You may change the page(s) URL slugs (you may need to change button href's), but you cannot change the page(s) name. If you do the script will break
 - You may edit the pages, but if you remove the [shortcode](s) you may break some of the page functions
 - enable users to register accounts in wp
 - disable posts in wp. set all registrations to subscribers
