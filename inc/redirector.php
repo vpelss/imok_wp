@@ -1,7 +1,7 @@
 <?php
 /*
 
- [redirector] is only found on IMOK Logged In & IMOK Settings
+ [redirector] is only found on IMOK & IMOK Settings
 
  redirect from wrong page to correct page. 
  JS redirect code is returned from our shortcode, and also also shows busy flash icon
@@ -9,24 +9,17 @@
 
 -If we are logged in
 	IMOK Setting page
-		stay
+		do nothing
 	IMOK Logged In page
 		if user has no settings -> IMOK Settings page
 		if user has settings -> stay
 -If we are not logged in
 	IMOK Setting page
-		-> IMOK Logged In page
+		-> IMOK Log In page
 	IMOK Logged In page
-		-> IMOK Logged In page
+		-> IMOK Log In page
 
 */
-
-
-//wait image
-//add_shortcode( 'imok_flash', 'imok_flash_func' );
-//function imok_flash_func(){
-//	return IMOK_PLUGIN_LOCATION_URL . '/images/flash.gif';
-//}
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 

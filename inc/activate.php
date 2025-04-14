@@ -19,12 +19,6 @@ class Emogic_IMOK_Activate{
 		$imok_from_email = 'imok@' . $_SERVER['HTTP_HOST']; //assume a send from email address
 		update_option('imok_admin_settings' , array( 'imok_from_email_field'=>$imok_from_email ) );
 
-		
-		//set new home page
-		//$home = get_page_by_title( 'IMOK Logged In' );
-		//update_option( 'page_on_front', $home->ID );
-		//update_option( 'show_on_front', 'page' );
-
 		flush_rewrite_rules();
 	}
 	
@@ -55,11 +49,10 @@ class Emogic_IMOK_Activate{
 				);
 			wp_insert_post( $wordpress_page );	
 	}
-	
-	
+		
 }
 
-//run if we require_once
+//this should only run on register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'activate'] ) from imok.php
 Emogic_IMOK_Activate::activate();
 
 ?>

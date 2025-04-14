@@ -16,7 +16,7 @@
 
 <center>
 <p>
-<input type="submit" name="submit" id="submit" value="Save Settings">
+<input type="submit" name="submit" id="submit" value="Save Settings" onclick='imok_menu_spinner()'>
 </p>
 
 <input type='checkbox' id='imok_stay_on_settings_page' name='imok_stay_on_settings_page' value='1' [imok_stay_on_settings_page_checked]>

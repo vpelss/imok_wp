@@ -12,10 +12,7 @@
 **/
 
 // TO DO
-//load times. seems like wp cache issue
-//page load icon on click js
 // not logged in and main page : error?
-//center imok
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
@@ -31,6 +28,8 @@ define( 'IMOK_MENU_NAME' , 'imok_menu' ); // set menu name
 
 register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'activate'] ); 
 register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'deactivate'] );
+add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_js_flash"] );
+add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_css_flash"] );
 
 class EMOGIC_IMOK {
 		
@@ -61,6 +60,14 @@ class EMOGIC_IMOK {
 	
 	public static function deactivate() {
 		require_once IMOK_PLUGIN_PATH . 'inc/deactivate.php' ; //deactivate pages
+	}
+
+	public static function enqueue_js_flash(){
+		wp_enqueue_script('IMOK__wp-js_flash', IMOK_PLUGIN_LOCATION_URL . '/js/IMOK_js_flash.js');
+	}
+	
+	public static function enqueue_css_flash(){
+		wp_enqueue_style('IMOK__wp-css_flash', IMOK_PLUGIN_LOCATION_URL . '/css/IMOK_css_flash.css');
 	}
 	
 }
