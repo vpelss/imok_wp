@@ -32,6 +32,7 @@ To avoid site conflicts, you can easily create another Wordpress installation on
 - You may edit the pages, but if you remove the [shortcode](s) you may break some of the page functions
 - enable users to register accounts in wp
 - disable posts in wp. set all registrations to subscribers
+- check that the IMOK send email is a valid email adress to send from, found in settings
 
 ## Liabilty
 

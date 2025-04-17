@@ -15,6 +15,12 @@ add_shortcode( 'imok_log_out_everywhere_else_url', ['Emogic_IMOK_Commands' , 'im
 //shortcode [imok_countdown] returns sthe countdown js logic and display code
 add_shortcode( 'imok_countdown', ['Emogic_IMOK_Commands' , 'imok_countdown'] );
 
+//leave in commands as to not conflict with cron version
+add_shortcode( 'EMOGIC_IMNOTOK_USER_MESSAGE', ['Emogic_IMOK_Commands' , 'EMOGIC_IMNOTOK_USER_MESSAGE_SHORTCODE'] );
+add_shortcode( 'EMOGIC_IMOK_USER_EMAIL', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_USER_EMAIL_SHORTCODE'] );
+
+add_shortcode( 'EMOGIC_IMOK_COUNTDOWN', ['Emogic_IMOK_Commands' , 'imok_countdown_shortcode'] );
+
 class Emogic_IMOK_Commands{
 
 	//set shortcode for [imok_log_out_everywhere_else_url]
@@ -54,12 +60,14 @@ class Emogic_IMOK_Commands{
 			$msg = $msg . self::imok_countdown();
 			return $msg;
 		}	
-		elseif(1){//no command so just return countdown as default
-			return self::imok_countdown();
-		}
+		//elseif(1){//no command so just return countdown as default
+		//	return self::imok_countdown();
+		//}
 	}
 	
 	public static function imnotok(){ 
+
+		require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
 		$user = wp_get_current_user();
 		$template_page_name = 'IMOK Email IMNOTOK';
 		$email_to_str =	EMOGIC_IMOK_Email::get_dist_list($user->ID);
@@ -108,7 +116,7 @@ class Emogic_IMOK_Commands{
 		return $msg;
 	}
 
-	public static function imok_countdown(){
+	public static function imok_countdown_shortcode(){
 		$user = wp_get_current_user();
 	
 		/*
@@ -192,7 +200,23 @@ class Emogic_IMOK_Commands{
 			}
 		return $msg;
 	}
+
+	public static function EMOGIC_IMNOTOK_USER_MESSAGE_SHORTCODE(){
+		$user = wp_get_current_user();
+		$userID = $user->ID;
+		$message = get_user_meta($userID, 'imok_email_message', true);
+		return get_user_meta($userID, 'imok_email_message', true);
+	  }
+	
+	  public static function EMOGIC_IMOK_USER_EMAIL_SHORTCODE(){
+	  $user = wp_get_current_user(  );
+		  return $user->user_email;
+	  }
+	
 		
 }
+
+
+
 
 ?>

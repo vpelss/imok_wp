@@ -3,20 +3,21 @@
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
 // MOVE TO activate?
-
 //set a wp_cron interval
 add_filter( 'cron_schedules', ['Emogic_IMOK_Chron' , 'imok_add_cron_interval'] );
 
 //create my hook
 add_action( 'EMOGIC_IMOK_cron_hook', ['Emogic_IMOK_Chron' , 'imok_cron_exec'] );
 
-add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_FORM', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_CURRENT_USER_FORM_func'] );
+//leave in crons as to not conflict with commands version
+add_shortcode( 'EMOGIC_IMOK_CRON_USER_EMAIL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_USER_EMAIL_SHORTCODE'] );
+add_shortcode( 'EMOGIC_IMNOTOK_CRON_USER_MESSAGE', ['Emogic_IMOK_Chron' , 'EMOGIC_IMNOTOK_USER_MESSAGE_SHORTCODE'] );
+
 add_shortcode( 'EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL_func'] );
 add_shortcode( 'EMOGIC_IMOK_ROOT_URL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_ROOT_URL_func'] );
-add_shortcode( 'EMOGIC_IMOK_CURRENT_CRON_USER_EMAIL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_CURRENT_CRON_USER_EMAIL_func'] );
 
 //scheduled our cron
-if ( ! wp_next_scheduled( 'EMOGIC_IMOK_cron_hook' ) ) {
+if ( ! wp_next_scheduled( 'Emogic_IMOK_Chron' ) ) {
     //set to exactly the 1/4 hour (0,15,30,45)
     $time = time();
     $time = round($time / 60 / 15);     //so round/convert $time to 1/4 hours
@@ -43,16 +44,13 @@ class Emogic_IMOK_Chron{
             $imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
             return $imok_alert_date_time_string_local;
      }
-    
-     public static function EMOGIC_IMOK_CURRENT_USER_FORM_func(){
-       $userID = self::$current_user_id;
-        return get_user_meta( $userID , 'imok_email_form', true );
-     }
-    
+        
     public static function imok_add_cron_interval( $schedules ) {
-        $schedules['EMOGIC_IMOK_fifteen_minutes'] = array(
+        $schedules['EMOGIC_IMOK_fifteen_minutes'] = 
+            array(
             'interval' => 900,
-            'display'  => esc_html__( 'EMOGIC IMOK Every Fifteen Minutes' ), );
+            'display'  => 'EMOGIC_IMOK_fifteen_minutes'
+         );
         return $schedules;
     }
 
@@ -83,11 +81,13 @@ class Emogic_IMOK_Chron{
             $result;
             apply_filters( 'wp_mail_content_type',  "text/html" );
             if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered , email to list                       
+                require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
             	$template_page_name = 'IMOK Email Missed Check In';
             	$email_to_str =	EMOGIC_IMOK_Email::get_dist_list($userID);
                 $result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);   
                 }
             elseif( $now_UTC > ($imok_alert_unix_time - (3600 * get_user_meta( $userID , 'imok_pre_warn_time', true )) ) ){ //pre-alert time , email to client
+                require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
                 $email_to_str = $user->user_email;
             	$template_page_name = 'IMOK Email Pre Alert';
                 $result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);   
@@ -95,10 +95,14 @@ class Emogic_IMOK_Chron{
             }    
     }
     
-    public static function EMOGIC_IMOK_CURRENT_CRON_USER_EMAIL_func(){
+    public static function EMOGIC_IMOK_USER_EMAIL_SHORTCODE(){
         return self::$current_user_email;
     }
     
+    public static function EMOGIC_IMNOTOK_USER_MESSAGE_SHORTCODE(){
+        $userID = self::$current_user_id;
+         return get_user_meta( $userID , 'imok_email_message', true );
+      }
 }
 
 

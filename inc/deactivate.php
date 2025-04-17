@@ -36,7 +36,7 @@ class Emogic_IMOK_Deactivate{
 			delete_user_meta($user->ID , 'imok_contact_email_1');
 			delete_user_meta($user->ID , 'imok_contact_email_2');
 			delete_user_meta($user->ID , 'imok_contact_email_3');
-			delete_user_meta($user->ID , 'imok_email_form');
+			delete_user_meta($user->ID , 'imok_email_message');
 			delete_user_meta($user->ID , 'imok_alert_date');
 			delete_user_meta($user->ID , 'imok_alert_time');
 			delete_user_meta($user->ID , 'imok_alert_interval');

@@ -3,9 +3,9 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p>[EMOGIC_IMOK_CURRENT_COMMANDS_USER_EMAIL] pushed the IM Not OK button. Please check on them.</p>
+<p>[EMOGIC_IMOK_USER_EMAIL] pushed the IM Not OK button. Please check on them.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>[EMOGIC_IMOK_CURRENT_USER_FORM]</p>
+<p>[EMOGIC_IMNOTOK_USER_MESSAGE]</p>
 <!-- /wp:paragraph -->

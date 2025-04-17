@@ -27,7 +27,7 @@ add_shortcode( 'imok_root_url', ['Emogic_IMOK_Settings' , 'imok_root_url_func'] 
 add_shortcode( 'imok_contact_email_1', ['Emogic_IMOK_Settings' , 'imok_contact_email_1_func'] );
 add_shortcode( 'imok_contact_email_2', ['Emogic_IMOK_Settings' , 'imok_contact_email_2_func'] );
 add_shortcode( 'imok_contact_email_3', ['Emogic_IMOK_Settings' , 'imok_contact_email_3_func'] );
-add_shortcode( 'imok_email_form', ['Emogic_IMOK_Settings' , 'imok_email_form_func'] );
+add_shortcode( 'imok_email_message', ['Emogic_IMOK_Settings' , 'imok_email_message_func'] );
 add_shortcode( 'imok_alert_date', ['Emogic_IMOK_Settings' , 'imok_alert_date_func'] );
 add_shortcode( 'imok_alert_time', ['Emogic_IMOK_Settings' , 'imok_alert_time_func'] );
 add_shortcode( 'imok_alert_interval', ['Emogic_IMOK_Settings' , 'imok_alert_interval_func'] );
@@ -101,20 +101,20 @@ class Emogic_IMOK_Settings{
 			update_user_meta( $user->ID , 'imok_contact_email_2' , is_email( $_POST['imok_contact_email_2'] ) ); //$_POST['imok_contact_email_X']
 			update_user_meta( $user->ID , 'imok_contact_email_3' , is_email( $_POST['imok_contact_email_3'] ) ); //$_POST['imok_contact_email_X']
 		
-			update_user_meta( $user->ID , 'imok_email_form' , $_POST['imok_email_form'] ) ;
+			update_user_meta( $user->ID , 'imok_email_message' , $_POST['imok_email_message'] ) ;
 		
 			update_user_meta( $user->ID , 'imok_alert_date' , $_POST['imok_alert_date'] ) ;
 			update_user_meta( $user->ID , 'imok_alert_time' , $_POST['imok_alert_time'] );
 		
 			update_user_meta( $user->ID , 'imok_alert_interval' , $_POST['imok_alert_interval'] );
 			update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
-			//$r = $_POST['imok_stay_on_settings_page'] ;
 			if(! isset($_POST['imok_stay_on_settings_page'])){
 				$_POST['imok_stay_on_settings_page'] = 0;
 			}
 			update_user_meta( $user->ID , 'imok_stay_on_settings_page' , $_POST['imok_stay_on_settings_page'] );
 		
 			//email user that settings have changed
+			require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
 			$template_page_name = 'IMOK Email Settings Changed';
 			$email_to_str = $user->user_email;
 			$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
@@ -178,11 +178,11 @@ class Emogic_IMOK_Settings{
 		return self::cleanup_shortcode( sanitize_email( get_user_meta( $user->ID, 'imok_contact_email_3', true ) ) );
 		}
 		
-	public static function imok_email_form_func(){
+	public static function imok_email_message_func(){
 		$user = self::which_user();
-		//return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_email_form', true ) ) );
+		//return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_email_message', true ) ) );
 		//textarea do not need cleanup_shortcode
-		return sanitize_text_field( get_user_meta( $user->ID, 'imok_email_form', true ) ) ;
+		return sanitize_text_field( get_user_meta( $user->ID, 'imok_email_message', true ) ) ;
 		}
 		
 	public static function imok_alert_date_func(){

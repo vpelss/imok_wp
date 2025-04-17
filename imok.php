@@ -13,6 +13,12 @@
 
 // TO DO
 // not logged in and main page : error?
+//js countdown???
+//spinny on imnotok and imok
+//better spinny link finder
+//no email@imok.emogic.com
+
+// imok_countdown as a shortcode!
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
@@ -28,20 +34,24 @@ define( 'IMOK_MENU_NAME' , 'imok_menu' ); // set menu name
 
 register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'activate'] ); 
 register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'deactivate'] );
-add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_js_flash"] );
-add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_css_flash"] );
+add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_js"] );
+add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_css"] );
 
 class EMOGIC_IMOK {
-		
+	
+	//this is called as required
+	//require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
+
 	public static function admin_requires() {
 		require_once IMOK_PLUGIN_PATH . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
 		//require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status
 		//require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
 		//require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
 		//require_once plugin_dir_path(__file__) . 'inc/menu.php';
+
+		require_once IMOK_PLUGIN_PATH . 'inc/cron.php' ; //cron page functions
 		require_once IMOK_PLUGIN_PATH . 'inc/settings.php' ; //settings page functions
-		//require_once plugin_dir_path(__file__) . 'inc/cron.php' ; //cron page functions
-		require_once IMOK_PLUGIN_PATH . 'inc/email.php' ; //email
+		//require_once IMOK_PLUGIN_PATH . 'inc/email.php' ; //email
 	}
 
 	public static function non_admin_requires() {
@@ -51,7 +61,6 @@ class EMOGIC_IMOK {
 		require_once IMOK_PLUGIN_PATH . 'inc/menu.php';
 		require_once IMOK_PLUGIN_PATH . 'inc/settings.php' ; //settings page functions
 		require_once IMOK_PLUGIN_PATH . 'inc/cron.php' ; //cron page functions
-		require_once IMOK_PLUGIN_PATH . 'inc/email.php' ; //email
 	}
 
 	public static function activate() {
@@ -62,12 +71,12 @@ class EMOGIC_IMOK {
 		require_once IMOK_PLUGIN_PATH . 'inc/deactivate.php' ; //deactivate pages
 	}
 
-	public static function enqueue_js_flash(){
-		wp_enqueue_script('IMOK__wp-js_flash', IMOK_PLUGIN_LOCATION_URL . '/js/IMOK_js_flash.js');
+	public static function enqueue_js(){
+		wp_enqueue_script('IMOK__wp-js', IMOK_PLUGIN_LOCATION_URL . '/js/imok.js');
 	}
 	
-	public static function enqueue_css_flash(){
-		wp_enqueue_style('IMOK__wp-css_flash', IMOK_PLUGIN_LOCATION_URL . '/css/IMOK_css_flash.css');
+	public static function enqueue_css(){
+		wp_enqueue_style('IMOK__wp-css', IMOK_PLUGIN_LOCATION_URL . '/css/imok.css');
 	}
 	
 }
