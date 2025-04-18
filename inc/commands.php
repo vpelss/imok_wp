@@ -6,75 +6,21 @@ functions will return $msg to display
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
-//shortcode [EMOGIC_IMOK_COMMANDS_HERE] checks $_REQUEST['command'] and calls functions based on command
-add_shortcode( 'EMOGIC_IMOK_COMMANDS_HERE', ['Emogic_IMOK_Commands' , 'imok_commands_func'] );
+//shortcode [EMOGIC_IMOK_COMMANDS_AND_MSG] checks $_REQUEST['command'] and calls functions based on command
+add_shortcode( 'EMOGIC_IMOK_COMMANDS_AND_MSG', ['Emogic_IMOK_Commands' , 'commands_and_msg_shortcode'] );
 
 //shortcode log_out_everywhere_else link user on settings page. it is in command.php and not settings.php as it is a ?command= and takes us back to IMOK main page
-add_shortcode( 'imok_log_out_everywhere_else_url', ['Emogic_IMOK_Commands' , 'imok_log_out_everywhere_else_url_func'] );
-
-//shortcode [imok_countdown] returns sthe countdown js logic and display code
-add_shortcode( 'imok_countdown', ['Emogic_IMOK_Commands' , 'imok_countdown'] );
+add_shortcode( 'EMOGIC_IMOK_LOG_OUT_EVERYWHERE_ELSE_URL', ['Emogic_IMOK_Commands' , 'log_out_everywhere_else_url_shortcode'] );
 
 //leave in commands as to not conflict with cron version
 add_shortcode( 'EMOGIC_IMNOTOK_USER_MESSAGE', ['Emogic_IMOK_Commands' , 'EMOGIC_IMNOTOK_USER_MESSAGE_SHORTCODE'] );
 add_shortcode( 'EMOGIC_IMOK_USER_EMAIL', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_USER_EMAIL_SHORTCODE'] );
 
-add_shortcode( 'EMOGIC_IMOK_COUNTDOWN', ['Emogic_IMOK_Commands' , 'imok_countdown_shortcode'] );
+//returns sthe countdown js logic and display code
+add_shortcode( 'EMOGIC_IMOK_COUNTDOWN', ['Emogic_IMOK_Commands' , 'countdown_shortcode'] );
 
 class Emogic_IMOK_Commands{
 
-	//set shortcode for [imok_log_out_everywhere_else_url]
-	public static function imok_log_out_everywhere_else_url_func(){
-		$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
-		$newURL = get_permalink($page->ID);
-		$newURL = $newURL . "?command=log_out_everywhere_else";
-		return( $newURL );
-	}
-
-	// all $_REQUEST['command'] are fed here then the appropriate function (below) is called
-	// we can return $msg to show after call
-	public static function imok_commands_func(){
-		$user = wp_get_current_user();
-	
-		$response = 'none';
-		if( isset($_REQUEST['command']) )
-			$response = $_REQUEST['command'];
-	
-		if($response == 'imok'){
-			return self::imok();
-		}
-		elseif($response == 'imnotok'){
-			return self::imnotok();
-		}
-		/* remove as it is an DOS vector
-		elseif($response == 'cron'){
-			Emogic_IMOK_Chron::imok_cron_exec();
-			//return imok_cron_exec();
-		}
-			*/
-		elseif($response == 'log_out_everywhere_else'){
-			$user = wp_get_current_user();
-			$sessions = WP_Session_Tokens::get_instance( $user->ID );
-			$sessions->destroy_others(  wp_get_session_token() );
-			$msg = 'You have logged out everywhere else.</br></br>';
-			$msg = $msg . self::imok_countdown();
-			return $msg;
-		}	
-		//elseif(1){//no command so just return countdown as default
-		//	return self::imok_countdown();
-		//}
-	}
-	
-	public static function imnotok(){ 
-
-		require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
-		$user = wp_get_current_user();
-		$template_page_name = 'IMOK Email IMNOTOK';
-		$email_to_str =	EMOGIC_IMOK_Email::get_dist_list($user->ID);
-		$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
-		return "IMNOTOK Alert sent to your contact list.";
-	}
-	
 	public static function imok(){
 		$user = wp_get_current_user();
 		$unix_day = 60 * 60 * 24; //seconds in a day
@@ -112,13 +58,65 @@ class Emogic_IMOK_Commands{
 		//return and display a new message
 		$now_str = date( "Y-m-d H:i", $now);
 		$new_alert_date_time = date( $imok_alert_date . " " . $imok_alert_time , $imok_alert_unix_time);
-		$msg = self::imok_countdown();
+		$msg = "You pushed the IMOK button";
 		return $msg;
 	}
 
-	public static function imok_countdown_shortcode(){
+	public static function imnotok(){ 
+		require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
+		$user = wp_get_current_user();
+		$template_page_name = 'IMOK Email IMNOTOK';
+		$email_to_str =	EMOGIC_IMOK_Email::get_dist_list($user->ID);
+		$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
+		$msg =  "An IM NOT OK Alert was sent to your contact list.";
+		return $msg;
+	}
+
+	//set shortcode for [imok_log_out_everywhere_else_url]
+	public static function log_out_everywhere_else_url_shortcode(){
+		$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
+		$newURL = get_permalink($page->ID);
+		$newURL = $newURL . "?command=log_out_everywhere_else";
+		return( $newURL );
+	}
+
+	// all $_REQUEST['command'] are fed here then the appropriate function (below) is called
+	// we can return $msg to show after call
+	public static function commands_and_msg_shortcode(){
 		$user = wp_get_current_user();
 	
+		$response = 'none';
+		if( isset($_REQUEST['command']) )
+			$response = $_REQUEST['command'];
+	
+		if($response == 'imok'){
+			return self::imok();
+		}
+		elseif($response == 'imnotok'){
+			return self::imnotok();
+		}
+		/* remove as it is an DOS vector
+		elseif($response == 'cron'){
+			Emogic_IMOK_Chron::imok_cron_exec();
+			//return imok_cron_exec();
+		}
+			*/
+		elseif($response == 'log_out_everywhere_else'){
+			$user = wp_get_current_user();
+			$sessions = WP_Session_Tokens::get_instance( $user->ID );
+			$sessions->destroy_others(  wp_get_session_token() );
+			$msg = 'You have logged out everywhere else.</br></br>';
+			return $msg;
+		}	
+	}
+		
+	public static function countdown_shortcode(){
+		$user = wp_get_current_user();
+	
+		if($user->ID == 0){//we are not logged in
+			return "Not logged in";
+		}
+
 		/*
 		NOTE: Server and user PC are in different time zones. 
 		So when comparing server an PC times on the server, convert all user pc times and server times to a common UTC time zone

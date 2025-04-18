@@ -1,10 +1,10 @@
 <!-- wp:html -->
-[imok_menu]
+[EMOGIC_IMOK_MENU]
 <!-- /wp:html -->
 
 <!-- wp:html -->
 <center>
-<div id="login">[wp_login_form]</div>
+<div id="login">[EMOGIC_IMOK_LOGIN]</div>
 </center>
 <script>
 document.body.classList.add('login');

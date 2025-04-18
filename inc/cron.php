@@ -14,7 +14,7 @@ add_shortcode( 'EMOGIC_IMOK_CRON_USER_EMAIL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMO
 add_shortcode( 'EMOGIC_IMNOTOK_CRON_USER_MESSAGE', ['Emogic_IMOK_Chron' , 'EMOGIC_IMNOTOK_USER_MESSAGE_SHORTCODE'] );
 
 add_shortcode( 'EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL_func'] );
-add_shortcode( 'EMOGIC_IMOK_ROOT_URL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_ROOT_URL_func'] );
+add_shortcode( 'EMOGIC_IMOK_ROOT_URL', ['Emogic_IMOK_Chron' , 'EMOGIC_IMOK_ROOT_URL_SHORTCODE'] );
 
 //scheduled our cron
 if ( ! wp_next_scheduled( 'Emogic_IMOK_Chron' ) ) {
@@ -30,7 +30,7 @@ class Emogic_IMOK_Chron{
     static public $current_user_email = null;
     static public $current_user_id = null;
     
-    public static function EMOGIC_IMOK_ROOT_URL_func(){
+    public static function EMOGIC_IMOK_ROOT_URL_SHORTCODE(){
         return IMOK_ROOT_URL;
     }
     

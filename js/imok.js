@@ -7,6 +7,7 @@ function imok_menu_openNav() {
 
 function imok_menu_closeNav() {
   document.getElementById('imok_menu_myNav').style.display = 'none';
+  document.getElementById('imok_spinner').style.display = 'none';
 }
 
 function imok_menu_spinner() {
@@ -14,3 +15,15 @@ function imok_menu_spinner() {
   document.getElementById('imok_spinner_overlay').style.display = 'block';
   document.getElementById('imok_menu_myNav').style.display = 'none';
 }
+
+//spinner on all a link clicks
+document.onclick = function(event) {
+  event = event;
+  var target = event.target;
+  if(target.nodeName === 'A') {
+      if(target.className.indexOf("no_spinner") == -1){
+      imok_menu_spinner();
+    }
+  }
+
+};

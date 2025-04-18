@@ -12,13 +12,13 @@
 **/
 
 // TO DO
-// not logged in and main page : error?
-//js countdown???
-//spinny on imnotok and imok
-//better spinny link finder
-//no email@imok.emogic.com
 
-// imok_countdown as a shortcode!
+// not logged in and main page : error?
+//visible errors on not logged in. more redirector???
+//not logged in redirector fails
+
+
+//no email@imok.emogic.com
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
@@ -44,14 +44,8 @@ class EMOGIC_IMOK {
 
 	public static function admin_requires() {
 		require_once IMOK_PLUGIN_PATH . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
-		//require_once plugin_dir_path(__file__) . 'inc/redirector.php' ; //main page redirects to page based on status
-		//require_once plugin_dir_path(__file__) . 'inc/login_logout.php' ; //logging in logging out page functions
-		//require_once plugin_dir_path(__file__) . 'inc/commands.php' ; //functions for IMOK Logged In page
-		//require_once plugin_dir_path(__file__) . 'inc/menu.php';
-
 		require_once IMOK_PLUGIN_PATH . 'inc/cron.php' ; //cron page functions
-		require_once IMOK_PLUGIN_PATH . 'inc/settings.php' ; //settings page functions
-		//require_once IMOK_PLUGIN_PATH . 'inc/email.php' ; //email
+		require_once IMOK_PLUGIN_PATH . 'inc/settings.php' ; //settings page function
 	}
 
 	public static function non_admin_requires() {

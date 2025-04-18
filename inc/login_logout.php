@@ -4,23 +4,23 @@
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
 //login form shortcode
-add_shortcode( 'wp_login_form', ['Emogic_IMOK_Login_Logout' , 'imok_login_form_func'] );
+add_shortcode( 'EMOGIC_IMOK_LOGIN', ['Emogic_IMOK_Login_Logout' , 'login_shortcode'] );
 
 //need this for registration login, which likely comes from wp-login.php not our custom form
-add_filter( 'login_redirect', ['Emogic_IMOK_Login_Logout' , 'imok_login_redirect'] );
+add_filter( 'login_redirect', ['Emogic_IMOK_Login_Logout' , 'login_redirect'] );
 
 //create a wp logout url and send to shortcode : wp_logout_url( string $redirect = '' ) : redirect to main page on log out
-add_shortcode( 'wp_logout_url', ['Emogic_IMOK_Login_Logout' , 'imok_logout_url_func'] );
+add_shortcode( 'EMOGIC_IMOK_LOGOUT_URL', ['Emogic_IMOK_Login_Logout' , 'log_out_url'] );
 
-add_action( 'login_enqueue_scripts', ['Emogic_IMOK_Login_Logout' , 'imok_my_login_logo'] );
+add_action( 'login_enqueue_scripts', ['Emogic_IMOK_Login_Logout' , 'my_login_logo'] );
 
 class Emogic_IMOK_Login_Logout{
 
-	public static function imok_login_form_func(){	
+	public static function login_shortcode(){	
 		$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
 		
 		$homeURL = get_permalink($page->ID);
-		$wp_login_form = wp_login_form(
+		$wp_login_form_html = wp_login_form(
 			['echo' => false,	//'redirect' => $site_url,
 			'redirect' => $homeURL,
 			'form_id' => 'loginform',
@@ -33,26 +33,26 @@ class Emogic_IMOK_Login_Logout{
 			]);
 	
 			$imok_root_url = IMOK_ROOT_URL;
-			$wp_login_form =  $wp_login_form . "<p id='nav'>
+			$wp_login_form_html =  $wp_login_form_html . "<p id='nav'>
 					<a href='$imok_root_url/wp-login.php?action=register'>Register</a> |	<a href='$imok_root_url/wp-login.php?action=lostpassword'>Lost your password?</a>
 				</p>";
 	
-		return $wp_login_form;
+		return $wp_login_form_html;
 	}
 
-	public static function imok_login_redirect() {
+	public static function login_redirect() {
 		$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0]; 
 		$homeURL = get_permalink($page->ID);
 		return $homeURL ;
 	}	
 
-	public static function imok_logout_url_func(){
+	public static function log_out_url(){
 		$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Log In'] )[0]; 
 		$homeURL = get_permalink($page->ID);
 		return wp_logout_url( $homeURL );
 		}
 
-	public static function imok_my_login_logo() {
+	public static function my_login_logo() {
 		echo "
 			<style type='text/css'>
 			#login h1 a, .login h1 a {

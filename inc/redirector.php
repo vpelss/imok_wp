@@ -23,7 +23,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
-add_shortcode( 'imok_redirector', ['Emogic_IMOK_Redireector' , 'imok_redirector_func'] );
+add_shortcode( 'EMOGIC_IMOK_REDIRECTOR', ['Emogic_IMOK_Redireector' , 'imok_redirector_func'] );
 
 class Emogic_IMOK_Redireector{
 
@@ -49,12 +49,17 @@ class Emogic_IMOK_Redireector{
 				$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Log In'] )[0]; 
 				$newURL = get_permalink($page->ID);
 			}
-		if($currentURL != $newURL){//only redirect if we are changing pages. compare current URL with redirected one so we don't loop
+		if($currentURL != $newURL){//only redirect if we are changing pages. compare current URL with redirected one so we don't loop		
+			/*
 			$flash = IMOK_PLUGIN_LOCATION_URL . '/images/flash.gif';
-			$string = "<!-- wp:image {'align':'center','sizeSlug':'large'} -->
+		
+			<!-- wp:image {'align':'center','sizeSlug':'large'} -->
 			<figure class='wp-block-image aligncenter size-large'><img src='$flash' alt=''/><figcaption>Please Wait...</figcaption></figure>
 			<!-- /wp:image -->
-			<script>window.location.replace('$newURL');</script>
+			*/
+			$string = "	<script>
+			window.location.replace('$newURL');
+			</script>
 			";
 			return( $string );
 		}

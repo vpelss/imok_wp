@@ -1,19 +1,19 @@
 <!-- wp:shortcode -->
-[imok_redirector]
+[EMOGIC_IMOK_REDIRECTOR]
 <!-- /wp:shortcode -->
 
 <!-- wp:html -->
-[imok_menu]
+[EMOGIC_IMOK_MENU]
 <!-- /wp:html -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"aligncenter"} -->
-<div class="wp-block-button aligncenter" onclick='imok_menu_spinner()'><a class="wp-block-button__link wp-element-button" href="?command=imok">IMOK</a></div>
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link wp-element-button" href="?command=imok">IMOK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
 <!-- wp:table {"className":"is-style-regular","style":{"border":{"width":"0px","style":"none"}}} -->
-<figure class="wp-block-table is-style-regular"><table class="has-fixed-layout" style="border-style:none;border-width:0px"><tbody><tr><td class="has-text-align-center" data-align="center">[EMOGIC_IMOK_COMMANDS_HERE]<br></td></tr></tbody></table></figure>
+<figure class="wp-block-table is-style-regular"><table class="has-fixed-layout" style="border-style:none;border-width:0px"><tbody><tr><td class="has-text-align-center" data-align="center">[EMOGIC_IMOK_COMMANDS_AND_MSG]<br></td></tr></tbody></table></figure>
 <!-- /wp:table -->
 
 <!-- wp:html -->
@@ -29,12 +29,6 @@
 <!-- wp:html -->
 <script>
 elemm = document.getElementById("imnotok");
-elemm.onclick = function() { 
-    answer = confirm('Send ImNotOK alert to your email list? Are you sure?');
-    if(answer){
-        imok_menu_spinner();
-    }
-    return answer; 
-    };
+elemm.onclick = function() { return confirm('Send ImNotOK alert to your email list? Are you sure?'); };
 </script>
 <!-- /wp:html -->

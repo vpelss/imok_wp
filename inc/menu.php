@@ -1,6 +1,6 @@
 <?php
 
-add_shortcode( 'imok_menu', ['Emogic_IMOK_Menu' , 'imok_menu_shortcode_func'] );
+add_shortcode( 'EMOGIC_IMOK_MENU', ['Emogic_IMOK_Menu' , 'menu_shortcode'] );
 
 class Emogic_IMOK_Menu{
  
@@ -35,7 +35,7 @@ class Emogic_IMOK_Menu{
     }
     
     //run when shortcode on page
-    public static function imok_menu_shortcode_func(){   
+    public static function menu_shortcode(){   
         $page_links = wp_nav_menu( array( 'menu'=> IMOK_MENU_NAME ,
                                         'menu_id' => 'imok_menu_wp',
                                         'menu_class' => "imok_menu_wp",
@@ -49,8 +49,8 @@ class Emogic_IMOK_Menu{
         <span style='font-size:30px;cursor:pointer;' onclick='imok_menu_openNav()'>☰</span>
 
         <div id='imok_menu_myNav' class='imok_menu_overlay'>
-          <a href='javascript:void(0)' class='imok_menu_closebtn' onclick='imok_menu_closeNav()'>×</a>
-          <div onclick='imok_menu_spinner()'>
+          <a href='javascript:void(0)' class='no_spinner imok_menu_closebtn' onclick='imok_menu_closeNav()'>×</>
+          <div>
           {$page_links}
           </div>
         </div>
@@ -61,7 +61,7 @@ class Emogic_IMOK_Menu{
           <p>&nbsp;</p>   
           <p>&nbsp;</p>       
           <p>&nbsp;</p>   
-          <p id='imok_spinner' class='imok_spinner'>Loading
+          <p id='imok_spinner' class='imok_spinner'>Working<br>Really<br>Hard
           </p>
           </center>
         </div>

@@ -5,5 +5,5 @@
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
-<p>Your IMOK Alert will be triggered and sent to your contact list at [EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL]. Stop it by pushing IMOK button at EMOGIC_IMOK_ROOT_URL;</p>
+<p>Your IMOK Alert will be triggered and sent to your contact list at [EMOGIC_IMOK_ALERT_DATE_TIME_STR_LOCAL]. Stop it by pushing IMOK button at [EMOGIC_IMOK_ROOT_URL]</p>
 <!-- /wp:paragraph -->

@@ -12,17 +12,15 @@ add_action('after_setup_theme', ['Emogic_IMOK_Settings' , 'remove_admin_bar']);
 //these require echo to feed to user page at correct time. return goes to a bit bucket so it does not work here
 add_action( 'show_user_profile', ['Emogic_IMOK_Settings' , 'imok_settings_form_echo'] ); // Add the imok fields to user's own profile editing screen
 add_action( 'edit_user_profile', ['Emogic_IMOK_Settings' , 'imok_settings_form_echo'] ); // Add the imok fields to user profile editing screen for admins
-add_shortcode( 'imok_get_setting_fields', ['Emogic_IMOK_Settings' , 'imok_get_settings_fields_func'] );
+add_shortcode( 'EMOGIC_IMOK_GET_SETTINGS_FIELDS', ['Emogic_IMOK_Settings' , 'get_settings_fields_shortcode'] );
 
 add_action( 'personal_options_update', ['Emogic_IMOK_Settings' , 'imok_process_form'] ); // user to process IMOK setting changes on their account page. imok_process_form() is in settings.php
 add_action( 'edit_user_profile_update', ['Emogic_IMOK_Settings' , 'imok_process_form'] ); // admin to process user's IMOK setting.  imok_process_form() is in settings.php
 
-//add_shortcode( 'imok_settings',  ['Emogic_IMOK_Settings' , 'imok_create_form_nonce'] );//Create nonce fields and then add the user's form fields for the imok-settings page
-add_shortcode( 'imok_nonce',  ['Emogic_IMOK_Settings' , 'imok_create_form_nonce'] );//Create nonce fields and then add the user's form fields for the imok-settings page
-add_shortcode( 'imok_stay_on_settings_page_checked', ['Emogic_IMOK_Settings' , 'imok_stay_on_settings_page_checkbox_function'] );
+add_shortcode( 'EMOGIC_IMOK_NONCE',  ['Emogic_IMOK_Settings' , 'create_form_nonce_shortcode'] );//Create nonce fields and then add the user's form fields for the imok-settings page
+add_shortcode( 'EMOGIC_IMOK_STAY_ON_SETTINGS_PAGE_CHECKBOX', ['Emogic_IMOK_Settings' , 'imok_stay_on_settings_page_checkbox_shortcode'] );
 
-//these [shortcodes] were used on the templates/Old_Setting_Form.html and can still be used if useful
-add_shortcode( 'imok_root_url', ['Emogic_IMOK_Settings' , 'imok_root_url_func'] );
+add_shortcode( 'EMOGIC_IMOK_ROOT_URL', ['Emogic_IMOK_Settings' , 'root_url_shortcode'] );
 
 add_shortcode( 'imok_contact_email_1', ['Emogic_IMOK_Settings' , 'imok_contact_email_1_func'] );
 add_shortcode( 'imok_contact_email_2', ['Emogic_IMOK_Settings' , 'imok_contact_email_2_func'] );
@@ -33,8 +31,7 @@ add_shortcode( 'imok_alert_time', ['Emogic_IMOK_Settings' , 'imok_alert_time_fun
 add_shortcode( 'imok_alert_interval', ['Emogic_IMOK_Settings' , 'imok_alert_interval_func'] );
 add_shortcode( 'imok_pre_warn_time', ['Emogic_IMOK_Settings' , 'imok_pre_warn_time_func'] );
 add_shortcode( 'imok_timezone', ['Emogic_IMOK_Settings' , 'imok_timezone_func'] );
-add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_EMAIL', ['Emogic_IMOK_Settings' , 'EMOGIC_IMOK_CURRENT_USER_EMAIL_func'] );
-
+add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_EMAIL', ['Emogic_IMOK_Settings' , 'EMOGIC_IMOK_CURRENT_USER_EMAIL_shortcode'] );
 
 class Emogic_IMOK_Settings{
 	
@@ -78,7 +75,7 @@ class Emogic_IMOK_Settings{
 		}
 		
 		//DUPLICATE????
-		public static function imok_get_settings_fields_func(){
+		public static function get_settings_fields_shortcode(){
 			$posts = get_posts(
 			array( 'post_type'              => 'page',
 				'title'                  => 'IMOK Settings Fields',
@@ -131,7 +128,7 @@ class Emogic_IMOK_Settings{
 			return(1);
 	}
 
-	public static function imok_create_form_nonce(){
+	public static function create_form_nonce_shortcode(){
 		$user = wp_get_current_user();
 		return wp_nonce_field( 'imok_process_settings' . $user->ID ); // . self::imok_settings_form($user);
 		//return wp_nonce_field( 'imok_process_settings' . $user->ID ) . self::imok_settings_form($user);
@@ -143,7 +140,7 @@ class Emogic_IMOK_Settings{
 		self::imok_process_form( $user->ID);
 	}
 	
-	public static function imok_root_url_func(){
+	public static function root_url_shortcode(){
 		$imok_root_url = IMOK_ROOT_URL;
 		return $imok_root_url;
 		}
@@ -205,13 +202,13 @@ class Emogic_IMOK_Settings{
 		return self::cleanup_shortcode( sanitize_text_field( get_user_meta( $user->ID, 'imok_pre_warn_time', true ) ) );
 		}
 		
-	public static function EMOGIC_IMOK_CURRENT_USER_EMAIL_func(){
+	public static function EMOGIC_IMOK_CURRENT_USER_EMAIL_shortcode(){
 		$user = self::which_user();
 		return self::cleanup_shortcode( sanitize_email( $user->user_email ) );
 		}
 
 
-	public static function imok_stay_on_settings_page_checkbox_function($user){
+	public static function imok_stay_on_settings_page_checkbox_shortcode($user){
 		$user = self::which_user();
 		$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
 		if($imok_stay_on_settings_page == 1){
