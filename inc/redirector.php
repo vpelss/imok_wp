@@ -50,14 +50,9 @@ class Emogic_IMOK_Redireector{
 				$newURL = get_permalink($page->ID);
 			}
 		if($currentURL != $newURL){//only redirect if we are changing pages. compare current URL with redirected one so we don't loop		
-			/*
-			$flash = IMOK_PLUGIN_LOCATION_URL . '/images/flash.gif';
-		
-			<!-- wp:image {'align':'center','sizeSlug':'large'} -->
-			<figure class='wp-block-image aligncenter size-large'><img src='$flash' alt=''/><figcaption>Please Wait...</figcaption></figure>
-			<!-- /wp:image -->
-			*/
-			$string = "	<script>
+			$string = "<center>We are not logged in we will redirect you to the login page.</center>
+			<script>
+			imok_menu_spinner();
 			window.location.replace('$newURL');
 			</script>
 			";

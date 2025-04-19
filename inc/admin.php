@@ -32,7 +32,7 @@ class Emogic_IMOK_Admin{
 	}
 
 	public static function imok_settings_section_callback(  ) {
-		echo 'This section description';
+		echo 'Important: This email must exist on your domain to actually send from this email address.';
 	}
 	
 	public static function imok_from_email_field_render(  ) {

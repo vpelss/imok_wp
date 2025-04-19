@@ -16,12 +16,12 @@ function imok_menu_spinner() {
   document.getElementById('imok_menu_myNav').style.display = 'none';
 }
 
-//spinner on all a link clicks
+//spinner on all A link clicks
 document.onclick = function(event) {
   event = event;
   var target = event.target;
   if(target.nodeName === 'A') {
-      if(target.className.indexOf("no_spinner") == -1){
+      if(target.className.indexOf("no_spinner") == -1){ //except ones with class no_spinner
       imok_menu_spinner();
     }
   }

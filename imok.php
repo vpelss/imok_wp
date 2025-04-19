@@ -11,14 +11,9 @@
 * Author URI: https://www.emogic.com/
 **/
 
-// TO DO
+//to do
 
-// not logged in and main page : error?
-//visible errors on not logged in. more redirector???
-//not logged in redirector fails
-
-
-//no email@imok.emogic.com
+//imok test page?
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
@@ -39,9 +34,7 @@ add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_css"] );
 
 class EMOGIC_IMOK {
 	
-	//this is called as required
-	//require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
-
+	//called as required
 	public static function admin_requires() {
 		require_once IMOK_PLUGIN_PATH . 'inc/admin.php' ;//add admin page (?empty) , settings links , MOVE TO imok/settings add meta type , user fields , user field write
 		require_once IMOK_PLUGIN_PATH . 'inc/cron.php' ; //cron page functions

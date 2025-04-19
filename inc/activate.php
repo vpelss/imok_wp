@@ -16,9 +16,12 @@ class Emogic_IMOK_Activate{
 		//set a default from email
 		$imok_r1 = $_SERVER['HTTP_HOST'];
 		$imok_r2 = $_SERVER['SERVER_NAME'];
-		$imok_from_email = 'imok@' . $_SERVER['HTTP_HOST']; //assume a send from email address
+ 		//assume a send from email address imok@last.two
+		$domain_array =  explode("." , $_SERVER['HTTP_HOST']);
+		$domain_array = array_reverse($domain_array);
+		$imok_from_email = 'imok@' . $domain_array[1] . '.' . $domain_array[0];
+		//$imok_from_email = 'imok@' . $_SERVER['HTTP_HOST']; //assume a send from email address
 		update_option('imok_admin_settings' , array( 'imok_from_email_field'=>$imok_from_email ) );
-
 		flush_rewrite_rules();
 	}
 	
@@ -34,8 +37,12 @@ class Emogic_IMOK_Activate{
 					continue;
 					} //skip if this file page already exists
 				$file_string = file_get_contents($dir . $file , true);		
-				self::post_page($file , $file_string , $folder);
+				$post_id = self::post_page($file , $file_string , $folder);
+				if($file == 'IMOK'){ //set main landing page
+					update_option('show_on_front' , 'page');
+					update_option('page_on_front' , $post_id );
 				}
+			}
 		}
 	}
 
@@ -47,7 +54,7 @@ class Emogic_IMOK_Activate{
 				'post_author'   => 1,
 				'post_type' => 'page'
 				);
-			wp_insert_post( $wordpress_page );	
+			return wp_insert_post( $wordpress_page );	
 	}
 		
 }

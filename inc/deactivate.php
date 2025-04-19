@@ -26,6 +26,8 @@ class Emogic_IMOK_Deactivate{
 				}
 			}
 		}
+		delete_option('show_on_front');
+		delete_option('page_on_front');
 			
 		
 		//remove all user metadata starting with imok
