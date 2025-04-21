@@ -19,7 +19,7 @@ By having the customer report to a server that he is OK, the server can send out
 
 - This was designed as a web app to work on a stand alone Wordpress install and may conflict with existing pages.
 For example, anyone who registers for a new account on your site will be asked to fill in the IMOK settings page.
-To avoid site conflicts, you can easily create another Wordpress installation on your web host under a sub directory as I have done. https://www.emogic.com/imok/
+To avoid site conflicts, you can easily create another Wordpress installation on your web host under a sub directory, or a subdomain, as I have done. https://imok.emogic.com
 - Download and place all files under your Wordpress installation at \wp-content\plugins\imok_wp
 - Activate the imok plugin. It will create multiple pages unless they exist; 'IMOK Log In', 'IMOK Logged In', 'IMOK Settings', etc
 - If suitable, it is recommended to set the page 'IMOK' as your main page
@@ -42,13 +42,12 @@ This is a proof of concept script. Don't risk your life on it.
 ## To Do
 
 - imnotok message?
+- imok test buttton and message 
 - accounts not checked in and how long. delete option???
 - maybe email to admin or special email address?
-- option to set main page, with warning first
 -don't send last email on imok
 - settings : 5 x unlimited emails?
 
-- commands in first page and load modules as required
 - email admin link in email???
 - security issues
 

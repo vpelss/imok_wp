@@ -1,10 +1,10 @@
+<!-- wp:html --> 
+[EMOGIC_IMOK_MENU]
+<!-- /wp:html -->
+
 <!-- wp:shortcode -->
 [EMOGIC_IMOK_REDIRECTOR]
 <!-- /wp:shortcode -->
-
-<!-- wp:html -->
-[EMOGIC_IMOK_MENU]
-<!-- /wp:html -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"aligncenter"} -->

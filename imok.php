@@ -11,9 +11,15 @@
 * Author URI: https://www.emogic.com/
 **/
 
-//to do
+//on login check ALL fields
 
-//imok test page?
+//sepatate spinner and menu
+
+//sanitize emails in form??
+
+//single line email ;
+
+//show empty field errors on admin user page?
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 

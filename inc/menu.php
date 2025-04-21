@@ -45,7 +45,7 @@ class Emogic_IMOK_Menu{
         $frilly_menu = "
      
         
-               <center>
+      <center>
         <span style='font-size:30px;cursor:pointer;' onclick='imok_menu_openNav()'>☰</span>
 
         <div id='imok_menu_myNav' class='imok_menu_overlay'>
@@ -66,7 +66,7 @@ class Emogic_IMOK_Menu{
           </center>
         </div>
 
-        </center>
+      </center>
         
         <script></script>
         ";

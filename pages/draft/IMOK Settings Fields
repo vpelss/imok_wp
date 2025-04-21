@@ -66,4 +66,13 @@
 		<p>
 		<label for='imok_timezone'>Timezone in minutes. Do not alter.</label>
 		<input type='text' name='imok_timezone' id='imok_timezone' required value=[imok_timezone]>
+		<p>
+		<input type='checkbox' id='imok_stay_on_settings_page' name='imok_stay_on_settings_page' value='checked' [imok_stay_on_settings_page]>
+		<label for='imok_stay_on_settings_page'> Stay on this page</label>
+		<br>
+
+		<input type='hidden' id='imok_current_url' name='imok_current_url'>
+		<script>
+		document.getElementById("imok_current_url").value = window.location.href;
+		</script>
 <!-- /wp:html -->

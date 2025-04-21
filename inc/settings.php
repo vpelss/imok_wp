@@ -18,7 +18,6 @@ add_action( 'personal_options_update', ['Emogic_IMOK_Settings' , 'imok_process_f
 add_action( 'edit_user_profile_update', ['Emogic_IMOK_Settings' , 'imok_process_form'] ); // admin to process user's IMOK setting.  imok_process_form() is in settings.php
 
 add_shortcode( 'EMOGIC_IMOK_NONCE',  ['Emogic_IMOK_Settings' , 'create_form_nonce_shortcode'] );//Create nonce fields and then add the user's form fields for the imok-settings page
-add_shortcode( 'EMOGIC_IMOK_STAY_ON_SETTINGS_PAGE_CHECKBOX', ['Emogic_IMOK_Settings' , 'imok_stay_on_settings_page_checkbox_shortcode'] );
 
 add_shortcode( 'EMOGIC_IMOK_ROOT_URL', ['Emogic_IMOK_Settings' , 'root_url_shortcode'] );
 
@@ -32,6 +31,7 @@ add_shortcode( 'imok_alert_interval', ['Emogic_IMOK_Settings' , 'imok_alert_inte
 add_shortcode( 'imok_pre_warn_time', ['Emogic_IMOK_Settings' , 'imok_pre_warn_time_func'] );
 add_shortcode( 'imok_timezone', ['Emogic_IMOK_Settings' , 'imok_timezone_func'] );
 add_shortcode( 'EMOGIC_IMOK_CURRENT_USER_EMAIL', ['Emogic_IMOK_Settings' , 'EMOGIC_IMOK_CURRENT_USER_EMAIL_shortcode'] );
+add_shortcode( 'imok_stay_on_settings_page', ['Emogic_IMOK_Settings' , 'imok_stay_on_settings_page_checkbox_shortcode'] );
 
 class Emogic_IMOK_Settings{
 	
@@ -90,26 +90,38 @@ class Emogic_IMOK_Settings{
 		}
 	
 	public static function imok_process_form($user_id) {
+
+			if (!current_user_can('edit_user', $user_id)) {
+				return;
+			}
+
 			$user = get_userdata($user_id);
 		
+			//get all field values and store in user_meta
+			$field_array = ['imok_contact_email_1' , 'imok_contact_email_2' , 'imok_contact_email_3' , 'imok_email_message' , 'imok_alert_date'  , 'imok_alert_time' , 'imok_alert_interval' , 'imok_pre_warn_time' , 'imok_timezone' , 'imok_stay_on_settings_page' ];
+			foreach ($field_array as $field_name) {
+				//if( isset($_POST[$field_name]) and ($_POST[$field_name] != '') ){
+				if( isset($_POST[$field_name]) ){
+					//$me = $_POST[$field_name];
+					$result = update_user_meta( $user->ID , $field_name , $_POST[$field_name] );
+				}
+				else{
+					echo 'No value for ' . $field_name . ' <br>';
+				}
+			}
+
+			/*
 			update_user_meta( $user->ID , 'imok_timezone' ,  $_POST['imok_timezone'] ); //$_POST['imok_timezone'] in minutes
-		
 			update_user_meta( $user->ID , 'imok_contact_email_1' , is_email( $_POST['imok_contact_email_1'] ) ); //$_POST['imok_contact_email_X']
 			update_user_meta( $user->ID , 'imok_contact_email_2' , is_email( $_POST['imok_contact_email_2'] ) ); //$_POST['imok_contact_email_X']
 			update_user_meta( $user->ID , 'imok_contact_email_3' , is_email( $_POST['imok_contact_email_3'] ) ); //$_POST['imok_contact_email_X']
-		
 			update_user_meta( $user->ID , 'imok_email_message' , $_POST['imok_email_message'] ) ;
-		
 			update_user_meta( $user->ID , 'imok_alert_date' , $_POST['imok_alert_date'] ) ;
 			update_user_meta( $user->ID , 'imok_alert_time' , $_POST['imok_alert_time'] );
-		
-			update_user_meta( $user->ID , 'imok_alert_interval' , $_POST['imok_alert_interval'] );
+			imok_update_user_meta( $user->ID , 'imok_alert_interval');
 			update_user_meta( $user->ID , 'imok_pre_warn_time' , $_POST['imok_pre_warn_time'] );
-			if(! isset($_POST['imok_stay_on_settings_page'])){
-				$_POST['imok_stay_on_settings_page'] = 0;
-			}
-			update_user_meta( $user->ID , 'imok_stay_on_settings_page' , $_POST['imok_stay_on_settings_page'] );
-		
+			*/
+			
 			//email user that settings have changed
 			require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
 			$template_page_name = 'IMOK Email Settings Changed';
@@ -117,15 +129,20 @@ class Emogic_IMOK_Settings{
 			$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
 		
 			//$admin_notice = "success"; //???
-			if( $_POST['imok_stay_on_settings_page'] ) {
-				$page = get_posts( ['post_type' => 'page' , 'title'=> 'IMOK Settings'] )[0];
+			if( isset( $_POST['imok_stay_on_settings_page'] ) and ($_POST['imok_stay_on_settings_page'] == 'checked') ) {
+				//curent full URL 
+				$homeURL = $_POST['imok_current_url'];			
 				} 
 			else {
 				$page = get_posts( ['post_type' => 'page' , 'title'=> IMOK_MAIN_PAGE] )[0];
-				} 
-			$homeURL = get_permalink($page->ID);
+				$homeURL = get_permalink($page->ID);
+				} 	
+
 			wp_redirect( $homeURL );
-			return(1);
+
+			//wp_admin_notice("You win!", ['type'=>'info'] );	
+
+			return(1); // MUST be return, not exit, after redirect or all the user data changed on admin scren will not be processed
 	}
 
 	public static function create_form_nonce_shortcode(){
@@ -211,13 +228,10 @@ class Emogic_IMOK_Settings{
 	public static function imok_stay_on_settings_page_checkbox_shortcode($user){
 		$user = self::which_user();
 		$imok_stay_on_settings_page = get_user_meta( $user->ID, 'imok_stay_on_settings_page', true );
-		if($imok_stay_on_settings_page == 1){
-			return "checked";
+		if($imok_stay_on_settings_page == 'checked'){
+			return 'checked';
 		}
-		else{
-			return "";
-		}
-		return ;
+	    return '';
 	}
 	
 	

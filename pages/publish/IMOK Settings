@@ -7,7 +7,7 @@
 <!-- /wp:shortcode -->
 
 <!-- wp:html -->
-<form method="post" action="" id="imok_form_settings">
+<form method="post" action="" id="imok_form_settings" onsubmit="imok_menu_spinner();">
 <input type="hidden" name="action" value="imok_process_form">
 
 [EMOGIC_IMOK_NONCE]
@@ -16,11 +16,8 @@
 
 <center>
 <p>
-<input type="submit" name="submit" id="submit" value="Save Settings">
+<input type="submit" name="submit" id="submit" value="Save Settings" >
 </p>
-
-<input type='checkbox' id='imok_stay_on_settings_page' name='imok_stay_on_settings_page' value='1' [EMOGIC_IMOK_STAY_ON_SETTINGS_PAGE_CHECKBOX]>
-<label for='imok_stay_on_settings_page'> Stay on this page</label><br>
 
 </center>
 </form>
