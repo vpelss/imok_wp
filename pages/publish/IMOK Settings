@@ -2,6 +2,10 @@
 [EMOGIC_IMOK_MENU]
 <!-- /wp:html -->
 
+<!-- wp:html --> 
+[EMOGIC_IMOK_SPINNER]
+<!-- /wp:html -->
+
 <!-- wp:shortcode -->
 [EMOGIC_IMOK_REDIRECTOR]
 <!-- /wp:shortcode -->

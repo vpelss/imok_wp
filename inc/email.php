@@ -47,8 +47,8 @@ class Emogic_IMOK_Email{
     array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_1', true ) );
     array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_2', true ) );
     array_push($email_to , get_user_meta( $user->ID, 'imok_contact_email_3', true ) );
-    array_push( $email_to , $user->user_email );
-    $email_to_str = implode( ",", $email_to );
+    array_push( $email_to , $user->user_email ); //add user account email
+    $email_to_str = implode( ",", $email_to ); //converts to "email1,email2,..." so wp_mail can send to all and they can all see each other's email
     return $email_to_str;
   }
 

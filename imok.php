@@ -4,22 +4,27 @@
 * Plugin Name: Emogic IMOK
 * Plugin URI: https://github.com/vpelss/imok_wp#readme
 * Description: Emogic IMOK 
-* Version: 0.5.0
+* Version: 0.7.0
 * License: GPLv3
 * License URI:  https://github.com/vpelss/imok_wp?tab=GPL-3.0-1-ov-file#readme
 * Author: Vince Pelss
 * Author URI: https://www.emogic.com/
 **/
 
-//on login check ALL fields
+//sanitize ALL gets in commands.php and settings.php
+//fields 
+//$car = array("brand"=>"Ford", "model"=>"Mustang", "year"=>1964);
+//generic get_sanatize( field , field_type) function with field input data //in settings.php
+//same for set set_sanitize
 
-//sepatate spinner and menu
+//field attributes for shortcodes [fields field="email1"]
 
-//sanitize emails in form??
+//sanitize emails to sql! else someone could save a long list!!!
+//all emails required is an issue... simplify
+//single line email ; test for max # of emails
 
-//single line email ;
+//main page no timezone error: redirect code on every blank field get...
 
-//show empty field errors on admin user page?
 
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 

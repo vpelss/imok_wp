@@ -2,6 +2,10 @@
 [EMOGIC_IMOK_MENU]
 <!-- /wp:html -->
 
+<!-- wp:html --> 
+[EMOGIC_IMOK_SPINNER]
+<!-- /wp:html -->
+ 
 <!-- wp:html -->
 <center>
 <div id="login">[EMOGIC_IMOK_LOGIN]</div>
