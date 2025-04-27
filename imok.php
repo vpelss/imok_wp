@@ -11,14 +11,6 @@
 * Author URI: https://www.emogic.com/
 **/
 
-//sanitize ALL gets in commands.php and settings.php
-//fields 
-//$car = array("brand"=>"Ford", "model"=>"Mustang", "year"=>1964);
-//generic get_sanatize( field , field_type) function with field input data //in settings.php
-//same for set set_sanitize
-
-//field attributes for shortcodes [fields field="email1"]
-
 //sanitize emails to sql! else someone could save a long list!!!
 //all emails required is an issue... simplify
 //single line email ; test for max # of emails

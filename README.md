@@ -19,6 +19,7 @@ By having the customer report to a server that he is OK, the server can send out
 
 - This was designed as a web app to work on a stand alone Wordpress install and may conflict with existing pages.
 For example, anyone who registers for a new account on your site will be asked to fill in the IMOK settings page.
+It will set the Wordpress main page to IMOK.
 To avoid site conflicts, you can easily create another Wordpress installation on your web host under a sub directory, or a subdomain, as I have done. https://imok.emogic.com
 - Download and place all files under your Wordpress installation at \wp-content\plugins\imok_wp
 - Activate the imok plugin. It will create multiple pages unless they exist; 'IMOK Log In', 'IMOK Logged In', 'IMOK Settings', etc
@@ -43,9 +44,8 @@ This is a proof of concept script. Don't risk your life on it.
 
 - imnotok message?
 - imok test buttton and message 
-- accounts not checked in and how long. delete option???
-- maybe email to admin or special email address?
--don't send last email on imok
+- accounts not checked in and how long. delete option??? maybe email to admin or special email address?
+- don't send last email on imok
 - settings : 5 x unlimited emails?
 
 - email admin link in email???
@@ -55,7 +55,7 @@ This is a proof of concept script. Don't risk your life on it.
 - alert to social media
 
 //fixes
-	//security benefit to commands going through : /wp-admin/admin-post.php
+	//security benefit (nonces) to commands going through : /wp-admin/admin-post.php
 	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
 
 //audio alarm. bypass dom interaction?
