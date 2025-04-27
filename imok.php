@@ -11,6 +11,8 @@
 * Author URI: https://www.emogic.com/
 **/
 
+//form set to wp style?
+
 //sanitize emails to sql! else someone could save a long list!!!
 //all emails required is an issue... simplify
 //single line email ; test for max # of emails

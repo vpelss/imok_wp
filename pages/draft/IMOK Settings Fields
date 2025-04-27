@@ -16,7 +16,7 @@
 					class='regular-text ltr form-required'
 					id='imok_contact_email_2'
 					name='imok_contact_email_2'
-					title='Please enter a valid email address.'	
+					title='Please enter a valid email address or copy the one above.'	
 					required						
 					>
 				<script>document.getElementById('imok_contact_email_2').value = "[EMOGIC_IMOK_FIELD name='imok_contact_email_2']";</script>
@@ -26,7 +26,7 @@
 					class='regular-text ltr form-required'
 					id='imok_contact_email_3'
 					name='imok_contact_email_3'
-					title='Please enter a valid email address.'
+					title='Please enter a valid email address or copy the one above.'
 					 required
 					>
 				<script>document.getElementById('imok_contact_email_3').value = "[EMOGIC_IMOK_FIELD name='imok_contact_email_3']";</script>

@@ -2,7 +2,7 @@
 [EMOGIC_IMOK_MENU]
 <!-- /wp:html -->
 
-<!-- wp:html --> 
+<!-- wp:html -->
 [EMOGIC_IMOK_SPINNER]
 <!-- /wp:html -->
 
@@ -13,24 +13,31 @@
 <!-- wp:html -->
 <form method="post" action="" id="imok_form_settings" onsubmit="imok_menu_spinner();">
 <input type="hidden" name="action" value="imok_process_form">
-
 [EMOGIC_IMOK_NONCE]
+<!-- /wp:html -->
 
+<!-- wp:html -->
 [EMOGIC_IMOK_GET_SETTINGS_FIELDS]
+<!-- /wp:html -->
 
+<!-- wp:html -->
 <center>
 <p>
 <input type="submit" name="submit" id="submit" value="Save Settings" >
 </p>
 
 </center>
-</form>
+<!-- /wp:html -->
 
+<!-- wp:html -->
+</form>
+<!-- /wp:html -->
+
+<!-- wp:html -->
 <script>
 const d = new Date();
 let timezone= d.getTimezoneOffset();
 document.getElementById('imok_timezone').value = timezone;
-
 document.getElementById('imok_form_settings').action = '[EMOGIC_IMOK_ROOT_URL]/wp-admin/admin-post.php';
 </script>
 <!-- /wp:html -->

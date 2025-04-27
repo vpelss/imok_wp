@@ -42,29 +42,15 @@ This is a proof of concept script. Don't risk your life on it.
 
 ## To Do
 
-- imnotok message?
-- imok test buttton and message 
-- accounts not checked in and how long. delete option??? maybe email to admin or special email address?
-- don't send last email on imok
-- settings : 5 x unlimited emails?
-
-- email admin link in email???
-- security issues
-
+- imok_test buttton and message 
+- accounts not checked in and how long. delete option??? legal aspect?
 - alert to text
 - alert to social media
-
-//fixes
-	//security benefit (nonces) to commands going through : /wp-admin/admin-post.php
-	//<a href="<?php echo esc_url( $user_url ); >"><?php echo esc_html( $user_name ); ></a>
-
-//audio alarm. bypass dom interaction?
-//no audio alarm option in settings?
-
-	//no comments
-	//no posts
-	//no media
-
-//to do
-	//messaging option
-	//pay system?
+- audio alarm. bypass dom interaction?
+- no audio alarm option in settings
+- programaticly set no comments
+- programaticly set no posts
+- programaticly set no media
+- pay system
+- more emails inline text, but have an email limit
+- security benefit (nonces, etc) to commands going through : /wp-admin/admin-post.php. basicly action button would be a form that would trigger an action. but formatting gets messy with forms

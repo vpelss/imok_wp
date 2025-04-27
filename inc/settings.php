@@ -1,12 +1,14 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+if (! defined('ABSPATH')) {
+	exit($staus = 'ABSPATH not defn');
+} //exit if directly accessed
 
 //disable admin bar for users
 add_action('after_setup_theme', ['Emogic_IMOK_Settings', 'remove_admin_bar']);
 
-//Create nonce fields and then add the user's form fields for the imok-settings page
-add_shortcode('EMOGIC_IMOK_NONCE',  ['Emogic_IMOK_Settings', 'create_form_nonce_shortcode']); 
+//Create nonce field
+add_shortcode('EMOGIC_IMOK_NONCE',  ['Emogic_IMOK_Settings', 'create_form_nonce_shortcode']);
 //add the imok fields to be added to user profile page
 //these require echo to feed to user page at correct time. return goes to a bit bucket so it does not work here
 add_action('show_user_profile', ['Emogic_IMOK_Settings', 'imok_settings_form_echo']); // Add the imok fields to user's own profile editing screen
@@ -30,7 +32,6 @@ class Emogic_IMOK_Settings
 	static public $useris;
 	static public $fields_array = ['imok_contact_email_1', 'imok_contact_email_2', 'imok_contact_email_3', 'imok_email_message', 'imok_alert_date', 'imok_alert_time', 'imok_alert_interval', 'imok_pre_warn_time', 'imok_timezone', 'imok_stay_on_settings_page'];
 	static public $fields_array_type = ["imok_contact_email_1" => "email", "imok_contact_email_2" => "email", "imok_contact_email_3" => "email", "imok_email_message" => "textarea", "imok_alert_date" => "text", "imok_alert_time" => "text", "imok_alert_interval" => "text", "imok_pre_warn_time" => "text", "imok_timezone" => "text", "imok_stay_on_settings_page" => "text"];
-
 
 	public static function remove_admin_bar()
 	{
@@ -97,7 +98,7 @@ class Emogic_IMOK_Settings
 	{
 		$user = wp_get_current_user();
 		if (! check_admin_referer('imok_process_settings' . $user->ID)) {
-				return;
+			return;
 		}
 		self::imok_process_form($user->ID);
 	}
@@ -120,7 +121,7 @@ class Emogic_IMOK_Settings
 			}
 		}
 
-		$user = get_userdata($user_id); 
+		$user = get_userdata($user_id);
 		//email user that settings have changed
 		require_once IMOK_PLUGIN_PATH . 'inc/email.php';
 		$template_page_name = 'IMOK Email Settings Changed';
@@ -197,7 +198,7 @@ class Emogic_IMOK_Settings
 		return $result;
 	}
 
-		/*
+	/*
 	public static function cleanup_shortcode($val)
 	{
 		//was a kludge for wp ticket #60948
@@ -211,4 +212,3 @@ class Emogic_IMOK_Settings
 	}
 	*/
 }
-
