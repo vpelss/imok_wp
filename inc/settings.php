@@ -8,7 +8,7 @@ if (! defined('ABSPATH')) {
 add_action('after_setup_theme', ['Emogic_IMOK_Settings', 'remove_admin_bar']);
 
 //Create nonce field
-add_shortcode('EMOGIC_IMOK_NONCE',  ['Emogic_IMOK_Settings', 'create_form_nonce_shortcode']);
+add_shortcode('EMOGIC_IMOK_SETTINGS_NONCE',  ['Emogic_IMOK_Settings', 'create_form_nonce_shortcode']);
 //add the imok fields to be added to user profile page
 //these require echo to feed to user page at correct time. return goes to a bit bucket so it does not work here
 add_action('show_user_profile', ['Emogic_IMOK_Settings', 'imok_settings_form_echo']); // Add the imok fields to user's own profile editing screen
@@ -108,9 +108,6 @@ class Emogic_IMOK_Settings
 		if (!current_user_can('edit_user', $user_id)) {
 			return;
 		}
-
-		//commands here?
-
 
 		//get all field values and store in user_meta
 		foreach (self::$fields_array as $field_name) {

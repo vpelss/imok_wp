@@ -12,7 +12,7 @@
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"aligncenter"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link wp-element-button" href="?command=imok">IMOK</a></div>
+<div class="wp-block-button aligncenter"><a class="wp-block-button__link wp-element-button" href="?command=imok&nonce=[EMOGIC_IMOK_COMMAND_NONCE]">IMOK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -26,7 +26,7 @@
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"textAlign":"center"} -->
-<div class="wp-block-button" id="imnotok"><a class="wp-block-button__link has-text-align-center wp-element-button" href="?command=imnotok">IM NOT OK</a></div>
+<div class="wp-block-button" id="imnotok"><a class="wp-block-button__link has-text-align-center wp-element-button" href="?command=imnotok&nonce=[EMOGIC_IMOK_COMMAND_NONCE]">IM NOT OK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 

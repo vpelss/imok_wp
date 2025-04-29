@@ -19,10 +19,31 @@ add_shortcode( 'EMOGIC_IMOK_USER_EMAIL', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_
 //returns sthe countdown js logic and display code
 add_shortcode( 'EMOGIC_IMOK_COUNTDOWN', ['Emogic_IMOK_Commands' , 'countdown_shortcode'] );
 
+//command nonces
+add_shortcode( 'EMOGIC_IMOK_COMMAND_NONCE', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_COMMAND_NONCE_shortcode'] );
+
+
 class Emogic_IMOK_Commands{
+
+	public static function EMOGIC_IMOK_COMMAND_NONCE_shortcode()
+	{
+		$user = wp_get_current_user();
+		$field_string = wp_nonce_field('imok_process_commands'.$user->ID); // value creates a unique nonce hash?
+		$pattern = "/value=\"(\w+)\"/i";
+		preg_match($pattern, $field_string, $matches);
+		$value = $matches[1]; //we just want nunce code to put in a get &nonce=$value
+		return $value;
+	}
 
 	public static function imok(){
 		$user = wp_get_current_user();
+
+		$nonce_value = $_REQUEST['nonce'];
+		if (!  wp_verify_nonce($nonce_value , 'imok_process_commands'.$user->ID) ) { //check nonce
+			$msg = 'Pushing IMOK FAILED. Please try again or try refreshing your browser.';
+			return $msg;
+		}
+
 		$unix_day = 60 * 60 * 24; //seconds in a day
 	
 		//get current unix time
@@ -63,6 +84,13 @@ class Emogic_IMOK_Commands{
 	}
 
 	public static function imnotok(){ 
+		$user = wp_get_current_user();
+		$nonce_value = $_REQUEST['nonce'];
+		if (!  wp_verify_nonce($nonce_value , 'imok_process_commands'.$user->ID) ) { //check nonce
+			$msg = 'Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br> Please try again or try refreshing your browser.';
+			return $msg;
+		}
+
 		require_once IMOK_PLUGIN_PATH . 'inc/email.php'; 
 		$user = wp_get_current_user();
 		$template_page_name = 'IMOK Email IMNOTOK';
@@ -133,6 +161,9 @@ class Emogic_IMOK_Commands{
 		if( get_user_meta( $user->ID , 'imok_timezone', true ) ) {
 			$imok_timezone = 60 * get_user_meta( $user->ID , 'imok_timezone', true );
 			} //tz was store in minutes, so we convert to seconds
+		else{
+			$imok_timezone = 0;
+		}
 	
 		//convert the users alert time to their PC's tz
 		$imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;

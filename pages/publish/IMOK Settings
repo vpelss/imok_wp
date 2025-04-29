@@ -13,7 +13,7 @@
 <!-- wp:html -->
 <form method="post" action="" id="imok_form_settings" onsubmit="imok_menu_spinner();">
 <input type="hidden" name="action" value="imok_process_form">
-[EMOGIC_IMOK_NONCE]
+[EMOGIC_IMOK_SETTINGS_NONCE]
 <!-- /wp:html -->
 
 <!-- wp:html -->

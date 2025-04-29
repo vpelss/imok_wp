@@ -11,15 +11,6 @@
 * Author URI: https://www.emogic.com/
 **/
 
-//form set to wp style?
-
-//sanitize emails to sql! else someone could save a long list!!!
-//all emails required is an issue... simplify
-//single line email ; test for max # of emails
-
-//main page no timezone error: redirect code on every blank field get...
-
-
 if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
 
 // define variable for path to this plugin file.
