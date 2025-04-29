@@ -25,7 +25,7 @@ define( 'IMOK_MENU_NAME' , 'imok_menu' ); // set menu name
 
 register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'activate'] ); 
 register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'deactivate'] );
-add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_js"] );
+add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_js"] , 1); //set priority early = 1
 add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_css"] );
 
 class EMOGIC_IMOK {

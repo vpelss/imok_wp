@@ -22,8 +22,13 @@ add_shortcode( 'EMOGIC_IMOK_COUNTDOWN', ['Emogic_IMOK_Commands' , 'countdown_sho
 //command nonces
 add_shortcode( 'EMOGIC_IMOK_COMMAND_NONCE', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_COMMAND_NONCE_shortcode'] );
 
+add_shortcode( 'EMOGIC_IMOK_PLUGIN_LOCATION_URL', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_PLUGIN_LOCATION_URL_shortcode'] );
 
 class Emogic_IMOK_Commands{
+
+	public static function EMOGIC_IMOK_PLUGIN_LOCATION_URL_shortcode() {
+        return IMOK_PLUGIN_LOCATION_URL;
+    }
 
 	public static function EMOGIC_IMOK_COMMAND_NONCE_shortcode()
 	{
@@ -87,7 +92,8 @@ class Emogic_IMOK_Commands{
 		$user = wp_get_current_user();
 		$nonce_value = $_REQUEST['nonce'];
 		if (!  wp_verify_nonce($nonce_value , 'imok_process_commands'.$user->ID) ) { //check nonce
-			$msg = 'Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br> Please try again or try refreshing your browser.';
+			$msg =  'Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br> Please try again or try refreshing your browser.';
+			$msg = $msg."<script>imok_alarm_me();imok_alarm_on();</script>";
 			return $msg;
 		}
 
@@ -97,6 +103,7 @@ class Emogic_IMOK_Commands{
 		$email_to_str =	EMOGIC_IMOK_Email::get_dist_list($user->ID);
 		$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
 		$msg =  "An IM NOT OK Alert was sent to your contact list.";
+		//$msg = $msg."<script>imok_alarm.stop();</script>";
 		return $msg;
 	}
 
@@ -174,16 +181,9 @@ class Emogic_IMOK_Commands{
 		
 		$IMOK_PLUGIN_LOCATION_URL = IMOK_PLUGIN_LOCATION_URL;
 		if($imok_alert_unix_time <= $now_UTC){#alarm was/is triggered
-			$msg = "You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.
-			<audio id='imok_alarm' src='$IMOK_PLUGIN_LOCATION_URL/audio/Windows-Notify-Calendar.wav'></audio>
-	
-			<script>
-			setInterval( alarm_me , 5000 * 1 ); //update every 15 seconds
-	
-			function alarm_me(){
-				imok_alarm.play();
-				}
-			</script>";
+
+			$msg = "<script>imok_alarm_me();imok_alarm_on(); </script>
+			You had not responded by the Alert time. An alert was likely sent out. Please let your contacts know you are all right.";
 			}
 		else{
 			$msg = "Push 'IM OK' before:<br>
@@ -191,18 +191,18 @@ class Emogic_IMOK_Commands{
 			<font id='countdown'>countdown</font><br>
 			<font id='timezone_error' color='orange'></font>
 	
-			<audio id='imok_alarm' src='$IMOK_PLUGIN_LOCATION_URL/audio/Windows-Notify-Calendar.wav'></audio>
-	
 			<script>
 			var trigger_time = $imok_alert_unix_time;
-			var imok_alarm = document.getElementById('imok_alarm');
+			//var imok_alarm = document.getElementById('imok_alarm');
 	
 			function countdown() {
 				var now = Date.now() / 1000; //in seconds
 				var difference_seconds = trigger_time - now;
 				if(difference_seconds <= 0){
 					document.getElementById('countdown').innerHTML = 'Timeout exceeded. Alerts are being sent.';
-					imok_alarm.play();
+					imok_alarm_me();
+					imok_alarm_on();
+					clearInterval(countdownInterval);
 					}
 				else{
 					var days = Math.floor( difference_seconds / (60 * 60 * 24) );
@@ -214,7 +214,7 @@ class Emogic_IMOK_Commands{
 					document.getElementById('countdown').innerHTML = countdown_string;
 					}
 			}
-			setInterval( countdown , 5000 * 1 ); //update every 15 seconds
+			countdownInterval = setInterval( countdown , 5000 * 1 ); //update every 15 seconds
 			countdown(); //run now
 	
 			//test for wrong timezone by using js and comparing with stored timezone

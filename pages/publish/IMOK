@@ -1,4 +1,8 @@
 <!-- wp:html --> 
+<audio id='imok_alarm' src='[EMOGIC_IMOK_PLUGIN_LOCATION_URL]/audio/Windows-Notify-Calendar.wav'></audio>
+<!-- /wp:html -->
+
+<!-- wp:html --> 
 [EMOGIC_IMOK_MENU]
 <!-- /wp:html -->
 

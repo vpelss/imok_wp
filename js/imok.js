@@ -16,6 +16,21 @@ function imok_menu_spinner() {
   document.getElementById('imok_menu_myNav').style.display = 'none';
 }
 
+imokalarmInterval = '';
+
+function imok_alarm_on(){
+  imokalarmInterval = setInterval( imok_alarm_me , 5000 * 1 ); //update every 15 seconds
+}
+
+function imok_alarm_off(){
+  clearInterval(imokalarmInterval);
+}
+
+function imok_alarm_me(){
+ let imok_alarm = document.getElementById('imok_alarm');
+ imok_alarm.play();
+ }
+
 //spinner on all A link clicks
 document.onclick = function(event) {
   event = event;
