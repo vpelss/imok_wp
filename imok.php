@@ -27,6 +27,7 @@ register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'acti
 register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'deactivate'] );
 add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_js"] , 1); //set priority early = 1
 add_action("wp_enqueue_scripts", ["EMOGIC_IMOK" , "enqueue_css"] );
+add_action("wp_head", ["EMOGIC_IMOK" , "hook_manifest"]); //for PWA
 
 class EMOGIC_IMOK {
 	
@@ -62,6 +63,11 @@ class EMOGIC_IMOK {
 		wp_enqueue_style('IMOK__wp-css', IMOK_PLUGIN_LOCATION_URL . '/css/imok.css');
 	}
 	
+	public static function hook_manifest() {
+  		//echo ( '<link rel="manifest" href="' . IMOK_ROOT_URL. '/manifest.json">'	);
+ 		echo ( '<link rel="manifest" href="' . IMOK_ROOT_URL . '/manifest.json">'	);
+	}
+
 }
 
 //we really don't need to separate these as user has all requires anyway, and that is the one we wanted to try to speed up.

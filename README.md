@@ -42,7 +42,6 @@ This is a proof of concept script. Don't risk your life on it.
 
 ## To Do
 
-- success sounds (asterix/calendar alert) fail sounds (device failed to connect)
 - imok_test buttton and message 
 - accounts not checked in and how long. delete option??? legal aspect?
 - alert to text

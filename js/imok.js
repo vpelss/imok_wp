@@ -27,9 +27,14 @@ function imok_alarm_off(){
 }
 
 function imok_alarm_me(){
- let imok_alarm = document.getElementById('imok_alarm');
- imok_alarm.play();
- }
+  let imok_alarm = document.getElementById('imok_alarm');
+  imok_alarm.play();
+  }
+
+  function imok_all_good(){
+    let imok_all_good = document.getElementById('imok_all_good');
+    imok_all_good.play();
+    }
 
 //spinner on all A link clicks
 document.onclick = function(event) {

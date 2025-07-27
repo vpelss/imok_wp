@@ -1,12 +1,13 @@
-<!-- wp:html --> 
+<!-- wp:html -->
 <audio id='imok_alarm' src='[EMOGIC_IMOK_PLUGIN_LOCATION_URL]/audio/Windows-Notify-Calendar.wav'></audio>
+<audio id='imok_all_good' src='[EMOGIC_IMOK_PLUGIN_LOCATION_URL]/audio/Windows-Message-Nudge.wav'></audio>
 <!-- /wp:html -->
 
-<!-- wp:html --> 
+<!-- wp:html -->
 [EMOGIC_IMOK_MENU]
 <!-- /wp:html -->
 
-<!-- wp:html --> 
+<!-- wp:html -->
 [EMOGIC_IMOK_SPINNER]
 <!-- /wp:html -->
 
@@ -16,7 +17,7 @@
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"className":"aligncenter"} -->
-<div class="wp-block-button aligncenter"><a class="wp-block-button__link wp-element-button" href="?command=imok&nonce=[EMOGIC_IMOK_COMMAND_NONCE]">IMOK</a></div>
+<div class="wp-block-button aligncenter" id="imok"><a class="wp-block-button__link wp-element-button" href="[EMOGIC_IMOK_COMMAND_NONCE command='imok']">IMOK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 
@@ -25,12 +26,12 @@
 <!-- /wp:table -->
 
 <!-- wp:html -->
- <center>[EMOGIC_IMOK_COUNTDOWN]</center>
+<center>[EMOGIC_IMOK_COUNTDOWN]</center>
 <!-- /wp:html -->
 
 <!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->
 <div class="wp-block-buttons"><!-- wp:button {"textAlign":"center"} -->
-<div class="wp-block-button" id="imnotok"><a class="wp-block-button__link has-text-align-center wp-element-button" href="?command=imnotok&nonce=[EMOGIC_IMOK_COMMAND_NONCE]">IM NOT OK</a></div>
+<div class="wp-block-button" id="imnotok"><a class="wp-block-button__link has-text-align-center wp-element-button" href="[EMOGIC_IMOK_COMMAND_NONCE command='imnotok']">IM NOT OK</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 

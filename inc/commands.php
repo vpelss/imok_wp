@@ -16,12 +16,12 @@ add_shortcode( 'EMOGIC_IMOK_LOG_OUT_EVERYWHERE_ELSE_URL', ['Emogic_IMOK_Commands
 add_shortcode( 'EMOGIC_IMNOTOK_USER_MESSAGE', ['Emogic_IMOK_Commands' , 'EMOGIC_IMNOTOK_USER_MESSAGE_SHORTCODE'] );
 add_shortcode( 'EMOGIC_IMOK_USER_EMAIL', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_USER_EMAIL_SHORTCODE'] );
 
-//returns sthe countdown js logic and display code
+//returns the countdown js logic and display code
 add_shortcode( 'EMOGIC_IMOK_COUNTDOWN', ['Emogic_IMOK_Commands' , 'countdown_shortcode'] );
 
 //command nonces
 add_shortcode( 'EMOGIC_IMOK_COMMAND_NONCE', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_COMMAND_NONCE_shortcode'] );
-
+//for wav <audio
 add_shortcode( 'EMOGIC_IMOK_PLUGIN_LOCATION_URL', ['Emogic_IMOK_Commands' , 'EMOGIC_IMOK_PLUGIN_LOCATION_URL_shortcode'] );
 
 class Emogic_IMOK_Commands{
@@ -30,22 +30,22 @@ class Emogic_IMOK_Commands{
         return IMOK_PLUGIN_LOCATION_URL;
     }
 
-	public static function EMOGIC_IMOK_COMMAND_NONCE_shortcode()
+	public static function EMOGIC_IMOK_COMMAND_NONCE_shortcode($atts=[])
 	{
+		$command = $atts["command"];
 		$user = wp_get_current_user();
-		$field_string = wp_nonce_field('imok_process_commands'.$user->ID); // value creates a unique nonce hash?
-		$pattern = "/value=\"(\w+)\"/i";
-		preg_match($pattern, $field_string, $matches);
-		$value = $matches[1]; //we just want nunce code to put in a get &nonce=$value
-		return $value;
+		//NOTE: wp_nonce_field() breaks PWA
+		$field_string = wp_nonce_url( "?command=" . $command , $user->ID );
+		return $field_string;
 	}
 
 	public static function imok(){
 		$user = wp_get_current_user();
 
-		$nonce_value = $_REQUEST['nonce'];
-		if (!  wp_verify_nonce($nonce_value , 'imok_process_commands'.$user->ID) ) { //check nonce
-			$msg = 'Pushing IMOK FAILED. Please try again or try refreshing your browser.';
+		$nonce_value = $_REQUEST['_wpnonce'];
+		//if (!  wp_verify_nonce($nonce_value , 'imok_process_commands'.$user->ID) ) { //check nonce
+		if (!  wp_verify_nonce($nonce_value , $user->ID) ) { //check nonce
+			$msg = 'Pushing IMOK FAILED. Please try again or try refreshing your browser.' . $nonce_value;
 			return $msg;
 		}
 
@@ -90,9 +90,12 @@ class Emogic_IMOK_Commands{
 
 	public static function imnotok(){ 
 		$user = wp_get_current_user();
-		$nonce_value = $_REQUEST['nonce'];
-		if (!  wp_verify_nonce($nonce_value , 'imok_process_commands'.$user->ID) ) { //check nonce
-			$msg =  'Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br> Please try again or try refreshing your browser.';
+		//$nonce_value = $_REQUEST['nonce'];
+		$nonce_value = $_REQUEST['_wpnonce'];
+		
+		//if (!  wp_verify_nonce($nonce_value , 'imok_process_commands'.$user->ID) ) { //check nonce
+		if (!  wp_verify_nonce($nonce_value , $user->ID) ) { //check nonce
+			$msg =  'Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br>Pushing IMNOTOK FAILED.</br> Please try again or try refreshing your browser.' . $nonce_value;
 			$msg = $msg."<script>imok_alarm_me();imok_alarm_on();</script>";
 			return $msg;
 		}
@@ -103,7 +106,7 @@ class Emogic_IMOK_Commands{
 		$email_to_str =	EMOGIC_IMOK_Email::get_dist_list($user->ID);
 		$result = Emogic_IMOK_Email::template_mail($email_to_str , $template_page_name);
 		$msg =  "An IM NOT OK Alert was sent to your contact list.";
-		//$msg = $msg."<script>imok_alarm.stop();</script>";
+		$msg = $msg."<script>imok_all_good();</script>";
 		return $msg;
 	}
 
@@ -193,8 +196,7 @@ class Emogic_IMOK_Commands{
 	
 			<script>
 			var trigger_time = $imok_alert_unix_time;
-			//var imok_alarm = document.getElementById('imok_alarm');
-	
+
 			function countdown() {
 				var now = Date.now() / 1000; //in seconds
 				var difference_seconds = trigger_time - now;
@@ -209,7 +211,6 @@ class Emogic_IMOK_Commands{
 					var hours = Math.floor( (difference_seconds / (60 * 60)) % 24);
 					var minutes = Math.floor( (difference_seconds / (60)) % 60 );
 					var seconds = Math.floor( difference_seconds % 60 );
-	
 					var countdown_string = '' + days + ' days ' + hours + ' hours ' + minutes + ' minutes ' + seconds + ' seconds';
 					document.getElementById('countdown').innerHTML = countdown_string;
 					}

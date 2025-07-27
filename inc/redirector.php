@@ -72,5 +72,6 @@ class Emogic_IMOK_Redireector
 			";
 			return ($string);
 		}
+		return("");
 	}
 }
