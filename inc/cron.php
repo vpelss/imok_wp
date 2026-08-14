@@ -24,7 +24,7 @@ if (! wp_next_scheduled('Emogic_IMOK_Chron')) {
     $time = time();
     $time = round($time / 60 / 15);     //so round/convert $time to 1/4 hours
     $time = $time * 60 * 15; //and then convert back to milisecond again
-    wp_schedule_event($time, 'EMOGIC_IMOK_fifteen_minutes', 'EMOGIC_IMOK_cron_hook');
+    wp_schedule_event($time, 'EMOGIC_IMOK_thirty_minutes', 'EMOGIC_IMOK_cron_hook');
 }
 
 class Emogic_IMOK_Chron
@@ -48,10 +48,10 @@ class Emogic_IMOK_Chron
 
     public static function imok_add_cron_interval($schedules)
     {
-        $schedules['EMOGIC_IMOK_fifteen_minutes'] =
+        $schedules['EMOGIC_IMOK_thirty_minutes'] =
             array(
-                'interval' => 900,
-                'display'  => 'EMOGIC_IMOK_fifteen_minutes'
+                'interval' => 1800,
+                'display'  => 'EMOGIC_IMOK_thirty_minutes'
             );
         return $schedules;
     }
