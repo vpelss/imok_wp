@@ -3,6 +3,9 @@
 if ( ! defined( 'ABSPATH' ) ) {	exit($status='ABSPATH not defn'); } //exit if directly accessed
 
 
+add_shortcode('EMOGIC_IMOK_CURRENT_USER_EMAIL', ['Emogic_IMOK_Email', 'current_user_email']); //used in form action
+
+
 class Emogic_IMOK_Email{
  
   public static function imok_mail($email_to , $subject , $message){
@@ -52,6 +55,10 @@ class Emogic_IMOK_Email{
     return $email_to_str;
   }
 
+  public static function current_user_email(){
+    $user = wp_get_current_user();
+    return $user->user_email;
+  }
+
 }
 
-?>
