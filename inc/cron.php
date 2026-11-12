@@ -22,9 +22,9 @@ add_shortcode('EMOGIC_IMOK_ROOT_URL', ['Emogic_IMOK_Chron', 'EMOGIC_IMOK_ROOT_UR
 //wp_next_scheduled( string $hook, array $args = array() ): int|false
 if (! wp_next_scheduled('EMOGIC_IMOK_CRON_HOOK')) {
     //set to exactly the hour 
-    $time = time();
-    $time = round($time / 60 / 60) -1 ;     //so round $time to the previous hour
-    $time = $time * 60 * 60; //and then convert back to seconds again
+    $time_seconds = time();
+    $time_hours = round($time_seconds / 60 / 60); //round $time to the previous hour
+    $time = $time_hours * 60 * 60; //and then convert back to seconds again
     //wp_schedule_event( int $timestamp, string $recurrence, string $hook, array $args = array(), bool $wp_error = false ): bool|WP_Error
     wp_schedule_event($time, 'EMOGIC_IMOK_CRON_TIME', 'EMOGIC_IMOK_CRON_HOOK');
 }
