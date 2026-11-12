@@ -1,7 +1,7 @@
 <?php
 //set login form shortcode and logout URL shortcodes with our redirects
 
-if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+if ( ! defined( 'ABSPATH' ) ) {	exit($status='ABSPATH not defn'); } //exit if directly accessed
 
 //login form shortcode
 add_shortcode( 'EMOGIC_IMOK_LOGIN', ['Emogic_IMOK_Login_Logout' , 'login_shortcode'] );

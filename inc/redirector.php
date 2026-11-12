@@ -22,7 +22,7 @@
 */
 
 if (! defined('ABSPATH')) {
-	exit($staus = 'ABSPATH not defn');
+	exit($status = 'ABSPATH not defn');
 } //exit if directly accessed
 
 add_shortcode('EMOGIC_IMOK_REDIRECTOR', ['Emogic_IMOK_Redireector', 'imok_redirector_func']);

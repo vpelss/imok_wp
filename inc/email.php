@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+if ( ! defined( 'ABSPATH' ) ) {	exit($status='ABSPATH not defn'); } //exit if directly accessed
 
 
 class Emogic_IMOK_Email{

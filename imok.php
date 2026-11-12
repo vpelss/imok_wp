@@ -11,7 +11,7 @@
 * Author URI: https://www.emogic.com/
 **/
 
-if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+if ( ! defined( 'ABSPATH' ) ) {	exit($status='ABSPATH not defn'); } //exit if directly accessed
 
 // define variable for path to this plugin file.
 define( 'IMOK_PLUGIN_PATH_AND_FILENAME' , __file__ ); // c:\*********\imok_pulgin_folder\imok.php
@@ -22,6 +22,7 @@ define( 'IMOK_PLUGIN_NAME' , plugin_basename( __FILE__ ) ); // Emogic IMOK (or o
 define( 'IMOK_ROOT_URL' , home_url() ); // http://wp_url/
 define( 'IMOK_MAIN_PAGE' , 'IMOK' ); // set to main page name : curently IMOK
 define( 'IMOK_MENU_NAME' , 'imok_menu' ); // set menu name
+define( 'IMOK_ADMIN_MENU_SLUG' , 'imok_settings' ); // slug name for admin setting page
 
 register_activation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'activate'] ); 
 register_deactivation_hook( IMOK_PLUGIN_PATH_AND_FILENAME , ['Emogic_IMOK' , 'deactivate'] );

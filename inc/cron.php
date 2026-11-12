@@ -1,15 +1,15 @@
 <?php
 
 if (! defined('ABSPATH')) {
-    exit($staus = 'ABSPATH not defn');
+    exit($status = 'ABSPATH not defn');
 } //exit if directly accessed
 
-//host cron should run chron.php every 15 min
+//host cron should run cron.php every 15 min
 
 //set a wp_cron time interval. why are cron_schedules temporary?
 add_filter('cron_schedules', ['Emogic_IMOK_Chron', 'imok_add_cron_interval']);
 //create my cron hook. it is not scheduled yet
-add_action('EMOGIC_IMOK_cron_hook', ['Emogic_IMOK_Chron', 'imok_cron_exec']);
+add_action('EMOGIC_IMOK_CRON_HOOK', ['Emogic_IMOK_Chron', 'imok_cron_exec']);
 
 //for im not ok emails
 add_shortcode('EMOGIC_IMOK_CRON_USER_EMAIL', ['Emogic_IMOK_Chron', 'EMOGIC_IMOK_USER_EMAIL_SHORTCODE']);
@@ -19,12 +19,14 @@ add_shortcode('EMOGIC_IMOK_CRON_GET_ALERT_DATE_TIME_STR', ['Emogic_IMOK_Chron', 
 add_shortcode('EMOGIC_IMOK_ROOT_URL', ['Emogic_IMOK_Chron', 'EMOGIC_IMOK_ROOT_URL_SHORTCODE']);
 
 //scheduled our wp cron (no our host cron)
-if (! wp_next_scheduled('Emogic_IMOK_Chron')) {
-    //set to exactly the 1/4 hour (0,15,30,45)
+//wp_next_scheduled( string $hook, array $args = array() ): int|false
+if (! wp_next_scheduled('EMOGIC_IMOK_CRON_HOOK')) {
+    //set to exactly the hour 
     $time = time();
-    $time = round($time / 60 / 15);     //so round/convert $time to 1/4 hours
-    $time = $time * 60 * 15; //and then convert back to milisecond again
-    wp_schedule_event($time, 'EMOGIC_IMOK_thirty_minutes', 'EMOGIC_IMOK_cron_hook');
+    $time = round($time / 60 / 60) -1 ;     //so round $time to the previous hour
+    $time = $time * 60 * 60; //and then convert back to seconds again
+    //wp_schedule_event( int $timestamp, string $recurrence, string $hook, array $args = array(), bool $wp_error = false ): bool|WP_Error
+    wp_schedule_event($time, 'EMOGIC_IMOK_CRON_TIME', 'EMOGIC_IMOK_CRON_HOOK');
 }
 
 class Emogic_IMOK_Chron
@@ -48,10 +50,13 @@ class Emogic_IMOK_Chron
 
     public static function imok_add_cron_interval($schedules)
     {
-        $schedules['EMOGIC_IMOK_thirty_minutes'] =
+
+        $options = get_option( 'imok_admin_options' );
+		$cron_time = $options['imok_cron_schedule_field'];
+        $schedules['EMOGIC_IMOK_CRON_TIME'] =
             array(
-                'interval' => 1800,
-                'display'  => 'EMOGIC_IMOK_thirty_minutes'
+                'interval' => $cron_time, //in seconds
+                'display'  => 'EMOGIC_IMOK_CRON_TIME'
             );
         return $schedules;
     }
@@ -68,7 +73,9 @@ class Emogic_IMOK_Chron
             if (! get_user_meta($user->ID, 'imok_timezone', true)) {
                 continue;
             } //did user set settings? if not, next user
-            $imok_timezone = 60 * get_user_meta($user->ID, 'imok_timezone', true); //in minutes * 60
+            //$imok_timezone = 60 * get_user_meta($user->ID, 'imok_timezone', true); //was stored in minutes; we have converted to seconds
+            $imok_timezone_minutes = get_user_meta($user->ID, 'imok_timezone', true);
+            $imok_timezone = 60 * intval($imok_timezone_minutes); //was stored in minutes, we have converted to seconds
 
             $now_UTC = current_time("timestamp", 1); //now in UTC time
 
@@ -76,10 +83,13 @@ class Emogic_IMOK_Chron
             $imok_alert_time = get_user_meta($userID, 'imok_alert_time', true);
 
             $imok_alert_date_time_string_local = $imok_alert_date . ' ' . $imok_alert_time;
-            $imok_alert_unix_time =  strtotime($imok_alert_date_time_string_local) + $imok_timezone; //converts time (ignoring timezone) , need to add users timezone so we can convert to GMT to compare
+            //take client's desired alert date and time, then add the time zone that the client's web browser saved on the settings page. this value will be compared to servers GMT time to trigger an alert email
+            $imok_alert_unix_time =  strtotime($imok_alert_date_time_string_local) + $imok_timezone; 
 
             $result = true;
-            apply_filters('wp_mail_content_type',  "text/html");
+            //apply_filters('wp_mail_content_type',  "text/html");
+            add_filter('wp_mail_content_type', function() { return "text/html"; });
+
             if ($imok_alert_unix_time <= $now_UTC) { #alarm was/is triggered , email to list                       
                 require_once IMOK_PLUGIN_PATH . 'inc/email.php';
                 $template_page_name = 'IMOK Email Missed Check In';

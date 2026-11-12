@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+if ( ! defined( 'ABSPATH' ) ) {	exit($status='ABSPATH not defn'); } //exit if directly accessed
 
 require_once IMOK_PLUGIN_PATH . 'inc/menu.php';
 
@@ -21,7 +21,9 @@ class Emogic_IMOK_Activate{
 		$domain_array = array_reverse($domain_array);
 		$imok_from_email = 'imok@' . $domain_array[1] . '.' . $domain_array[0];
 		//$imok_from_email = 'imok@' . $_SERVER['HTTP_HOST']; //assume a send from email address
-		update_option('imok_admin_settings' , array( 'imok_from_email_field'=>$imok_from_email ) );
+		$imok_cron_schedule = 900; //is in seconds
+		//update_option( string $option, mixed $value, bool|null $autoload = null ): bool
+		update_option('imok_admin_options' , array( 'imok_from_email_field'=>$imok_from_email , 'imok_cron_schedule_field'=>$imok_cron_schedule) );
 		flush_rewrite_rules();
 	}
 	

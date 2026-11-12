@@ -1,7 +1,7 @@
 <?php
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit($staus='WP_UNINSTALL_PLUGIN not defn');
+	exit($status='WP_UNINSTALL_PLUGIN not defn');
 	//die('WP_UNINSTALL_PLUGIN not defn');
 }
 

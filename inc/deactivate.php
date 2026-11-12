@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+if ( ! defined( 'ABSPATH' ) ) {	exit($status='ABSPATH not defn'); } //exit if directly accessed
 
 require_once IMOK_PLUGIN_PATH . 'inc/menu.php';
 
@@ -28,6 +28,7 @@ class Emogic_IMOK_Deactivate{
 		}
 		delete_option('show_on_front');
 		delete_option('page_on_front');
+		delete_option('imok_admin_options');
 			
 		
 		//remove all user metadata starting with imok

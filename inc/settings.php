@@ -1,7 +1,7 @@
 <?php
 
 if (! defined('ABSPATH')) {
-	exit($staus = 'ABSPATH not defn');
+	exit($status = 'ABSPATH not defn');
 } //exit if directly accessed
 
 //disable admin bar for users

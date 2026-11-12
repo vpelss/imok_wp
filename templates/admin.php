@@ -1,4 +1,4 @@
-<?php if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed ?>
+<?php if ( ! defined( 'ABSPATH' ) ) {	exit($status='ABSPATH not defn'); } //exit if directly accessed ?>
 
 
 <h1>IMOK Plugin Admin</h1>

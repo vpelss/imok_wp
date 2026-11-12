@@ -4,7 +4,7 @@ checks $_REQUEST['command'] on the IMOK main page and calls functions based on t
 functions will return $msg to display
 */
 
-if ( ! defined( 'ABSPATH' ) ) {	exit($staus='ABSPATH not defn'); } //exit if directly accessed
+if ( ! defined( 'ABSPATH' ) ) {	exit($status='ABSPATH not defn'); } //exit if directly accessed
 
 //shortcode [EMOGIC_IMOK_COMMANDS_AND_MSG] checks $_REQUEST['command'] and calls functions based on command
 add_shortcode( 'EMOGIC_IMOK_COMMANDS_AND_MSG', ['Emogic_IMOK_Commands' , 'commands_and_msg_shortcode'] );
